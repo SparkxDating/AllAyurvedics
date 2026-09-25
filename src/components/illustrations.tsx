@@ -10,6 +10,8 @@ import {
   Shield,
   Smile,
   Sparkles,
+  Sprout,
+  Sun,
   Wind,
   type LucideIcon,
 } from "lucide-react";
@@ -29,6 +31,8 @@ export const categoryIcons: Record<RemedyCategory, LucideIcon> = {
   "womens-health": Flower2,
   "oral-care": Smile,
   "heart-bp": HeartPulse,
+  herbs: Sprout,
+  wellness: Sun,
 };
 
 export const categoryTones: Record<RemedyCategory, string> = {
@@ -44,6 +48,8 @@ export const categoryTones: Record<RemedyCategory, string> = {
   "womens-health": "bg-clay-soft text-clay",
   "oral-care": "bg-secondary text-primary",
   "heart-bp": "bg-clay-soft text-[#9b3b2b]",
+  herbs: "bg-leaf-soft text-leaf",
+  wellness: "bg-turmeric-soft text-[#8a5a07]",
 };
 
 export function CategoryIcon({ category, className }: { category: RemedyCategory; className?: string }) {

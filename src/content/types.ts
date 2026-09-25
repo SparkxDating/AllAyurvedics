@@ -10,7 +10,9 @@ export type RemedyCategory =
   | "diabetes-support"
   | "womens-health"
   | "oral-care"
-  | "heart-bp";
+  | "heart-bp"
+  | "herbs"
+  | "wellness";
 
 export const remedyCategories: RemedyCategory[] = [
   "digestion",
@@ -25,6 +27,8 @@ export const remedyCategories: RemedyCategory[] = [
   "womens-health",
   "oral-care",
   "heart-bp",
+  "herbs",
+  "wellness",
 ];
 
 export type RemedyText = {
@@ -34,6 +38,10 @@ export type RemedyText = {
   preparation: string[];
   usage: string[];
   precautions: string[];
+  /** Optional short background paragraph (the Ayurvedic view / why it helps). Blank line = new paragraph. */
+  about?: string;
+  /** Optional supportive lifestyle tips */
+  tips?: string[];
 };
 
 export type Remedy = {

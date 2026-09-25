@@ -2,8 +2,17 @@ import type { Remedy, RemedyCategory } from "./types";
 import { remediesA } from "./remedies-a";
 import { remediesB } from "./remedies-b";
 import { remediesC } from "./remedies-c";
+import { extraRemedies } from "./remedies-extra";
 
-export const remedies: Remedy[] = [...remediesA, ...remediesB, ...remediesC];
+export const remedies: Remedy[] = [...remediesA, ...remediesB, ...remediesC, ...extraRemedies];
+
+if (process.env.NODE_ENV !== "production") {
+  const seen = new Set<string>();
+  for (const r of remedies) {
+    if (seen.has(r.slug)) throw new Error(`Duplicate remedy slug: ${r.slug}`);
+    seen.add(r.slug);
+  }
+}
 
 export function getRemedy(slug: string): Remedy | undefined {
   return remedies.find((r) => r.slug === slug);

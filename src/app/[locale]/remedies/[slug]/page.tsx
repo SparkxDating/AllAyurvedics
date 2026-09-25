@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft, Clock, CookingPot, HandHeart, ShieldAlert, ShoppingBasket, Stethoscope } from "lucide-react";
+import { ArrowLeft, BookOpen, Clock, CookingPot, HandHeart, Lightbulb, ShieldAlert, ShoppingBasket, Stethoscope } from "lucide-react";
 import { locales, siteUrl } from "@/i18n/config";
 import { resolveLocale } from "@/i18n/server";
 import { getDictionary } from "@/i18n/dictionaries";
@@ -38,7 +38,8 @@ export default async function RemedyPage({ params }: PageProps<"/[locale]/remedi
     { key: "ingredients", title: dict.remedies.ingredients, icon: ShoppingBasket, items: t.ingredients, ordered: false },
     { key: "preparation", title: dict.remedies.preparation, icon: CookingPot, items: t.preparation, ordered: true },
     { key: "usage", title: dict.remedies.usage, icon: HandHeart, items: t.usage, ordered: false },
-  ] as const;
+    ...(t.tips?.length ? [{ key: "tips", title: dict.remedies.tips, icon: Lightbulb, items: t.tips, ordered: false }] : []),
+  ];
 
   return (
     <>
@@ -90,6 +91,19 @@ export default async function RemedyPage({ params }: PageProps<"/[locale]/remedi
                 <Stethoscope className="mt-0.5 size-5 shrink-0" aria-hidden="true" />
                 <p className="font-medium">{dict.remedies.doctorNote}</p>
               </div>
+            )}
+            {t.about && (
+              <section aria-labelledby="sec-about" className="rounded-2xl border border-border bg-card p-6">
+                <h2 id="sec-about" className="flex items-center gap-2 text-xl font-semibold text-primary">
+                  <BookOpen className="size-5 text-leaf" aria-hidden="true" />
+                  {dict.remedies.about}
+                </h2>
+                <div className="mt-4 space-y-3 text-[1.02rem] leading-relaxed text-foreground/90">
+                  {t.about.split(/\n\s*\n/).map((para, i) => (
+                    <p key={i}>{para.trim()}</p>
+                  ))}
+                </div>
+              </section>
             )}
             {sections.map((s) => {
               const Icon = s.icon;

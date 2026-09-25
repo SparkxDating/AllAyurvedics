@@ -52,6 +52,9 @@ export default async function RemediesPage({ params, searchParams }: PageProps<"
             results: dict.remedies.results,
             readMore: dict.remedies.readMore,
             minutes: locale === "hi" ? "मिनट" : "min",
+            loadMore: dict.remedies.loadMore,
+            showing: dict.remedies.showing,
+            of: dict.remedies.of,
           }}
         />
         <DisclaimerNote locale={locale} dict={dict} className="mt-12" />

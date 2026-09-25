@@ -66,6 +66,11 @@ const en = {
     doctorNote:
       "Important: this remedy is only a supportive home measure. Keep taking any medicine your doctor has prescribed, monitor your readings, and consult your doctor before adding anything new.",
     readMore: "Read remedy",
+    about: "The Ayurvedic view",
+    tips: "Helpful habits",
+    loadMore: "Show more remedies",
+    showing: "Showing",
+    of: "of",
   },
   articles: {
     title: "Articles",
@@ -207,6 +212,8 @@ const en = {
     "womens-health": "Women's health",
     "oral-care": "Oral care",
     "heart-bp": "Heart & BP support",
+    herbs: "Herbs & foods",
+    wellness: "Everyday wellness",
   },
 };
 
@@ -278,6 +285,11 @@ const hi: Dictionary = {
     doctorNote:
       "ज़रूरी: यह नुस्खा केवल एक सहायक घरेलू उपाय है। डॉक्टर की लिखी दवाइयाँ लेते रहें, अपनी रीडिंग जाँचते रहें और कुछ भी नया शुरू करने से पहले अपने डॉक्टर से सलाह ज़रूर लें।",
     readMore: "नुस्खा पढ़ें",
+    about: "आयुर्वेद की दृष्टि से",
+    tips: "मददगार आदतें",
+    loadMore: "और नुस्खे देखें",
+    showing: "दिखाए जा रहे हैं",
+    of: "में से",
   },
   articles: {
     title: "लेख",
@@ -418,6 +430,8 @@ const hi: Dictionary = {
     "womens-health": "महिला स्वास्थ्य",
     "oral-care": "मुँह की देखभाल",
     "heart-bp": "हृदय और बीपी में सहायक",
+    herbs: "जड़ी-बूटियाँ और आहार",
+    wellness: "रोज़मर्रा की सेहत",
   },
 };
 

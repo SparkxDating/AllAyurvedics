@@ -27,7 +27,12 @@ type Strings = {
   results: string;
   readMore: string;
   minutes: string;
+  loadMore: string;
+  showing: string;
+  of: string;
 };
+
+const PAGE_SIZE = 24;
 
 export function RemedyBrowser({
   locale,
@@ -44,6 +49,7 @@ export function RemedyBrowser({
 }) {
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState<string>(initialCategory);
+  const [limit, setLimit] = useState(PAGE_SIZE);
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -58,6 +64,7 @@ export function RemedyBrowser({
 
   const selectCategory = (value: string) => {
     setCategory(value);
+    setLimit(PAGE_SIZE);
     const url = new URL(window.location.href);
     if (value === "all") url.searchParams.delete("category");
     else url.searchParams.set("category", value);
@@ -76,7 +83,10 @@ export function RemedyBrowser({
             id="remedy-search"
             type="search"
             value={query}
-            onChange={(e) => setQuery(e.target.value)}
+            onChange={(e) => {
+              setQuery(e.target.value);
+              setLimit(PAGE_SIZE);
+            }}
             placeholder={strings.searchPlaceholder}
             className="h-12 rounded-xl bg-background pl-11 text-base md:text-base"
           />
@@ -107,14 +117,17 @@ export function RemedyBrowser({
       </div>
 
       <p className="mt-6 text-sm text-muted-foreground" aria-live="polite">
-        {filtered.length} {strings.results}
+        {filtered.length > limit
+          ? `${strings.showing} ${limit} ${strings.of} ${filtered.length} ${strings.results}`
+          : `${filtered.length} ${strings.results}`}
       </p>
 
       {filtered.length === 0 ? (
         <p className="mt-6 rounded-2xl border border-dashed border-border bg-card p-10 text-center text-muted-foreground">{strings.noResults}</p>
       ) : (
+        <>
         <ul className="mt-4 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {filtered.map((item) => (
+          {filtered.slice(0, limit).map((item) => (
             <li key={item.slug}>
               <Link
                 href={`/${locale}/remedies/${item.slug}`}
@@ -138,6 +151,18 @@ export function RemedyBrowser({
             </li>
           ))}
         </ul>
+        {filtered.length > limit && (
+          <div className="mt-8 flex justify-center">
+            <button
+              type="button"
+              onClick={() => setLimit((l) => l + PAGE_SIZE)}
+              className="inline-flex h-11 items-center rounded-full border border-primary/30 bg-card px-6 text-sm font-semibold text-primary shadow-sm transition-colors hover:border-primary hover:bg-secondary"
+            >
+              {strings.loadMore} ({filtered.length - limit})
+            </button>
+          </div>
+        )}
+        </>
       )}
     </div>
   );
