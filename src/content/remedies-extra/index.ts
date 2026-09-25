@@ -12,6 +12,11 @@ import { b3Joints } from "./b3-joints";
 import { b3Metabolic } from "./b3-metabolic";
 import { b3Women } from "./b3-women";
 import { b3Wellness } from "./b3-wellness";
+import { b4Herbs1 } from "./b4-herbs-1";
+import { b4Herbs2 } from "./b4-herbs-2";
+import { b4Herbs3 } from "./b4-herbs-3";
+import { b4Herbs4 } from "./b4-herbs-4";
+import { b4Herbs5 } from "./b4-herbs-5";
 
 /** Remedies added after launch, grouped by batch. */
 export const extraRemedies: Remedy[] = [
@@ -31,4 +36,10 @@ export const extraRemedies: Remedy[] = [
   ...b3Metabolic,
   ...b3Women,
   ...b3Wellness,
+  // Batch 4: herb & food guides
+  ...b4Herbs1,
+  ...b4Herbs2,
+  ...b4Herbs3,
+  ...b4Herbs4,
+  ...b4Herbs5,
 ];
