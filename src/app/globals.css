@@ -1,0 +1,140 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-mukta), ui-sans-serif, system-ui, sans-serif;
+  --font-heading: var(--font-lora), var(--font-noto-serif-deva), var(--font-mukta), Georgia, serif;
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-turmeric: #d99a1e;
+  --color-turmeric-soft: #f7e7bd;
+  --color-leaf: #5b8a4a;
+  --color-leaf-soft: #e3ecd6;
+  --color-clay: #b8643c;
+  --color-clay-soft: #f3dfd2;
+  --color-sage: #8fae83;
+  --color-cream: #faf6ec;
+  --color-forest: #23422c;
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+:root {
+  --background: #faf6ec;
+  --foreground: #1f2a22;
+  --card: #fffdf7;
+  --card-foreground: #1f2a22;
+  --popover: #fffdf7;
+  --popover-foreground: #1f2a22;
+  --primary: #2f5d3a;
+  --primary-foreground: #fbf8ef;
+  --secondary: #e6eddc;
+  --secondary-foreground: #23422c;
+  --muted: #f1ebdc;
+  --muted-foreground: #5c665d;
+  --accent: #f7e7bd;
+  --accent-foreground: #6b4a0c;
+  --destructive: #b42318;
+  --border: #e4dbc6;
+  --input: #d9cfb7;
+  --ring: #2f5d3a;
+  --radius: 0.75rem;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    @apply font-sans;
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+  }
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-heading);
+    letter-spacing: -0.01em;
+  }
+  :lang(hi) h1,
+  :lang(hi) h2,
+  :lang(hi) h3,
+  :lang(hi) h4 {
+    letter-spacing: 0;
+    line-height: 1.35;
+  }
+  :lang(hi) body {
+    line-height: 1.75;
+  }
+}
+
+/* Long-form content (articles, legal pages) */
+.prose-ayur {
+  font-size: 1.075rem;
+  line-height: 1.8;
+  color: color-mix(in oklab, var(--foreground) 88%, transparent);
+}
+.prose-ayur > * + * {
+  margin-top: 1.1em;
+}
+.prose-ayur h2 {
+  margin-top: 2em;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--primary);
+  scroll-margin-top: 6rem;
+}
+.prose-ayur ul {
+  padding-left: 1.25rem;
+  list-style: none;
+}
+.prose-ayur ul li {
+  position: relative;
+  padding-left: 0.5rem;
+  margin-top: 0.5em;
+}
+.prose-ayur ul li::before {
+  content: "";
+  position: absolute;
+  left: -0.9rem;
+  top: 0.75em;
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 9999px;
+  background: var(--color-turmeric);
+}
+.prose-ayur em {
+  color: var(--muted-foreground);
+}
+
+.leaf-pattern {
+  background-image: radial-gradient(circle at 1px 1px, color-mix(in oklab, var(--primary) 12%, transparent) 1px, transparent 0);
+  background-size: 22px 22px;
+}
