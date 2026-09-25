@@ -1,22 +1,34 @@
+import Image from "next/image";
 import Link from "next/link";
 import type { Locale } from "@/i18n/config";
 import { cn } from "@/lib/utils";
+import emblem from "@/assets/logo-emblem.png";
+import banner from "@/assets/logo-banner.png";
 
-export function LogoMark({ className }: { className?: string }) {
+/** Round All Ayurvedics emblem (mortar & pestle with leaves). */
+export function LogoMark({ className, preload = false, px = 48 }: { className?: string; preload?: boolean; px?: number }) {
   return (
-    <svg viewBox="0 0 64 64" aria-hidden="true" className={cn("size-9 shrink-0", className)}>
-      <circle cx="32" cy="32" r="30" fill="#2f5d3a" />
-      <path d="M32 52c0-15 6-26 17-32-2 15-8 26-17 32z" fill="#e0a526" />
-      <path d="M32 52c0-13-5-22-15-28 1 13 6 22 15 28z" fill="#a9c79a" />
-      <circle cx="32" cy="18" r="3" fill="#f7e7bd" />
-    </svg>
+    <Image
+      src={emblem}
+      alt=""
+      aria-hidden="true"
+      width={px}
+      height={px}
+      preload={preload}
+      className={cn("size-11 shrink-0 select-none drop-shadow-sm sm:size-12", className)}
+    />
   );
+}
+
+/** Horizontal "allayurvedics.in" banner logo. */
+export function LogoBanner({ alt, className }: { alt: string; className?: string }) {
+  return <Image src={banner} alt={alt} width={300} height={Math.round((300 * banner.height) / banner.width)} className={cn("h-auto w-full max-w-[300px] select-none", className)} />;
 }
 
 export function BrandLogo({ locale, name, className }: { locale: Locale; name: string; className?: string }) {
   return (
-    <Link href={`/${locale}`} className={cn("flex items-center gap-2.5", className)} aria-label={name}>
-      <LogoMark />
+    <Link href={`/${locale}`} className={cn("flex shrink-0 items-center gap-2.5", className)} aria-label={name}>
+      <LogoMark preload />
       <span className="font-heading text-lg font-semibold leading-none tracking-tight text-primary sm:text-xl">
         {name}
       </span>

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/dictionaries";
-import { LogoMark } from "./brand-logo";
+import { LogoBanner } from "./brand-logo";
 import { LanguageSwitcher } from "./language-switcher";
 import { NewsletterForm } from "./forms/newsletter-form";
 import { newsletterStrings } from "@/i18n/strings";
@@ -43,11 +43,10 @@ export function SiteFooter({ locale, dict }: { locale: Locale; dict: Dictionary 
     <footer className="mt-20 bg-forest text-primary-foreground">
       <div className="mx-auto grid max-w-6xl gap-10 px-4 py-14 sm:px-6 lg:grid-cols-[1.2fr_2fr]">
         <div>
-          <div className="flex items-center gap-2.5">
-            <LogoMark />
-            <span className="font-heading text-xl font-semibold">{dict.brand.name}</span>
-          </div>
-          <p className="mt-3 max-w-sm text-sm text-primary-foreground/75">{dict.footer.about}</p>
+          <Link href={`/${locale}`} aria-label={dict.brand.name} className="inline-block rounded-2xl shadow-lg shadow-black/20 transition-opacity hover:opacity-95">
+            <LogoBanner alt={dict.brand.name} className="max-w-[260px] sm:max-w-[300px]" />
+          </Link>
+          <p className="mt-4 max-w-sm text-sm text-primary-foreground/75">{dict.footer.about}</p>
           <p className="mt-3 text-sm text-primary-foreground/75">
             <a href={`mailto:${contactEmail}`} className="underline underline-offset-2 hover:text-turmeric">
               {contactEmail}
@@ -82,9 +81,22 @@ export function SiteFooter({ locale, dict }: { locale: Locale; dict: Dictionary 
       <div className="border-t border-white/10">
         <div className="mx-auto max-w-6xl px-4 py-6 text-xs text-primary-foreground/70 sm:px-6">
           <p className="max-w-4xl">{dict.footer.shortDisclaimer}</p>
-          <p className="mt-3">
-            © {year} {dict.brand.name}. {dict.footer.rights}
-          </p>
+          <div className="mt-3 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+            <p>
+              © {year} {dict.brand.name}. {dict.footer.rights}
+            </p>
+            <p lang="en">
+              Designed and built by{" "}
+              <a
+                href="https://www.mksanalytiq.in"
+                target="_blank"
+                rel="noopener"
+                className="font-semibold text-primary-foreground underline decoration-turmeric/70 underline-offset-2 hover:text-turmeric"
+              >
+                MKSAnalytiq
+              </a>
+            </p>
+          </div>
         </div>
       </div>
     </footer>

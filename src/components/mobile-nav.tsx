@@ -6,6 +6,7 @@ import { Menu } from "lucide-react";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { buttonVariants } from "@/components/ui/button";
 import { NavLinks, type NavItem } from "./nav-links";
+import { LogoMark } from "./brand-logo";
 import { cn } from "@/lib/utils";
 
 export function MobileNav({ items, menuLabel, title, auth }: {
@@ -25,7 +26,10 @@ export function MobileNav({ items, menuLabel, title, auth }: {
       </SheetTrigger>
       <SheetContent side="right" className="w-[85%] bg-background">
         <SheetHeader>
-          <SheetTitle className="font-heading text-lg text-primary">{title}</SheetTitle>
+          <SheetTitle className="flex items-center gap-3 font-heading text-lg text-primary">
+            <LogoMark className="size-12 sm:size-12" />
+            {title}
+          </SheetTitle>
         </SheetHeader>
         <NavLinks
           items={items}

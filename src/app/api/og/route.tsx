@@ -1,6 +1,18 @@
+import { readFile } from "node:fs/promises";
+import { join } from "node:path";
 import { ImageResponse } from "next/og";
 
+let emblemSrc: string | undefined;
+async function getEmblem() {
+  if (!emblemSrc) {
+    const data = await readFile(join(process.cwd(), "public", "og-emblem.png"));
+    emblemSrc = `data:image/png;base64,${data.toString("base64")}`;
+  }
+  return emblemSrc;
+}
+
 export async function GET() {
+  const emblem = await getEmblem();
   return new ImageResponse(
     (
       <div
@@ -17,11 +29,8 @@ export async function GET() {
         }}
       >
         <div style={{ display: "flex", alignItems: "center", gap: "24px" }}>
-          <svg width="96" height="96" viewBox="0 0 64 64">
-            <circle cx="32" cy="32" r="30" fill="#2f5d3a" />
-            <path d="M32 50c0-14 6-24 16-30-2 14-8 24-16 30z" fill="#e0a526" />
-            <path d="M32 50c0-12-5-21-14-26 1 12 6 21 14 26z" fill="#a9c79a" />
-          </svg>
+          {/* eslint-disable-next-line @next/next/no-img-element, jsx-a11y/alt-text */}
+          <img src={emblem} width={150} height={150} />
           <div style={{ fontSize: 72, fontWeight: 700 }}>All Ayurvedics</div>
         </div>
         <div style={{ marginTop: 36, fontSize: 40, color: "#3d5a44", maxWidth: 900 }}>
