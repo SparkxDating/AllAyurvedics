@@ -8,6 +8,10 @@ import { b2Hair } from "./b2-hair";
 import { b2Cold } from "./b2-cold";
 import { b2Sleep } from "./b2-sleep";
 import { b2Weight } from "./b2-weight";
+import { b3Joints } from "./b3-joints";
+import { b3Metabolic } from "./b3-metabolic";
+import { b3Women } from "./b3-women";
+import { b3Wellness } from "./b3-wellness";
 
 /** Remedies added after launch, grouped by batch. */
 export const extraRemedies: Remedy[] = [
@@ -22,4 +26,9 @@ export const extraRemedies: Remedy[] = [
   ...b2Cold,
   ...b2Sleep,
   ...b2Weight,
+  // Batch 3: joints, diabetes, heart, women's health, wellness
+  ...b3Joints,
+  ...b3Metabolic,
+  ...b3Women,
+  ...b3Wellness,
 ];
