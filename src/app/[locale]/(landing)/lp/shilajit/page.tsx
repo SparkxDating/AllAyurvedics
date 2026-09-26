@@ -17,6 +17,10 @@ import { WhatsAppIcon } from "@/components/whatsapp-icon";
 import { formatInr } from "@/components/product-bits";
 import { CheckoutForm } from "@/components/checkout/checkout-form";
 import { KeepQueryLink, StickyOrderBar, UtmWhatsAppLink } from "@/components/landing/landing-client";
+import { shilajitArticles } from "@/content/articles-shilajit";
+
+/** The LP shows the first five product FAQs (the product page shows all of them) */
+const LP_FAQ_COUNT = 5;
 
 const OG_IMAGE = "/lp/shilajit-og.jpg";
 
@@ -61,6 +65,7 @@ export default async function ShilajitLandingPage({ params }: PageProps<"/[local
   const pageUrl = `${siteUrl}/${locale}/lp/${shilajitLandingSlug}`;
   const inLanguage = locale === "hi" ? "hi-IN" : "en-IN";
   const sourceLabel = dict.checkout.waMessage.source;
+  const faq = (p.faq ?? []).slice(0, LP_FAQ_COUNT);
 
   const waButton = (className: string, label: string, testId: string, iconClass = "size-5") =>
     whatsapp ? (
@@ -97,13 +102,13 @@ export default async function ShilajitLandingPage({ params }: PageProps<"/[local
           },
         }}
       />
-      {p.faq?.length ? (
+      {faq.length ? (
         <JsonLd
           data={{
             "@context": "https://schema.org",
             "@type": "FAQPage",
             inLanguage,
-            mainEntity: p.faq.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })),
+            mainEntity: faq.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })),
           }}
         />
       ) : null}
@@ -300,11 +305,11 @@ export default async function ShilajitLandingPage({ params }: PageProps<"/[local
           </section>
         ) : null}
 
-        {p.faq?.length ? (
+        {faq.length ? (
           <section className="mx-auto max-w-5xl px-4 py-8" aria-labelledby="lp-faq">
             <H2 id="lp-faq">{t.faqTitle}</H2>
             <div className="mt-5 divide-y divide-border rounded-2xl border border-border bg-card">
-              {p.faq.map((f) => (
+              {faq.map((f) => (
                 <details key={f.q} className="group p-4">
                   <summary className="cursor-pointer list-none font-semibold marker:hidden">
                     <span className="flex items-start justify-between gap-3">
@@ -320,6 +325,27 @@ export default async function ShilajitLandingPage({ params }: PageProps<"/[local
             </div>
           </section>
         ) : null}
+
+        {/* Guides (internal links) */}
+        <section className="mx-auto max-w-5xl px-4 py-6" aria-labelledby="lp-guides">
+          <h2 id="lp-guides" className="text-lg font-semibold text-primary">
+            {t.guidesTitle}
+          </h2>
+          <ul className="mt-3 grid gap-x-6 gap-y-2 text-sm sm:grid-cols-2">
+            {shilajitArticles.map((a) => (
+              <li key={a.slug}>
+                <Link href={`/${locale}/articles/${a.slug}`} className="text-primary underline-offset-2 hover:underline">
+                  {a[locale].title}
+                </Link>
+              </li>
+            ))}
+            <li>
+              <Link href={`/${locale}/shilajit`} className="font-semibold text-primary underline-offset-2 hover:underline">
+                {locale === "hi" ? "पूरी शिलाजीत गाइड →" : "Complete shilajit guide →"}
+              </Link>
+            </li>
+          </ul>
+        </section>
 
         {/* 9. Contact */}
         {whatsapp && (

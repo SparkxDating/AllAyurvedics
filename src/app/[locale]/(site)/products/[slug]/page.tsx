@@ -31,6 +31,7 @@ import { cn } from "@/lib/utils";
 import { getWhatsappNumber } from "@/config/site";
 import { fillTemplate, waLink, whatsappButtonClass } from "@/lib/whatsapp";
 import { WhatsAppIcon } from "@/components/whatsapp-icon";
+import { SHILAJIT_PRODUCT_SLUG, ShilajitGuides } from "@/components/shilajit-bits";
 
 export const dynamicParams = false;
 
@@ -102,7 +103,7 @@ export default async function ProductPage({ params }: PageProps<"/[locale]/produ
 
   const sections = [
     t.about ? { key: "about", title: t.aboutTitle ?? t.name, icon: BookOpen, paragraphs: t.about.split(/\n\s*\n/) } : null,
-    { key: "use", title: dict.products.howToUse, icon: HandHeart, items: t.howToUse },
+    { key: "use", title: t.howToUseTitle ?? dict.products.howToUse, icon: HandHeart, items: t.howToUse },
     t.genuineCheck?.length ? { key: "genuine", title: dict.products.genuine, icon: BadgeCheck, items: t.genuineCheck } : null,
     t.storage?.length ? { key: "storage", title: dict.products.storage, icon: Package, items: t.storage } : null,
   ].filter(Boolean) as { key: string; title: string; icon: typeof BookOpen; items?: string[]; paragraphs?: string[] }[];
@@ -119,12 +120,15 @@ export default async function ProductPage({ params }: PageProps<"/[locale]/produ
             sku: product.slug,
             category: "Ayurvedic supplement",
             ...(product.brand ? { brand: { "@type": "Brand", name: product.brand } } : {}),
+            url: pageUrl,
             image: images.map((i) => `${siteUrl}${i.src}`),
             inLanguage,
             offers: {
               "@type": "Offer",
               price: product.price.toFixed(2),
               priceCurrency: "INR",
+              url: pageUrl,
+              seller: { "@type": "Organization", name: "All Ayurvedics" },
               availability: product.inStock === false ? "https://schema.org/OutOfStock" : "https://schema.org/InStock",
               itemCondition: "https://schema.org/NewCondition",
             },
@@ -341,6 +345,7 @@ export default async function ProductPage({ params }: PageProps<"/[locale]/produ
             </dl>
           </section>
         ) : null}
+        {product.slug === SHILAJIT_PRODUCT_SLUG && <ShilajitGuides locale={locale} />}
         {!product.sample && (
           <p className="rounded-2xl border border-border bg-muted/40 p-4 text-sm leading-relaxed text-muted-foreground">
             {dict.products.productDisclaimer}

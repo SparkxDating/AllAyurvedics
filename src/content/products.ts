@@ -33,13 +33,13 @@ const shilajit: Product = {
     ogImage: "/products/himalayan-shilajit/shilajit-og.jpg",
   },
   relatedRemedies: ["low-energy-fatigue", "ashwagandha-benefits-uses", "benefits-of-chyawanprash"],
-  promoteOn: ["benefits-of-chyawanprash", "home-remedies-for-body-pain-and-weakness", "hub:immunity"],
+  promoteOn: ["benefits-of-chyawanprash", "home-remedies-for-body-pain-and-weakness", "hub:immunity", "low-energy-fatigue"],
   en: {
     name: "Himalayan Shilajit Resin (Adamya Herbals)",
     keyword: "himalayan shilajit resin",
     metaTitle: "Himalayan Shilajit Resin 10g – Price ₹499 | Adamya Herbals",
     metaDescription:
-      "Himalayan shilajit resin by Adamya Herbals, 10 g jar at ₹499 (MRP ₹799). Traditionally used for strength, stamina and energy. See how to use and FAQs.",
+      "Buy Himalayan shilajit resin by Adamya Herbals: 10 g jar at ₹499 (MRP ₹799). A traditional rasayana for strength and energy. How to use, pure check, FAQs.",
     short: "Mineral-rich Himalayan shilajit resin, traditionally used to support strength, stamina and energy.",
     description:
       "Adamya Herbals Himalayan shilajit resin comes as a soft, semi-solid resin in a 10 g amber glass jar with a gold lid. A tiny daily amount, dissolved in warm water or milk, fits easily into a morning routine. In Ayurveda, shilajit is valued as a rasayana — a rejuvenating substance traditionally used to support strength, stamina, energy and overall vitality.",
@@ -47,6 +47,7 @@ const shilajit: Product = {
     about:
       "Shilajit is a dark, sticky, mineral-rich resin that seeps out of rock crevices high in the Himalayas during warm months. It forms over a very long time as plant matter breaks down under the rocks, which is why it naturally contains fulvic acid along with a range of minerals.\n\nClassical Ayurvedic texts describe shilajatu as one of the most prized rasayanas and recommend it in small amounts as part of a daily routine for strength and vitality. Today it is most commonly used as a resin, which is the least processed form, dissolved in a warm drink. Shilajit is a traditional supplement, not a medicine, and works best alongside good food, sleep and regular activity.",
     benefitsTitle: "Himalayan shilajit resin: traditional uses",
+    howToUseTitle: "How to take Himalayan shilajit resin",
     benefits: [
       "Supporting strength and stamina",
       "Everyday energy and vitality",
@@ -99,6 +100,18 @@ const shilajit: Product = {
         q: "Who should avoid shilajit or check with a doctor first?",
         a: "Children under 12, pregnant and breastfeeding women, and anyone with a heart condition, gout or high uric acid, iron overload, a chronic illness or on regular medicines should consult a doctor before using it.",
       },
+      {
+        q: "How can I check that this shilajit is original?",
+        a: "The jar carries the manufacturer's details and licence number (Mfg. Lic. No. A-4750/19). Genuine resin is glossy, softens with the warmth of your fingers and dissolves almost completely in warm water. Home tests are only rough guides.",
+      },
+      {
+        q: "Is shilajit resin better than capsules?",
+        a: "Neither suits everyone. Resin is the least processed, traditional form and easy to inspect at home; capsules are more convenient with a fixed dose. We chose resin for its traditional form.",
+      },
+      {
+        q: "Can women take shilajit, and when is the best time?",
+        a: "Shilajit is traditionally used by both men and women, usually once a day in the morning. Pregnant and breastfeeding women should not use it without a doctor's advice.",
+      },
     ],
     specs: [
       ["Brand", "Adamya Herbals"],
@@ -111,17 +124,17 @@ const shilajit: Product = {
       ["Shelf life", "See the pack"],
     ],
     imageAlt: [
-      "Adamya Herbals Himalayan shilajit resin 10 g amber glass jar with gold lid, front label",
-      "Back label of the Himalayan shilajit jar showing benefits, dose, caution and licence number",
+      "Adamya Herbals Himalayan shilajit resin 10 g – pure shilajit resin in an amber glass jar with gold lid, front label",
+      "Back label of the Himalayan shilajit resin jar showing traditional benefits, dose (250–500 mg), caution and licence number",
     ],
     videoLabel: "Product video: Himalayan shilajit jar",
   },
   hi: {
     name: "हिमालयन शिलाजीत रेज़िन (अदम्य हर्बल्स)",
-    keyword: "शिलाजीत के फायदे",
-    metaTitle: "शिलाजीत के फायदे: हिमालयन शिलाजीत रेज़िन 10g ₹499",
+    keyword: "हिमालयन शिलाजीत रेज़िन 10 ग्राम कीमत",
+    metaTitle: "हिमालयन शिलाजीत रेज़िन 10 ग्राम – कीमत ₹499 | अदम्य हर्बल्स",
     metaDescription:
-      "शिलाजीत के फायदे, सेवन विधि और सावधानियाँ जानें। अदम्य हर्बल्स का हिमालयन शिलाजीत रेज़िन 10 ग्राम ₹499 (MRP ₹799) में — ताक़त, स्टैमिना और ऊर्जा के लिए।",
+      "अदम्य हर्बल्स का हिमालयन शिलाजीत रेज़िन 10 ग्राम ₹499 (MRP ₹799) में ख़रीदें। ताक़त और ऊर्जा के लिए पारंपरिक रसायन। सेवन विधि, असली की पहचान और FAQ।",
     short: "खनिजों से भरपूर हिमालयन शिलाजीत रेज़िन, जिसे परंपरा से ताक़त, स्टैमिना और ऊर्जा के लिए लिया जाता है।",
     description:
       "अदम्य हर्बल्स का हिमालयन शिलाजीत नरम, अर्ध-ठोस रेज़िन के रूप में 10 ग्राम के एम्बर काँच के जार में आता है, जिस पर सुनहरा ढक्कन है। रोज़ की बहुत थोड़ी मात्रा गुनगुने पानी या दूध में घोलकर आसानी से सुबह की दिनचर्या में शामिल की जा सकती है। शिलाजीत के फायदे आयुर्वेद में रसायन के रूप में बताए गए हैं — यानी ऐसा पदार्थ जिसे परंपरा से ताक़त, स्टैमिना, ऊर्जा और स्फूर्ति को सहारा देने के लिए लिया जाता है।",
@@ -129,6 +142,7 @@ const shilajit: Product = {
     about:
       "शिलाजीत एक गहरे रंग का, चिपचिपा, खनिजों से भरपूर रेज़िन है, जो गर्मियों में हिमालय की ऊँची चट्टानों की दरारों से रिसकर निकलता है। चट्टानों के नीचे पौधों के अवशेष बहुत लंबे समय में टूटकर इसे बनाते हैं, इसीलिए इसमें प्राकृतिक रूप से फ़ल्विक एसिड और कई खनिज होते हैं।\n\nआयुर्वेद के शास्त्रीय ग्रंथों में शिलाजतु को सबसे मूल्यवान रसायनों में गिना गया है और ताक़त व स्फूर्ति के लिए इसे दिनचर्या में थोड़ी मात्रा में लेने की सलाह दी गई है। आज यह ज़्यादातर रेज़िन के रूप में इस्तेमाल होता है, जो सबसे कम प्रोसेस्ड रूप है और गुनगुने पेय में घोलकर लिया जाता है। शिलाजीत एक पारंपरिक सप्लीमेंट है, दवा नहीं, और अच्छे भोजन, नींद और नियमित गतिविधि के साथ सबसे अच्छा रहता है।",
     benefitsTitle: "शिलाजीत के फायदे: पारंपरिक उपयोग",
+    howToUseTitle: "शिलाजीत रेज़िन कैसे खाएँ (सेवन विधि)",
     benefits: [
       "ताक़त और स्टैमिना में सहायक",
       "रोज़ की ऊर्जा और स्फूर्ति",
@@ -181,6 +195,18 @@ const shilajit: Product = {
         q: "किन लोगों को शिलाजीत से बचना चाहिए या पहले डॉक्टर से पूछना चाहिए?",
         a: "12 साल से कम उम्र के बच्चे, गर्भवती और स्तनपान कराने वाली महिलाएँ, और दिल की बीमारी, गाउट या हाई यूरिक एसिड, आयरन की अधिकता, किसी पुरानी बीमारी वाले या नियमित दवा लेने वाले लोग इस्तेमाल से पहले डॉक्टर से सलाह लें।",
       },
+      {
+        q: "कैसे पता करें कि यह शिलाजीत ओरिजिनल है?",
+        a: "जार पर निर्माता का विवरण और लाइसेंस नंबर (Mfg. Lic. No. A-4750/19) लिखा है। असली रेज़िन चमकदार होता है, उँगलियों की गर्मी से नरम होता है और गुनगुने पानी में लगभग पूरा घुल जाता है। घरेलू जाँच सिर्फ़ मोटा अंदाज़ा है।",
+      },
+      {
+        q: "शिलाजीत रेज़िन बेहतर है या कैप्सूल?",
+        a: "कोई एक सबके लिए ठीक नहीं। रेज़िन सबसे कम प्रोसेस्ड, पारंपरिक रूप है और घर पर परखना आसान है; कैप्सूल ज़्यादा सुविधाजनक हैं और मात्रा तय होती है। हमने पारंपरिक रूप होने के कारण रेज़िन चुना।",
+      },
+      {
+        q: "क्या महिलाएँ शिलाजीत ले सकती हैं, और सही समय क्या है?",
+        a: "शिलाजीत परंपरा से पुरुष और महिलाएँ दोनों लेते हैं, आमतौर पर दिन में एक बार सुबह। गर्भवती और स्तनपान कराने वाली महिलाएँ डॉक्टर की सलाह के बिना न लें।",
+      },
     ],
     specs: [
       ["ब्रांड", "अदम्य हर्बल्स (Adamya Herbals)"],
@@ -193,8 +219,8 @@ const shilajit: Product = {
       ["शेल्फ़ लाइफ़", "पैक पर देखें"],
     ],
     imageAlt: [
-      "अदम्य हर्बल्स हिमालयन शिलाजीत रेज़िन 10 ग्राम, सुनहरे ढक्कन वाला एम्बर काँच का जार, सामने का लेबल",
-      "हिमालयन शिलाजीत जार का पीछे का लेबल: फ़ायदे, मात्रा, सावधानी और लाइसेंस नंबर",
+      "अदम्य हर्बल्स हिमालयन शिलाजीत रेज़िन 10 ग्राम – शुद्ध शिलाजीत, सुनहरे ढक्कन वाला एम्बर काँच का जार, सामने का लेबल",
+      "हिमालयन शिलाजीत रेज़िन जार का पीछे का लेबल: शिलाजीत के फायदे, मात्रा (250–500 मिलीग्राम), सावधानी और लाइसेंस नंबर",
     ],
     videoLabel: "उत्पाद वीडियो: हिमालयन शिलाजीत जार",
   },

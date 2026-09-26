@@ -11,12 +11,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const entries: { path: string; lastModified?: string; priority: number }[] = [
     ...staticPaths.map((p) => ({ path: p, priority: p === "/" ? 1 : 0.7 })),
     { path: "/home-remedies", priority: 0.8 },
+    { path: "/shilajit", lastModified: "2026-09-26", priority: 0.9 },
     ...activeClusters.map((c) => ({ path: `/home-remedies/${c.slug}`, priority: 0.9 })),
     ...remedies.map((r) => ({ path: `/remedies/${r.slug}`, priority: 0.8 })),
     ...articles.map((a) => ({ path: `/articles/${a.slug}`, lastModified: a.date, priority: 0.8 })),
-    ...products.map((p) => ({ path: `/products/${p.slug}`, priority: 0.5 })),
+    ...products.map((p) => ({ path: `/products/${p.slug}`, priority: p.sample ? 0.3 : 0.8 })),
     ...campaigns.map((c) => ({ path: `/lp/${c.slug}`, priority: 0.6 })),
-    { path: "/lp/shilajit", priority: 0.6 },
+    { path: "/lp/shilajit", priority: 0.7 },
   ];
 
   const url = (locale: string, path: string) => `${siteUrl}/${locale}${path === "/" ? "" : path}`;

@@ -6,10 +6,8 @@ export function isLocale(value: string): value is Locale {
   return (locales as readonly string[]).includes(value);
 }
 
-/** Public base URL of the site (used for canonical URLs, sitemap, OG). */
-export const siteUrl = (
-  process.env.NEXT_PUBLIC_SITE_URL || "https://allayurvedics.in"
-).replace(/\/$/, "");
+/** Public base URL of the site (canonical URLs, sitemap, OG). Defined with the domain switch in src/config/site.ts. */
+export { siteUrl } from "@/config/site";
 
 export const siteName = "All Ayurvedics";
 

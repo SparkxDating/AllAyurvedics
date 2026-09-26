@@ -6,6 +6,7 @@ import { buildMetadata } from "@/lib/seo";
 import { products } from "@/content/products";
 import { ProductCard } from "@/components/cards";
 import { Container, PageHeader } from "@/components/page-bits";
+import { ShilajitGuides } from "@/components/shilajit-bits";
 
 export async function generateMetadata({ params }: PageProps<"/[locale]/products">) {
   const locale = await resolveLocale(params);
@@ -42,6 +43,7 @@ export default async function ProductsPage({ params }: PageProps<"/[locale]/prod
             </Link>
           </div>
         </div>
+        <ShilajitGuides locale={locale} className="mt-10" />
       </Container>
     </>
   );

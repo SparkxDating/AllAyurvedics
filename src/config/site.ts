@@ -21,17 +21,39 @@ export const siteConfig = {
 };
 
 /**
- * Base URL used for share previews (Open Graph / Twitter images, and og:url on ad landing pages).
+ * ── Site URL switch ──────────────────────────────────────────────────────────────────────────
+ * Canonical links, hreflang, sitemap, robots.txt and structured-data URLs all use `siteUrl`.
  *
- * The canonical domain (NEXT_PUBLIC_SITE_URL, default https://allayurvedics.in) does not resolve yet,
- * so Facebook / Instagram / WhatsApp could not fetch preview images from it. Until the domain is live,
- * previews use the working Vercel URL. Canonical links, hreflang and the sitemap still use the
- * canonical domain.
+ * allayurvedics.in is registered but on "clientHold" at the registry (it does not resolve), and
+ * Google will not index pages whose canonical points to a dead host. So until the domain works,
+ * everything uses the live Vercel URL.
  *
- * To switch once allayurvedics.in works: set NEXT_PUBLIC_OG_BASE_URL=https://allayurvedics.in in Vercel
- * (or change the fallback below) and redeploy.
+ * ONE-LINE FLIP when allayurvedics.in resolves: set DOMAIN_LIVE = true (or set the Vercel env var
+ * NEXT_PUBLIC_SITE_URL=https://allayurvedics.in), redeploy, then add allayurvedics.in to the Vercel
+ * project and redirect allayurvedics.vercel.app → allayurvedics.in (see SETUP.md 7d).
  */
-export const ogBaseUrl = (process.env.NEXT_PUBLIC_OG_BASE_URL || "https://allayurvedics.vercel.app").replace(/\/$/, "");
+export const CANONICAL_DOMAIN = "https://allayurvedics.in";
+export const VERCEL_URL = "https://allayurvedics.vercel.app";
+export const DOMAIN_LIVE = false;
+export const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL || (DOMAIN_LIVE ? CANONICAL_DOMAIN : VERCEL_URL)).replace(/\/$/, "");
+
+/**
+ * Google Search Console "HTML tag" verification code, set in Vercel as NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION.
+ * Paste just the content="…" value; if the whole <meta …> tag is pasted, the value is extracted.
+ */
+function readVerification(raw: string | undefined) {
+  const v = raw?.trim();
+  if (!v) return undefined;
+  const m = v.match(/content=["']([^"']+)["']/i);
+  return (m ? m[1] : v).trim() || undefined;
+}
+export const googleSiteVerification = readVerification(process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION);
+
+/**
+ * Base URL used for share previews (Open Graph / Twitter images, og:url on ad landing pages).
+ * Follows siteUrl; override with NEXT_PUBLIC_OG_BASE_URL only if previews must come from another host.
+ */
+export const ogBaseUrl = (process.env.NEXT_PUBLIC_OG_BASE_URL || siteUrl).replace(/\/$/, "");
 
 export function ogAbsolute(pathOrUrl: string) {
   return /^https?:\/\//.test(pathOrUrl) ? pathOrUrl : `${ogBaseUrl}${pathOrUrl.startsWith("/") ? "" : "/"}${pathOrUrl}`;

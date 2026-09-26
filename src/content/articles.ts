@@ -3,8 +3,9 @@ import { articles1 } from "./articles-1";
 import { articles2 } from "./articles-2";
 import { articles3 } from "./articles-3";
 import { articles4 } from "./articles-4";
+import { shilajitArticles } from "./articles-shilajit";
 
-export const articles: Article[] = [...articles1, ...articles2, ...articles3, ...articles4].sort(
+export const articles: Article[] = [...articles1, ...articles2, ...articles3, ...articles4, ...shilajitArticles].sort(
   (a, b) => (a.date < b.date ? 1 : -1)
 );
 

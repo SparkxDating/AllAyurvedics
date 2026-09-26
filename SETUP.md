@@ -9,7 +9,8 @@ Environment Variables** (Production + Preview), then **redeploy**.
 
 | Variable | Example | Purpose |
 |---|---|---|
-| `NEXT_PUBLIC_SITE_URL` | `https://allayurvedics.in` | Canonical URLs, hreflang, sitemap, Open Graph. Defaults to `https://allayurvedics.in`. |
+| `NEXT_PUBLIC_SITE_URL` | `https://allayurvedics.in` | Canonical URLs, hreflang, sitemap, robots, structured data, Open Graph. Leave unset for now: it defaults to `https://allayurvedics.vercel.app` while `DOMAIN_LIVE = false` in `src/config/site.ts` (see 7d). |
+| `NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION` | `AbC123…` | Google Search Console HTML-tag verification code (see 7d). Adds `<meta name="google-site-verification">` to every page. |
 | `NEXT_PUBLIC_CONTACT_EMAIL` | `hello@allayurvedics.in` | Email shown on About/Privacy/Terms/footer. The default is a placeholder – change it to a real inbox. |
 
 ## 2. Store enquiries & subscribers (database)
@@ -203,11 +204,87 @@ remembered for the rest of the browser tab.
 - Payment and order form: the same `CheckoutForm` as `/checkout` (`variant="landing"`, quantity 1–5).
 - Share image: `public/lp/shilajit-og.jpg` (1200×630).
 
-**Share previews and `ogBaseUrl`.** Open Graph/Twitter images use `ogBaseUrl` from `src/config/site.ts`
-(default `https://allayurvedics.vercel.app`). On the landing page, `og:url` uses it too, so
-Facebook/Instagram/WhatsApp previews work before allayurvedics.in resolves. Canonical links, hreflang and the
-sitemap keep using `NEXT_PUBLIC_SITE_URL` (default `https://allayurvedics.in`). When the domain is live, set
-`NEXT_PUBLIC_OG_BASE_URL=https://allayurvedics.in` in Vercel and redeploy.
+**Share previews and `ogBaseUrl`.** Open Graph/Twitter images (and `og:url` on the landing page) use
+`ogBaseUrl` from `src/config/site.ts`, which follows the site URL (see 7d). Set `NEXT_PUBLIC_OG_BASE_URL` only
+if previews must come from a different host.
+
+## 7d. Site URL switch, Google indexing and Search Console
+
+### Why the site currently uses allayurvedics.vercel.app
+
+`allayurvedics.in` is registered, but the .in registry shows it on **clientHold** and it does not resolve
+(checked 26 Sep 2026: DNS returns NXDOMAIN). This hold is usually lifted when the registrar (GoDaddy)
+verifies the registrant's email or ID. Check your email and the GoDaddy account for a verification request.
+Google does not index pages whose canonical URL is on a host that doesn't work, so for now **canonical links,
+hreflang, the sitemap, the robots.txt `Sitemap:` line and structured-data URLs all use
+`https://allayurvedics.vercel.app`**.
+
+The switch is in `src/config/site.ts`:
+
+```ts
+export const DOMAIN_LIVE = false; // ← set to true once https://allayurvedics.in opens the site
+```
+
+You can do the same without a code change by setting the Vercel env var
+`NEXT_PUBLIC_SITE_URL=https://allayurvedics.in` and redeploying (the env var wins over `DOMAIN_LIVE`).
+
+### When allayurvedics.in works
+
+1. Vercel → Project → Settings → **Domains**: add `allayurvedics.in` and `www.allayurvedics.in` and create the
+   DNS records Vercel shows, at GoDaddy (see 8). Wait until `https://allayurvedics.in` opens the site.
+2. Flip the switch: `DOMAIN_LIVE = true` (or the env var above) and redeploy. Canonicals, hreflang, the
+   sitemap and structured data then point to `.in`.
+3. Redirect the old URL so Google carries rankings over. In Vercel → Settings → Domains, edit
+   `allayurvedics.vercel.app` and set it to **redirect to `allayurvedics.in` (308 permanent)**. If Vercel does not
+   offer that for the `.vercel.app` domain on your plan, add a `redirects` rule to `next.config.ts` with a
+   `has: [{ type: "host", value: "allayurvedics.vercel.app" }]` condition, destination
+   `https://allayurvedics.in/:path*` and `permanent: true`.
+4. In Search Console, add a property for `allayurvedics.in` (see the end of this section) and verify it. Then open the old
+   `allayurvedics.vercel.app` property → Settings → **Change of address** → choose `allayurvedics.in`.
+5. Submit `https://allayurvedics.in/sitemap.xml` in the new property.
+
+### Google Search Console (do this now; free, needs your Google account)
+
+A search for `site:allayurvedics.vercel.app` currently shows nothing, which is normal for a new site. To get
+indexed quickly:
+
+A. **Add the property.** Go to https://search.google.com/search-console → Add property → **URL prefix**
+   → `https://allayurvedics.vercel.app/`.
+
+B. **Verify with the HTML tag.** Choose "HTML tag". Google shows something like
+   `<meta name="google-site-verification" content="AbC123…" />`. Copy the `content` value (pasting the whole
+   tag also works). In Vercel → Project → Settings → **Environment Variables**, add
+   `NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION` = that value (Production). Redeploy (Deployments → ⋯ → Redeploy),
+   wait until it's Ready, then click **Verify** in Search Console.
+   - The home page `/` redirects to `/en`. If verification of the `/` URL fails, add the property
+     `https://allayurvedics.vercel.app/en/` instead (the tag is on every page), or use the "HTML file" method:
+     download Google's file, put it in the `public/` folder, commit, push and verify.
+
+C. **Submit the sitemap.** In the property: Sitemaps → enter `sitemap.xml` → Submit
+   (`https://allayurvedics.vercel.app/sitemap.xml`).
+
+D. **Request indexing of key pages.** Use URL Inspection → paste the URL → "Request indexing" for:
+   - `https://allayurvedics.vercel.app/en` and `/hi`
+   - `/hi/shilajit` and `/en/shilajit` (shilajit guide hub)
+   - `/hi/products/himalayan-shilajit-resin-10g` and `/en/products/himalayan-shilajit-resin-10g`
+   - `/hi/lp/shilajit` and `/en/lp/shilajit`
+   - `/hi/articles/shilajit-benefits`, `/hi/articles/how-to-take-shilajit-resin`
+
+E. After 1–4 weeks, check Pages (indexing) and Performance (search queries) in Search Console.
+
+Later, when the domain is live, add a **Domain** property for `allayurvedics.in` (verified by a DNS TXT record
+at GoDaddy) and follow "When allayurvedics.in works" above.
+
+**Brand-name note:** other sites use similar names (for example allayurvedics.com / allayurvedic.in), so
+searches for "All Ayurvedics" may show them first. Shilajit and remedy keywords, Search Console and links
+from your Instagram/Facebook bio are the fastest ways to get found.
+
+### Shilajit SEO content
+
+- Hub: `/en|hi/shilajit` → `src/app/[locale]/(site)/shilajit/page.tsx`
+- Guides (EN + HI, with FAQ schema): `src/content/articles-shilajit.ts`
+- Shared blocks (guide list, product box, callout): `src/components/shilajit-bits.tsx`
+- Keep wording to traditional use: no disease-cure, sexual/performance claims, fake reviews or invented numbers.
 
 ## 8. Domain
 

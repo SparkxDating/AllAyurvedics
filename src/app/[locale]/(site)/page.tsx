@@ -10,6 +10,7 @@ import { products } from "@/content/products";
 import { remedyCategories } from "@/content/types";
 import { ArticleCard, ProductCard, RemedyCard } from "@/components/cards";
 import { ProductSpotlight } from "@/components/product-bits";
+import { ShilajitCallout } from "@/components/shilajit-bits";
 import { CategoryIcon, HeroIllustration } from "@/components/illustrations";
 import { Container, JsonLd, SectionHeading } from "@/components/page-bits";
 import { NewsletterForm } from "@/components/forms/newsletter-form";
@@ -172,6 +173,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
             ))}
           </div>
         )}
+        <ShilajitCallout locale={locale} className="mt-5" />
       </Container>
       )}
 

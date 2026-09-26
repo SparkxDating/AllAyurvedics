@@ -4,6 +4,7 @@ import { Lora, Mukta, Noto_Serif_Devanagari } from "next/font/google";
 import "../globals.css";
 import { isLocale, localeLabels, locales, siteName, siteUrl } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
+import { googleSiteVerification } from "@/config/site";
 
 const mukta = Mukta({
   subsets: ["latin", "devanagari"],
@@ -54,6 +55,8 @@ export async function generateMetadata({ params }: LayoutProps<"/[locale]">): Pr
         ? ["आयुर्वेद", "घरेलू नुस्खे", "आयुर्वेदिक उपचार", "दिनचर्या", "स्वस्थ जीवनशैली"]
         : ["Ayurveda", "Ayurvedic home remedies", "dinacharya", "doshas", "healthy lifestyle India"],
     formatDetection: { telephone: false },
+    // Google Search Console verification: set NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION in Vercel and redeploy
+    ...(googleSiteVerification ? { verification: { google: googleSiteVerification } } : {}),
   };
 }
 

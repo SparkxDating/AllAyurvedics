@@ -9,11 +9,22 @@ import { getRelatedRemedies, getRemedy, remedies } from "@/content/remedies";
 import { getCluster } from "@/content/clusters";
 import { RemedyCard } from "@/components/cards";
 import { ShopPromo } from "@/components/product-bits";
+import { ShilajitCallout } from "@/components/shilajit-bits";
 import { getPromotedProducts } from "@/content/products";
 import { CategoryIcon } from "@/components/illustrations";
 import { Breadcrumbs, Container, DisclaimerNote, JsonLd } from "@/components/page-bits";
 
 export const dynamicParams = false;
+
+/** Energy / strength / rasayana posts that link to the shilajit guide hub */
+const SHILAJIT_RELATED = new Set([
+  "low-energy-fatigue",
+  "ashwagandha-benefits-uses",
+  "benefits-of-chyawanprash",
+  "home-remedies-for-body-pain-and-weakness",
+  "ashwagandha-bedtime-milk",
+  "dates-sesame-energy-bites",
+]);
 
 export function generateStaticParams() {
   return locales.flatMap((locale) => remedies.map((r) => ({ locale, slug: r.slug })));
@@ -205,6 +216,7 @@ export default async function RemedyPage({ params }: PageProps<"/[locale]/remedi
               </section>
             ) : null}
             <ShopPromo products={getPromotedProducts(remedy.slug)} locale={locale} dict={dict} />
+            {SHILAJIT_RELATED.has(remedy.slug) && <ShilajitCallout locale={locale} />}
             <DisclaimerNote locale={locale} dict={dict} />
           </div>
 

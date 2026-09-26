@@ -86,8 +86,16 @@ export type Remedy = {
 export type ArticleText = {
   title: string;
   excerpt: string;
-  /** Lightweight markdown: "## " headings, "- " bullets, blank line between paragraphs, **bold** */
+  /** Lightweight markdown: "## " headings, "- " bullets, blank line between paragraphs, **bold**, [link](/path) */
   body: string;
+  /** Primary search phrase */
+  keyword?: string;
+  /** <title> override (used as-is, max ~60 chars) */
+  metaTitle?: string;
+  /** Meta description override (max ~155 chars) */
+  metaDescription?: string;
+  /** FAQ rendered on the page and as FAQPage JSON-LD */
+  faq?: FaqItem[];
 };
 
 export type Article = {
@@ -95,6 +103,10 @@ export type Article = {
   date: string; // ISO date
   tags: string[];
   featured?: boolean;
+  /** Topic hub the article belongs to (adds hub breadcrumb, related guides and product CTA) */
+  topic?: "shilajit";
+  /** Share/Article image (path under /public) */
+  image?: string;
   en: ArticleText;
   hi: ArticleText;
 };
@@ -116,6 +128,8 @@ export type ProductText = {
   about?: string;
   /** Heading for the benefits list (defaults to "Traditionally used for") */
   benefitsTitle?: string;
+  /** Heading override for the how-to-use section */
+  howToUseTitle?: string;
   genuineCheck?: string[];
   storage?: string[];
   precautions?: string[];

@@ -29,6 +29,7 @@ export function SiteFooter({ locale, dict }: { locale: Locale; dict: Dictionary 
         { href: l("/remedies"), label: dict.nav.remedies },
         { href: l("/articles"), label: dict.nav.articles },
         { href: l("/products"), label: dict.nav.products },
+        { href: l("/shilajit"), label: locale === "hi" ? "शिलाजीत गाइड" : "Shilajit guide" },
         { href: l("/lp/7-day-morning-routine"), label: locale === "hi" ? "मुफ़्त गाइड" : "Free guide" },
       ],
     },

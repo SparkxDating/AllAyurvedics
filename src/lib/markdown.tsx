@@ -1,16 +1,31 @@
 import { Fragment, type ReactNode } from "react";
+import Link from "next/link";
 
-/** Render inline **bold** and *italic* markers. */
+/** Render inline **bold**, *italic* and [link text](/internal/path or https://…) markers. */
 function renderInline(text: string): ReactNode[] {
   const parts: ReactNode[] = [];
-  const regex = /(\*\*[^*]+\*\*|\*[^*]+\*)/g;
+  const regex = /(\[[^\]]+\]\([^)\s]+\)|\*\*[^*]+\*\*|\*[^*]+\*)/g;
   let last = 0;
   let match: RegExpExecArray | null;
   let i = 0;
   while ((match = regex.exec(text)) !== null) {
     if (match.index > last) parts.push(text.slice(last, match.index));
     const token = match[0];
-    if (token.startsWith("**")) {
+    if (token.startsWith("[")) {
+      const m = /^\[([^\]]+)\]\(([^)\s]+)\)$/.exec(token)!;
+      const [, label, href] = m;
+      parts.push(
+        href.startsWith("/") ? (
+          <Link key={i++} href={href} className="font-medium text-primary underline underline-offset-2 hover:text-leaf">
+            {label}
+          </Link>
+        ) : (
+          <a key={i++} href={href} target="_blank" rel="noopener" className="font-medium text-primary underline underline-offset-2 hover:text-leaf">
+            {label}
+          </a>
+        )
+      );
+    } else if (token.startsWith("**")) {
       parts.push(
         <strong key={i++} className="font-semibold text-foreground">
           {token.slice(2, -2)}
