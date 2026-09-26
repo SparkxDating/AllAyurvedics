@@ -4,11 +4,6 @@ import { Lora, Mukta, Noto_Serif_Devanagari } from "next/font/google";
 import "../globals.css";
 import { isLocale, localeLabels, locales, siteName, siteUrl } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
-import { SiteHeader } from "@/components/site-header";
-import { SiteFooter } from "@/components/site-footer";
-import { WhatsAppFloat } from "@/components/whatsapp-float";
-import { getWhatsappNumber } from "@/config/site";
-import { waLink } from "@/lib/whatsapp";
 
 const mukta = Mukta({
   subsets: ["latin", "devanagari"],
@@ -65,8 +60,6 @@ export async function generateMetadata({ params }: LayoutProps<"/[locale]">): Pr
 export default async function LocaleLayout({ children, params }: LayoutProps<"/[locale]">) {
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
-  const dict = getDictionary(locale);
-  const whatsapp = getWhatsappNumber();
 
   return (
     <html
@@ -80,12 +73,7 @@ export default async function LocaleLayout({ children, params }: LayoutProps<"/[
         >
           {locale === "hi" ? "मुख्य सामग्री पर जाएँ" : "Skip to content"}
         </a>
-        <SiteHeader locale={locale} dict={dict} />
-        <main id="main" className="flex-1">
-          {children}
-        </main>
-        <SiteFooter locale={locale} dict={dict} />
-        {whatsapp && <WhatsAppFloat href={waLink(whatsapp, dict.whatsapp.generalMessage)} label={dict.whatsapp.floatLabel} />}
+        {children}
       </body>
     </html>
   );

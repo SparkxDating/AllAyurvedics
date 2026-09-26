@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { type Locale, localeLabels, localePath, siteName, siteUrl } from "@/i18n/config";
+import { ogAbsolute } from "@/config/site";
 
 type BuildMetadataInput = {
   locale: Locale;
@@ -14,6 +15,8 @@ type BuildMetadataInput = {
   absoluteTitle?: boolean;
   /** Custom Open Graph / Twitter image (path under /public or absolute URL) */
   image?: { url: string; width: number; height: number; alt: string };
+  /** Absolute og:url override (ad landing pages use a URL that resolves today, see ogBaseUrl) */
+  ogUrl?: string;
 };
 
 export function buildMetadata({
@@ -26,8 +29,11 @@ export function buildMetadata({
   noIndex,
   absoluteTitle,
   image,
+  ogUrl,
 }: BuildMetadataInput): Metadata {
-  const ogImage = image ?? { url: `/api/og?locale=${locale}`, width: 1200, height: 630, alt: siteName };
+  const rawImage = image ?? { url: `/api/og?locale=${locale}`, width: 1200, height: 630, alt: siteName };
+  // Share images always use an absolute URL on a host that resolves (see ogBaseUrl in src/config/site.ts)
+  const ogImage = { ...rawImage, url: ogAbsolute(rawImage.url) };
   const url = localePath(locale, path);
   const other: Locale = locale === "en" ? "hi" : "en";
   return {
@@ -44,7 +50,7 @@ export function buildMetadata({
     openGraph: {
       title,
       description,
-      url,
+      url: ogUrl ?? url,
       siteName,
       locale: localeLabels[locale].ogLocale,
       alternateLocale: [localeLabels[other].ogLocale],

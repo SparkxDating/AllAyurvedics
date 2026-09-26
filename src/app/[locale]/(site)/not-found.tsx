@@ -14,7 +14,7 @@ export default function NotFound() {
   const locale = pathname.startsWith("/hi") ? "hi" : "en";
   const t = text[locale];
   return (
-    <main id="main" className="mx-auto flex w-full max-w-xl flex-1 flex-col items-center px-4 py-24 text-center">
+    <div className="mx-auto flex max-w-xl flex-col items-center px-4 py-24 text-center">
       <span className="inline-flex size-16 items-center justify-center rounded-full bg-secondary text-primary">
         <Leaf className="size-8" aria-hidden="true" />
       </span>
@@ -28,6 +28,6 @@ export default function NotFound() {
           {t.remedies}
         </Link>
       </div>
-    </main>
+    </div>
   );
 }

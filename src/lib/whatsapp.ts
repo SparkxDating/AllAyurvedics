@@ -27,6 +27,7 @@ export type OrderMessageLabels = {
   phone: string;
   email: string;
   address: string;
+  source: string;
   screenshot: string;
 };
 
@@ -43,6 +44,8 @@ export type OrderMessageData = {
   city: string;
   state: string;
   pincode: string;
+  /** Campaign source (utm_*), shown as a "Source" line when present */
+  source?: string;
 };
 
 /** Plain-text order message, built on the client from the form data (works even if the server submit failed). */
@@ -62,6 +65,7 @@ export function buildOrderWhatsappMessage(l: OrderMessageLabels, d: OrderMessage
     `${l.phone}: ${d.phone}`,
     ...(d.email?.trim() ? [`${l.email}: ${d.email.trim()}`] : []),
     `${l.address}: ${address}`,
+    ...(d.source ? [`${l.source}: ${d.source}`] : []),
     "",
     l.screenshot,
   ];

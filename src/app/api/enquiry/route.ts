@@ -26,6 +26,7 @@ function orderRecord(data: OrderInput, productName: string, unitPrice: number): 
     "Delivery address:",
     data.address,
     `${data.city}, ${data.state} – ${data.pincode}`,
+    ...(data.source ? ["", `Source: ${data.source}`] : []),
   ].join("\n");
   return {
     name: data.name,

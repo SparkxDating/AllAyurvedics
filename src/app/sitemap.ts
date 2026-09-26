@@ -16,6 +16,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...articles.map((a) => ({ path: `/articles/${a.slug}`, lastModified: a.date, priority: 0.8 })),
     ...products.map((p) => ({ path: `/products/${p.slug}`, priority: 0.5 })),
     ...campaigns.map((c) => ({ path: `/lp/${c.slug}`, priority: 0.6 })),
+    { path: "/lp/shilajit", priority: 0.6 },
   ];
 
   const url = (locale: string, path: string) => `${siteUrl}/${locale}${path === "/" ? "" : path}`;

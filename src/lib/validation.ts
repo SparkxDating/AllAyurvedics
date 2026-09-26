@@ -54,6 +54,8 @@ export const orderSchema = z.object({
     .string()
     .transform((v) => v.replace(/\s/g, ""))
     .pipe(z.string().regex(UTR_PATTERN, "invalidUtr")),
+  /** Campaign source from utm_* params, e.g. "source=instagram, campaign=reel_12" */
+  source: z.string().trim().max(160).optional().or(z.literal("")),
   locale,
   website: z.string().optional(),
   startedAt,

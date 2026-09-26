@@ -179,6 +179,36 @@ A help line (WhatsApp and/or email) appears on the checkout page only when
 `whatsappNumber` / `NEXT_PUBLIC_WHATSAPP_NUMBER` or `NEXT_PUBLIC_CONTACT_EMAIL` is set.
 The checkout pages are `noindex`, disallowed in robots.txt, and not in the sitemap.
 
+## 7c. Ad landing page: Himalayan Shilajit (Instagram / Facebook reels)
+
+Share this link in reels, bio and ads: **https://allayurvedics.vercel.app/shilajit**
+(later https://allayurvedics.in/shilajit once the domain is live).
+
+| Link | Shows |
+|---|---|
+| `/shilajit` | Hindi landing page (default). Served directly, with no redirect. |
+| `/shilajit?lang=en` or `/shilajit/en` | English landing page |
+| `/hi/lp/shilajit`, `/en/lp/shilajit` | Full URLs (canonical, in the sitemap) |
+
+**Track which reel sold:** add UTM parameters, e.g.
+`https://allayurvedics.vercel.app/shilajit?utm_source=instagram&utm_campaign=reel_01`.
+They are added as a "Source" line to the WhatsApp messages (hero button, sticky bar, contact line and
+the order form's "Send order on WhatsApp") and to the order submitted to the forms backend. They are also
+remembered for the rest of the browser tab.
+
+- Copy (EN/HI): `src/content/landing/shilajit.ts`. How-to-use, precautions and FAQs come from the product in
+  `src/content/products.ts`.
+- Page: `src/app/[locale]/(landing)/lp/shilajit/page.tsx`. It has no site header or footer; the regular pages
+  use `src/app/[locale]/(site)/layout.tsx`.
+- Payment and order form: the same `CheckoutForm` as `/checkout` (`variant="landing"`, quantity 1–5).
+- Share image: `public/lp/shilajit-og.jpg` (1200×630).
+
+**Share previews and `ogBaseUrl`.** Open Graph/Twitter images use `ogBaseUrl` from `src/config/site.ts`
+(default `https://allayurvedics.vercel.app`). On the landing page, `og:url` uses it too, so
+Facebook/Instagram/WhatsApp previews work before allayurvedics.in resolves. Canonical links, hreflang and the
+sitemap keep using `NEXT_PUBLIC_SITE_URL` (default `https://allayurvedics.in`). When the domain is live, set
+`NEXT_PUBLIC_OG_BASE_URL=https://allayurvedics.in` in Vercel and redeploy.
+
 ## 8. Domain
 
 Add `allayurvedics.in` and `www.allayurvedics.in` in Vercel → Project → Settings →

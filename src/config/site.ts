@@ -20,6 +20,23 @@ export const siteConfig = {
   whatsappNumber: "919560814623",
 };
 
+/**
+ * Base URL used for share previews (Open Graph / Twitter images, and og:url on ad landing pages).
+ *
+ * The canonical domain (NEXT_PUBLIC_SITE_URL, default https://allayurvedics.in) does not resolve yet,
+ * so Facebook / Instagram / WhatsApp could not fetch preview images from it. Until the domain is live,
+ * previews use the working Vercel URL. Canonical links, hreflang and the sitemap still use the
+ * canonical domain.
+ *
+ * To switch once allayurvedics.in works: set NEXT_PUBLIC_OG_BASE_URL=https://allayurvedics.in in Vercel
+ * (or change the fallback below) and redeploy.
+ */
+export const ogBaseUrl = (process.env.NEXT_PUBLIC_OG_BASE_URL || "https://allayurvedics.vercel.app").replace(/\/$/, "");
+
+export function ogAbsolute(pathOrUrl: string) {
+  return /^https?:\/\//.test(pathOrUrl) ? pathOrUrl : `${ogBaseUrl}${pathOrUrl.startsWith("/") ? "" : "/"}${pathOrUrl}`;
+}
+
 export type UpiConfig = { upiId: string; payeeName: string };
 
 const UPI_ID_PATTERN = /^[a-zA-Z0-9._-]{2,256}@[a-zA-Z][a-zA-Z0-9.-]{1,64}$/;
