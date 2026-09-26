@@ -6,6 +6,9 @@ import { isLocale, localeLabels, locales, siteName, siteUrl } from "@/i18n/confi
 import { getDictionary } from "@/i18n/dictionaries";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
+import { WhatsAppFloat } from "@/components/whatsapp-float";
+import { getWhatsappNumber } from "@/config/site";
+import { waLink } from "@/lib/whatsapp";
 
 const mukta = Mukta({
   subsets: ["latin", "devanagari"],
@@ -63,6 +66,7 @@ export default async function LocaleLayout({ children, params }: LayoutProps<"/[
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
   const dict = getDictionary(locale);
+  const whatsapp = getWhatsappNumber();
 
   return (
     <html
@@ -81,6 +85,7 @@ export default async function LocaleLayout({ children, params }: LayoutProps<"/[
           {children}
         </main>
         <SiteFooter locale={locale} dict={dict} />
+        {whatsapp && <WhatsAppFloat href={waLink(whatsapp, dict.whatsapp.generalMessage)} label={dict.whatsapp.floatLabel} />}
       </body>
     </html>
   );

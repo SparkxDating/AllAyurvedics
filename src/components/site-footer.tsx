@@ -6,9 +6,13 @@ import { LanguageSwitcher } from "./language-switcher";
 import { NewsletterForm } from "./forms/newsletter-form";
 import { newsletterStrings } from "@/i18n/strings";
 import { contactEmail } from "@/content/pages";
+import { getWhatsappNumber } from "@/config/site";
+import { formatWhatsappDisplay, waLink } from "@/lib/whatsapp";
+import { WhatsAppIcon } from "@/components/whatsapp-icon";
 import { activeClusters } from "@/content/clusters";
 
 export function SiteFooter({ locale, dict }: { locale: Locale; dict: Dictionary }) {
+  const whatsapp = getWhatsappNumber();
   const l = (p: string) => `/${locale}${p}`;
   const year = 2026;
   const cols = [
@@ -60,6 +64,20 @@ export function SiteFooter({ locale, dict }: { locale: Locale; dict: Dictionary 
               {contactEmail}
             </a>
           </p>
+          {whatsapp && (
+            <p className="mt-2 text-sm text-primary-foreground/75">
+              <a
+                href={waLink(whatsapp, dict.whatsapp.generalMessage)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 underline underline-offset-2 hover:text-turmeric"
+                data-testid="footer-whatsapp"
+              >
+                <WhatsAppIcon className="size-4" />
+                {dict.whatsapp.label}: {formatWhatsappDisplay(whatsapp)}
+              </a>
+            </p>
+          )}
           <div className="mt-6">
             <h2 className="font-heading text-lg font-semibold">{dict.footer.newsletter}</h2>
             <p className="mt-1 text-sm text-primary-foreground/75">{dict.home.newsletterText}</p>

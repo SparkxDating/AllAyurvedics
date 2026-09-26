@@ -7,14 +7,17 @@
  * The values in this file take priority over the env vars. A product can override both with
  * its own `upiId` / `upiPayeeName` fields in src/content/products.ts.
  *
+ * `whatsappNumber` powers the "Send order on WhatsApp" hand-off after checkout, the product-page
+ * WhatsApp button, the checkout help line, the footer/contact links and the floating button.
+ *
  * While the UPI ID is empty (and a product has no `paymentLink`), product pages show
  * "Online payment coming soon" and the checkout page returns 404.
  */
 export const siteConfig = {
-  upiId: "",
-  upiPayeeName: "",
+  upiId: "manojkts29-2@oksbi",
+  upiPayeeName: "MKS AnalytIQ",
   /** Optional WhatsApp number for customer help, digits only with country code, e.g. "919876543210" */
-  whatsappNumber: "",
+  whatsappNumber: "919560814623",
 };
 
 export type UpiConfig = { upiId: string; payeeName: string };

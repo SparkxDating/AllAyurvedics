@@ -4,6 +4,10 @@ import { getDictionary } from "@/i18n/dictionaries";
 import { buildMetadata } from "@/lib/seo";
 import { getProduct, products } from "@/content/products";
 import { contactEmail } from "@/content/pages";
+import { getWhatsappNumber } from "@/config/site";
+import { formatWhatsappDisplay, waLink, whatsappButtonClass } from "@/lib/whatsapp";
+import { WhatsAppIcon } from "@/components/whatsapp-icon";
+import { cn } from "@/lib/utils";
 import { Container, PageHeader } from "@/components/page-bits";
 import { EnquiryForm } from "@/components/forms/enquiry-form";
 
@@ -16,6 +20,7 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/enquiry"
 export default async function EnquiryPage({ params, searchParams }: PageProps<"/[locale]/enquiry">) {
   const locale = await resolveLocale(params);
   const dict = getDictionary(locale);
+  const whatsapp = getWhatsappNumber();
   const sp = await searchParams;
   const productSlug = typeof sp.product === "string" ? sp.product : undefined;
   const selected = productSlug ? getProduct(productSlug) : undefined;
@@ -60,6 +65,25 @@ export default async function EnquiryPage({ params, searchParams }: PageProps<"/
               {contactEmail}
             </a>
           </div>
+          {whatsapp && (
+            <div className="rounded-2xl border border-border bg-card p-6">
+              <h2 className="flex items-center gap-2 text-lg font-semibold text-primary">
+                <WhatsAppIcon className="size-5 text-[#15803d]" />
+                {dict.whatsapp.label}
+              </h2>
+              <p className="mt-1 text-sm text-muted-foreground">{dict.whatsapp.contactText}</p>
+              <a
+                href={waLink(whatsapp, dict.whatsapp.generalMessage)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={cn(whatsappButtonClass, "mt-3 h-11 px-5 text-sm")}
+                data-testid="enquiry-whatsapp"
+              >
+                <WhatsAppIcon className="size-4" />
+                {formatWhatsappDisplay(whatsapp)}
+              </a>
+            </div>
+          )}
         </aside>
       </Container>
     </>

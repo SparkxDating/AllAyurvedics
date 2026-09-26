@@ -154,7 +154,16 @@ name registered on the UPI ID; some apps show a warning when the names differ.
 Each visit gets an order reference like `AA-7KQ2MX`. It is shown to the customer and included in
 the payment note, so you can match the payment in your bank or UPI app.
 
-**Orders arrive through the enquiry backend.** They are submitted like enquiries, with the
+**Orders currently reach you on WhatsApp.** After submitting the form, the customer sees a green
+**Send order on WhatsApp** button. It opens a chat with `siteConfig.whatsappNumber` (currently
++91 95608 14623) with a prefilled message: order reference, product, quantity, total, UTR, name,
+phone, email (if given) and the full address with pincode. The customer is asked to attach the
+payment screenshot. The message is built in the browser from the form data, so the button works
+even if the server submit fails. The same number is used for the "WhatsApp to order / enquire"
+button on product pages, the checkout help line, the footer, the contact page and the small
+floating button (hidden on checkout pages). Clear `whatsappNumber` to remove all of them.
+
+**Orders also go through the enquiry backend.** They are submitted like enquiries, with the
 subject/type `order` and all the fields (including UTR, quantity and total). This means orders
 are **only stored and emailed once the forms backend is configured**: `DATABASE_URL` (section 2)
 plus an email provider (section 3: `RESEND_API_KEY` or `BREVO_API_KEY`, `EMAIL_FROM` and

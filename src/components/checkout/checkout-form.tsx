@@ -4,7 +4,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import QRCode from "qrcode";
-import { Check, Copy, Mail, MessageCircle, Send, ShieldCheck, Smartphone } from "lucide-react";
+import { Check, Copy, Mail, Send, ShieldCheck, Smartphone } from "lucide-react";
 import type { Dictionary } from "@/i18n/dictionaries";
 import type { UpiConfig } from "@/config/site";
 import { buildUpiUrl, MAX_ORDER_QTY, normaliseIndianMobile, PINCODE_PATTERN, UTR_PATTERN } from "@/lib/upi";
@@ -14,6 +14,8 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { ErrorMessage, FieldError, HoneypotField, nativeSelectClass, SuccessMessage } from "@/components/forms/form-bits";
 import { cn } from "@/lib/utils";
+import { WhatsAppIcon } from "@/components/whatsapp-icon";
+import { buildOrderWhatsappMessage, formatWhatsappDisplay, waLink, whatsappButtonClass } from "@/lib/whatsapp";
 
 type Strings = Dictionary["checkout"];
 type ProductSummary = {
@@ -86,7 +88,7 @@ export function CheckoutForm({
   const [errors, setErrors] = useState<Partial<Record<FieldKey, string>>>({});
   const [phase, setPhase] = useState<"idle" | "submitting" | "error" | "done">("idle");
   const [formError, setFormError] = useState<string>();
-  const [result, setResult] = useState<{ status: string; phone: string }>();
+  const [result, setResult] = useState<{ status: "sent" | "pending" | "failed"; phone: string; data: Record<string, string> }>();
   const startedAt = useRef(0);
 
   useEffect(() => {
@@ -124,6 +126,12 @@ export function CheckoutForm({
     return e;
   }
 
+  function finish(status: "sent" | "pending" | "failed", data: Record<string, string>) {
+    setResult({ status, phone: normaliseIndianMobile(data.phone) ?? data.phone, data });
+    setPhase("done");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
   async function onSubmit(form: HTMLFormElement) {
     const data = Object.fromEntries(new FormData(form).entries()) as Record<string, string>;
     const clientErrors = validate(data);
@@ -153,19 +161,27 @@ export function CheckoutForm({
       });
       const json = (await res.json().catch(() => ({}))) as { ok?: boolean; status?: string; error?: string; errors?: Record<string, string> };
       if (res.ok && json.ok) {
-        setResult({ status: json.status ?? "sent", phone: normaliseIndianMobile(data.phone) ?? data.phone });
-        setPhase("done");
-        window.scrollTo({ top: 0, behavior: "smooth" });
+        finish(json.status === "sent" ? "sent" : "pending", data);
+        return;
+      }
+      if (json.errors) {
+        setPhase("error");
+        setErrors(json.errors as Partial<Record<FieldKey, string>>);
+        setFormError(strings.fixErrors);
+        return;
+      }
+      // Server could not store the order: the WhatsApp hand-off still works (message is built here from the form data)
+      if (whatsapp) {
+        finish("failed", data);
         return;
       }
       setPhase("error");
-      if (json.errors) {
-        setErrors(json.errors as Partial<Record<FieldKey, string>>);
-        setFormError(strings.fixErrors);
-      } else {
-        setFormError(json.error === "not_available" ? strings.notAvailable : strings.genericError);
-      }
+      setFormError(json.error === "not_available" ? strings.notAvailable : strings.genericError);
     } catch {
+      if (whatsapp) {
+        finish("failed", data);
+        return;
+      }
       setPhase("error");
       setFormError(strings.genericError);
     }
@@ -173,18 +189,19 @@ export function CheckoutForm({
 
   const help =
     whatsapp || contactEmail ? (
-      <p className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-muted-foreground">
-        <span>{strings.help}</span>
-        {whatsapp && (
+      <p className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-muted-foreground" data-testid="checkout-help">
+        {whatsapp ? (
           <a
-            href={`https://wa.me/${whatsapp}?text=${encodeURIComponent(`${product.orderName} – ${orderRef}`)}`}
+            href={waLink(whatsapp, `${product.orderName} – ${orderRef}`)}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-1 font-medium text-primary hover:underline"
+            className="inline-flex items-center gap-1.5 font-medium text-[#15803d] hover:underline"
           >
-            <MessageCircle className="size-4" aria-hidden="true" />
-            {strings.whatsapp}
+            <WhatsAppIcon className="size-4" />
+            {fill(strings.helpLine, { number: formatWhatsappDisplay(whatsapp) })}
           </a>
+        ) : (
+          <span>{strings.help}</span>
         )}
         {contactEmail && (
           <a href={`mailto:${contactEmail}?subject=${encodeURIComponent(orderRef)}`} className="inline-flex items-center gap-1 font-medium text-primary hover:underline">
@@ -196,18 +213,62 @@ export function CheckoutForm({
     ) : null;
 
   if (phase === "done" && result) {
+    const d = result.data;
+    const waHref = whatsapp
+      ? waLink(
+          whatsapp,
+          buildOrderWhatsappMessage(strings.waMessage, {
+            orderRef,
+            product: `${product.name}, ${product.size}`,
+            quantity,
+            total: amountLabel,
+            utr: (d.utr ?? "").replace(/\s/g, ""),
+            name: d.name ?? "",
+            phone: result.phone,
+            email: d.email,
+            address: d.address ?? "",
+            city: d.city ?? "",
+            state: d.state ?? "",
+            pincode: d.pincode ?? "",
+          }),
+        )
+      : undefined;
+    const needsWhatsapp = Boolean(waHref) && result.status !== "sent";
     return (
-      <div className="mt-8 max-w-2xl space-y-4" data-testid="order-success">
-        <SuccessMessage title={strings.successTitle}>
+      <div className="mt-8 max-w-2xl space-y-4" data-testid="order-success" data-status={result.status}>
+        <SuccessMessage title={needsWhatsapp ? strings.successTitleWa : strings.successTitle}>
+          {result.status === "failed" && <p className="mb-2">{strings.submitFailedNote}</p>}
           <p>{fill(strings.successText, { ref: orderRef, phone: result.phone })}</p>
           <p className="mt-2">
             {strings.successAmount}: <strong>{amountLabel}</strong> · {product.name} × {quantity}
           </p>
-          {result.status === "pending" && <p className="mt-2">{strings.successPending}</p>}
         </SuccessMessage>
+        {waHref && (
+          <div className="rounded-2xl border-2 border-[#15803d]/40 bg-[#f0fdf4] p-5">
+            {needsWhatsapp && (
+              <p className="font-semibold text-[#14532d]" data-testid="wa-important">
+                {strings.successPending}
+              </p>
+            )}
+            <a
+              href={waHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              data-testid="order-whatsapp"
+              className={cn(whatsappButtonClass, "mt-4 h-14 w-full px-6 text-lg sm:w-auto")}
+            >
+              <WhatsAppIcon className="size-6" />
+              {strings.sendWhatsapp}
+            </a>
+            <p className="mt-3 text-sm text-[#14532d]/80">{strings.attachHint}</p>
+          </div>
+        )}
+        {!waHref && result.status !== "sent" && (
+          <p className="text-sm text-muted-foreground">{strings.orderRefHint}</p>
+        )}
         <div className="rounded-2xl border border-border bg-card p-5">
           <p className="text-sm text-muted-foreground">{strings.orderRef}</p>
-          <p className="mt-1 font-mono text-2xl font-semibold tracking-wider text-primary">{orderRef}</p>
+          <p className="mt-1 font-mono text-2xl font-semibold tracking-wider text-primary" data-testid="order-ref">{orderRef}</p>
         </div>
         {help}
         <Link href={`/${locale}/products/${product.slug}`} className="inline-block text-sm font-medium text-primary hover:underline">

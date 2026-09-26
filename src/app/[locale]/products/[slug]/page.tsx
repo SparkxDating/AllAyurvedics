@@ -28,6 +28,9 @@ import { PriceBlock, formatInr } from "@/components/product-bits";
 import { Breadcrumbs, Container, DisclaimerNote, JsonLd } from "@/components/page-bits";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { getWhatsappNumber } from "@/config/site";
+import { fillTemplate, waLink, whatsappButtonClass } from "@/lib/whatsapp";
+import { WhatsAppIcon } from "@/components/whatsapp-icon";
 
 export const dynamicParams = false;
 
@@ -78,6 +81,17 @@ export default async function ProductPage({ params }: PageProps<"/[locale]/produ
   const buy = getBuyMode(product);
   const relatedRemedies = (product.relatedRemedies ?? []).map((s) => getRemedy(s)).filter((r): r is Remedy => Boolean(r));
   const pageUrl = `${siteUrl}/${locale}/products/${product.slug}`;
+  const whatsapp = product.sample ? undefined : getWhatsappNumber();
+  const whatsappHref = whatsapp
+    ? waLink(
+        whatsapp,
+        fillTemplate(dict.whatsapp.productMessage, {
+          product: t.name,
+          size: t.size,
+          price: product.price ? formatInr(product.price, locale) : "",
+        }),
+      )
+    : undefined;
   const crumbs = [
     { href: `/${locale}`, label: dict.common.breadcrumbHome },
     { href: `/${locale}/products`, label: dict.nav.products },
@@ -106,11 +120,9 @@ export default async function ProductPage({ params }: PageProps<"/[locale]/produ
             category: "Ayurvedic supplement",
             ...(product.brand ? { brand: { "@type": "Brand", name: product.brand } } : {}),
             image: images.map((i) => `${siteUrl}${i.src}`),
-            url: pageUrl,
             inLanguage,
             offers: {
               "@type": "Offer",
-              url: pageUrl,
               price: product.price.toFixed(2),
               priceCurrency: "INR",
               availability: product.inStock === false ? "https://schema.org/OutOfStock" : "https://schema.org/InStock",
@@ -225,6 +237,18 @@ export default async function ProductPage({ params }: PageProps<"/[locale]/produ
               <MessageCircle className="size-4" aria-hidden="true" />
               {dict.products.enquire}
             </Link>
+            {whatsappHref && (
+              <a
+                href={whatsappHref}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={cn(whatsappButtonClass, "h-12 px-6 text-base")}
+                data-testid="whatsapp-order"
+              >
+                <WhatsAppIcon className="size-5" />
+                {dict.whatsapp.orderCta}
+              </a>
+            )}
           </div>
           <p className="mt-3 text-sm text-muted-foreground">
             {product.sample
