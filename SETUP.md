@@ -9,7 +9,7 @@ Environment Variables** (Production + Preview), then **redeploy**.
 
 | Variable | Example | Purpose |
 |---|---|---|
-| `NEXT_PUBLIC_SITE_URL` | `https://allayurvedics.in` | Canonical URLs, hreflang, sitemap, robots, structured data, Open Graph. Leave unset for now: it defaults to `https://allayurvedics.vercel.app` while `DOMAIN_LIVE = false` in `src/config/site.ts` (see 7d). |
+| `NEXT_PUBLIC_SITE_URL` | `https://allayurvedics.in` | Canonical URLs, hreflang, sitemap, robots, structured data, Open Graph. Set this in Vercel Production. If it is unset, production builds use `https://allayurvedics.in` and `next dev` uses `http://localhost:3000`. There is no `DOMAIN_LIVE` flag. |
 | `NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION` | `AbC123…` | Google Search Console HTML-tag verification code (see 7d). Adds `<meta name="google-site-verification">` to every page. |
 | `NEXT_PUBLIC_CONTACT_EMAIL` | `hello@allayurvedics.in` | Email shown on About/Privacy/Terms/footer. The default is a placeholder – change it to a real inbox. |
 
@@ -135,7 +135,7 @@ How to get a link:
    | `NEXT_PUBLIC_WHATSAPP_NUMBER` (optional) | `919876543210` |
 
    Then **redeploy**, because pages are pre-rendered and `NEXT_PUBLIC_` values are built in.
-   Values in `src/config/site.ts` take priority over the env vars.
+   Environment variables override the defaults in `src/config/site.ts`. A per-product `upiId` still wins.
 
 If the payee name is empty, it falls back to "All Ayurvedics". For best results, use the exact
 name registered on the UPI ID; some apps show a warning when the names differ.
@@ -210,38 +210,22 @@ if previews must come from a different host.
 
 ## 7d. Site URL switch, Google indexing and Search Console
 
-### Why the site currently uses allayurvedics.vercel.app
+### Canonical domain
 
-`allayurvedics.in` is registered, but the .in registry shows it on **clientHold** and it does not resolve
-(checked 26 Sep 2026: DNS returns NXDOMAIN). This hold is usually lifted when the registrar (GoDaddy)
-verifies the registrant's email or ID. Check your email and the GoDaddy account for a verification request.
-Google does not index pages whose canonical URL is on a host that doesn't work, so for now **canonical links,
-hreflang, the sitemap, the robots.txt `Sitemap:` line and structured-data URLs all use
-`https://allayurvedics.vercel.app`**.
+Production canonicals, hreflang, the sitemap, `robots.txt` and structured data use `https://allayurvedics.in` unless `NEXT_PUBLIC_SITE_URL` is set. Set that variable to `https://allayurvedics.in` in Vercel Production so the value is explicit. Preview deployments may set their own `NEXT_PUBLIC_SITE_URL` or leave it unset (unset production builds still canonicalise to `.in`, which keeps a preview host out of the index). `next dev` uses `http://localhost:3000` when the variable is unset.
 
-The switch is in `src/config/site.ts`:
+There is no `DOMAIN_LIVE` switch in code. If the apex domain is temporarily not serving the site, set `NEXT_PUBLIC_SITE_URL` to the host that does, redeploy, and remove that override once `https://allayurvedics.in` answers.
 
-```ts
-export const DOMAIN_LIVE = false; // ← set to true once https://allayurvedics.in opens the site
-```
+When the domain is attached in Vercel:
 
-You can do the same without a code change by setting the Vercel env var
-`NEXT_PUBLIC_SITE_URL=https://allayurvedics.in` and redeploying (the env var wins over `DOMAIN_LIVE`).
+1. Vercel → Project → Settings → **Domains**: add `allayurvedics.in` and `www.allayurvedics.in` and create the DNS records Vercel shows.
+2. Confirm `NEXT_PUBLIC_SITE_URL=https://allayurvedics.in` and redeploy.
+3. Redirect `allayurvedics.vercel.app` to `https://allayurvedics.in` (308) in Vercel → Settings → Domains. Do that only after the apex domain actually opens the site, otherwise the redirect would hide the deployment.
+4. In Search Console, add a property for `allayurvedics.in`, verify it, submit `https://allayurvedics.in/sitemap.xml`, and use Change of address from the old host if one was verified.
 
-### When allayurvedics.in works
+Account pages are `noindex` on purpose. Checkout is `noindex, nofollow` and disallowed in `robots.txt`. Those are not accidental.
 
-1. Vercel → Project → Settings → **Domains**: add `allayurvedics.in` and `www.allayurvedics.in` and create the
-   DNS records Vercel shows, at GoDaddy (see 8). Wait until `https://allayurvedics.in` opens the site.
-2. Flip the switch: `DOMAIN_LIVE = true` (or the env var above) and redeploy. Canonicals, hreflang, the
-   sitemap and structured data then point to `.in`.
-3. Redirect the old URL so Google carries rankings over. In Vercel → Settings → Domains, edit
-   `allayurvedics.vercel.app` and set it to **redirect to `allayurvedics.in` (308 permanent)**. If Vercel does not
-   offer that for the `.vercel.app` domain on your plan, add a `redirects` rule to `next.config.ts` with a
-   `has: [{ type: "host", value: "allayurvedics.vercel.app" }]` condition, destination
-   `https://allayurvedics.in/:path*` and `permanent: true`.
-4. In Search Console, add a property for `allayurvedics.in` (see the end of this section) and verify it. Then open the old
-   `allayurvedics.vercel.app` property → Settings → **Change of address** → choose `allayurvedics.in`.
-5. Submit `https://allayurvedics.in/sitemap.xml` in the new property.
+See `docs/phase-1-security.md` for rate limits, headers, sessions and the Phase 2 schema notes.
 
 ### Google Search Console (do this now; free, needs your Google account)
 
