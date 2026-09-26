@@ -1,18 +1,16 @@
 import type { Remedy, RemedyCategory } from "./types";
+import { remedyCategories } from "./types";
 import { remediesA } from "./remedies-a";
 import { remediesB } from "./remedies-b";
 import { remediesC } from "./remedies-c";
 import { extraRemedies } from "./remedies-extra";
 import { seoRemedies } from "./remedies-seo";
+import { assertRemedies } from "./schema";
 
 export const remedies: Remedy[] = [...remediesA, ...remediesB, ...remediesC, ...extraRemedies, ...seoRemedies];
 
-if (process.env.NODE_ENV !== "production") {
-  const seen = new Set<string>();
-  for (const r of remedies) {
-    if (seen.has(r.slug)) throw new Error(`Duplicate remedy slug: ${r.slug}`);
-    seen.add(r.slug);
-  }
+if (typeof window === "undefined") {
+  assertRemedies(remedies);
 }
 
 export function getRemedy(slug: string): Remedy | undefined {
@@ -34,7 +32,7 @@ export function getRelatedRemedies(remedy: Remedy, limit = 3): Remedy[] {
 }
 
 export function countByCategory(): Record<RemedyCategory, number> {
-  const out = {} as Record<RemedyCategory, number>;
-  for (const r of remedies) out[r.category] = (out[r.category] ?? 0) + 1;
+  const out = Object.fromEntries(remedyCategories.map((category) => [category, 0])) as Record<RemedyCategory, number>;
+  for (const remedy of remedies) out[remedy.category] += 1;
   return out;
 }

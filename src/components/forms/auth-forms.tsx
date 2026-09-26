@@ -30,7 +30,9 @@ export function WaitlistForm({ locale, strings }: { locale: string; strings: Str
         <Input id="wl-email" name="email" type="email" required autoComplete="email" placeholder={strings.forms.emailPlaceholder} className="h-11 bg-card" aria-invalid={errs.email ? true : undefined} />
         <FieldError id="wl-email-err" message={errs.email ? strings.forms.invalidEmail : undefined} />
       </div>
-      {state.phase === "error" && !state.fieldErrors ? <ErrorMessage>{strings.forms.genericError}</ErrorMessage> : null}
+      {state.phase === "error" && !state.fieldErrors ? (
+        <ErrorMessage>{state.error === "too_many_requests" ? strings.forms.tooManyRequests : strings.forms.genericError}</ErrorMessage>
+      ) : null}
       <Button type="submit" disabled={state.phase === "submitting"} className="h-11 w-full text-base">
         {state.phase === "submitting" ? strings.forms.sending : strings.auth.notifyMe}
       </Button>
@@ -86,7 +88,13 @@ export function RegisterForm({ locale, strings }: { locale: string; strings: Str
           onInput={(e) => e.currentTarget.setCustomValidity("")} />
       </div>
       {state.phase === "error" && !state.fieldErrors ? (
-        <ErrorMessage>{state.error === "email_taken" ? strings.auth.emailTaken : strings.forms.genericError}</ErrorMessage>
+        <ErrorMessage>
+          {state.error === "email_taken"
+            ? strings.auth.emailTaken
+            : state.error === "too_many_requests"
+              ? strings.forms.tooManyRequests
+              : strings.forms.genericError}
+        </ErrorMessage>
       ) : null}
       <Button type="submit" disabled={state.phase === "submitting"} className="h-11 w-full text-base">
         {state.phase === "submitting" ? strings.forms.sending : strings.auth.registerCta}
@@ -120,7 +128,13 @@ export function LoginForm({ locale, strings }: { locale: string; strings: String
         <Input id="lg-password" name="password" type="password" required autoComplete="current-password" className="h-11 bg-card" />
       </div>
       {state.phase === "error" ? (
-        <ErrorMessage>{state.error === "invalid_credentials" ? strings.auth.loginError : strings.forms.genericError}</ErrorMessage>
+        <ErrorMessage>
+          {state.error === "invalid_credentials"
+            ? strings.auth.loginError
+            : state.error === "too_many_requests"
+              ? strings.forms.tooManyRequests
+              : strings.forms.genericError}
+        </ErrorMessage>
       ) : null}
       <Button type="submit" disabled={state.phase === "submitting"} className="h-11 w-full text-base">
         {state.phase === "submitting" ? strings.forms.sending : strings.auth.loginCta}

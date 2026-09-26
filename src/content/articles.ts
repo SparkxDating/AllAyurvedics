@@ -4,10 +4,15 @@ import { articles2 } from "./articles-2";
 import { articles3 } from "./articles-3";
 import { articles4 } from "./articles-4";
 import { shilajitArticles } from "./articles-shilajit";
+import { assertArticles } from "./schema";
 
 export const articles: Article[] = [...articles1, ...articles2, ...articles3, ...articles4, ...shilajitArticles].sort(
   (a, b) => (a.date < b.date ? 1 : -1)
 );
+
+if (typeof window === "undefined") {
+  assertArticles(articles);
+}
 
 export function getArticle(slug: string): Article | undefined {
   return articles.find((a) => a.slug === slug);

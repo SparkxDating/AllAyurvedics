@@ -19,6 +19,7 @@ export type NewsletterStrings = {
   subscribePending: string;
   invalidEmail: string;
   genericError: string;
+  tooManyRequests: string;
   consent: string;
 };
 
@@ -102,7 +103,9 @@ export function NewsletterForm({
           {state.phase === "submitting" ? strings.subscribing : ctaLabel ?? strings.subscribe}
         </Button>
       </div>
-      {state.phase === "error" && !state.fieldErrors ? <ErrorMessage>{strings.genericError}</ErrorMessage> : null}
+      {state.phase === "error" && !state.fieldErrors ? (
+        <ErrorMessage>{state.error === "too_many_requests" ? strings.tooManyRequests : strings.genericError}</ErrorMessage>
+      ) : null}
       <p className={cn("text-xs", tone === "dark" ? "text-primary-foreground/70" : "text-muted-foreground")}>{strings.consent}</p>
     </form>
   );

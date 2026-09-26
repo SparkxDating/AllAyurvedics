@@ -14,7 +14,7 @@ export type RemedyCategory =
   | "herbs"
   | "wellness";
 
-export const remedyCategories: RemedyCategory[] = [
+export const remedyCategories = [
   "digestion",
   "skin",
   "hair",
@@ -29,7 +29,7 @@ export const remedyCategories: RemedyCategory[] = [
   "heart-bp",
   "herbs",
   "wellness",
-];
+] as const satisfies readonly RemedyCategory[];
 
 /** SEO topic clusters, each with a hub page at /[locale]/home-remedies/[cluster] */
 export type ClusterSlug =

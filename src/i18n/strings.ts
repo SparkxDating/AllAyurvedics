@@ -14,6 +14,7 @@ export function newsletterStrings(dict: Dictionary): NewsletterStrings {
     subscribePending: f.subscribePending,
     invalidEmail: f.invalidEmail,
     genericError: f.genericError,
+    tooManyRequests: f.tooManyRequests,
     consent: f.consent,
   };
 }

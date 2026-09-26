@@ -36,6 +36,7 @@ export function EnquiryForm({
   const msg = (key?: string) => {
     if (!key) return undefined;
     if (key === "invalidEmail") return strings.invalidEmail;
+    if (key === "invalidPhone") return strings.invalidPhone;
     if (key === "tooShort") return strings.tooShort;
     return strings.required;
   };
@@ -96,7 +97,7 @@ export function EnquiryForm({
       </div>
       <div className="space-y-3 sm:col-span-2">
         {state.phase === "error" && (
-          <ErrorMessage>{state.fieldErrors ? strings.fixErrors : strings.genericError}</ErrorMessage>
+          <ErrorMessage>{state.fieldErrors ? strings.fixErrors : state.error === "too_many_requests" ? strings.tooManyRequests : strings.genericError}</ErrorMessage>
         )}
         <Button type="submit" disabled={state.phase === "submitting"} className="h-11 w-full px-6 text-base sm:w-auto">
           <Send className="size-4" aria-hidden="true" />
