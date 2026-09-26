@@ -12,6 +12,13 @@ import { b2Kids3 } from "./b2-kids3";
 import { b2Hair } from "./b2-hair";
 import { b2Hair2 } from "./b2-hair2";
 import { b2Skin } from "./b2-skin";
+import { b3Stomach } from "./b3-stomach";
+import { b3Stomach2 } from "./b3-stomach2";
+import { b3Cold } from "./b3-cold";
+import { b3Cold2 } from "./b3-cold2";
+import { b3Joints } from "./b3-joints";
+import { b3Joints2 } from "./b3-joints2";
+import { b3Skin } from "./b3-skin";
 
 /**
  * Illustrated remedies (added in batches from Sep 2026). Every remedy here has a
@@ -36,4 +43,12 @@ export const illustratedRemedies: Remedy[] = withImage([
   ...b2Hair,
   ...b2Hair2,
   ...b2Skin,
+  // Batch 3: stomach problems, cold & cough, joint pain, skin care
+  ...b3Stomach,
+  ...b3Stomach2,
+  ...b3Cold,
+  ...b3Cold2,
+  ...b3Joints,
+  ...b3Joints2,
+  ...b3Skin,
 ]);

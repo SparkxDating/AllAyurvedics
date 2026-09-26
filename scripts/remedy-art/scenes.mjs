@@ -69,4 +69,37 @@ export const scenes = {
   "home-remedies-for-skin-rashes": { tint: "rose", hero: ["bowl", { fill: "#dff0d6", w: 230 }], left: "aloe", right: "roseWater", frontLeft: "sandalwood", frontRight: "cloth" },
   "home-remedies-for-mosquito-bites": { tint: "rose", hero: ["bowl", { fill: "#dff0d6", w: 220, body: "#8f9ea3" }], left: "aloe", right: ["bottle", { liquid: "#b9a24a", w: 90, h: 200 }], frontRight: "ice", frontLeft: "honeyDipper", backRight: "neem" },
   "home-remedies-for-hives": { tint: "rose", hero: ["bowl", { fill: "#eadcc0", kind: "seeds", dots: "#c7b08a", w: 230 }], left: "cloth", right: "aloe", frontLeft: "ice", backRight: ["glass", { liquid: "#eef6f2", mint: true }] },
+
+  // ── Batch 3: stomach problems ─────────────────────────────
+  "home-remedies-for-vomiting": { tint: "turmeric", hero: ["glass", { liquid: "#f3f1e2", lemon: true }], left: ["cup", { liquid: "#e9d6a0", band: "#c9962c" }], right: "ginger", frontRight: "cardamom" },
+  "home-remedies-for-loss-of-appetite": { tint: "turmeric", hero: ["glass", { liquid: "#e8d9a8", fill: 0.7 }], left: "ginger", right: ["cup", { liquid: "#f4f1e6", band: "#c9962c", steamOn: false }], frontLeft: "lemonSlice", frontRight: "cumin" },
+  "home-remedies-for-gastritis": { tint: "turmeric", hero: ["bowl", { fill: "#f7f3ea", kind: "seeds", dots: "#e0d6c0", w: 230 }], left: "greenCoconut", right: ["glass", { liquid: "#eef0d6", fill: 0.7 }], frontRight: "fennel" },
+  "home-remedies-for-stomach-cramps": { tint: "turmeric", hero: "hotWaterBag", left: ["cup", { liquid: "#e3cf96", band: "#c9962c" }], right: ["bowl", { fill: OIL, w: 170, body: "#c9962c" }], frontLeft: "ajwain", frontRight: "fennel" },
+  "home-remedies-for-stomach-infection": { tint: "turmeric", hero: ["bowl", { fill: "#f4efe0", w: 240, steamOn: true }], left: ["glass", { liquid: "#f3f1e2", lemon: true }], right: "banana", frontRight: ["bowl", { fill: "#f7f3ea", w: 160 }] },
+  "home-remedies-for-stomach-heat": { tint: "turmeric", hero: ["glass", { liquid: "#eef6ea", mint: true }], left: "greenCoconut", right: ["jar", { fill: "#b8405a", lid: "#c9962c" }], frontRight: "fennel", backLeft: "rose" },
+  "home-remedies-for-gas-in-chest": { tint: "turmeric", hero: ["cup", { liquid: "#e3cf96", band: "#c9962c" }], left: "ajwain", right: ["bowl", { fill: "#efe3c4", kind: "powder", dots: "#cdb98a", w: 170 }], frontLeft: "cumin", frontRight: "lemon" },
+  "home-remedies-for-motion-sickness": { tint: "turmeric", hero: ["glass", { liquid: "#eef6f2", mint: true }], left: "ginger", right: "lemon", frontRight: "cardamom", frontLeft: "lemonSlice" },
+
+  // ── Batch 3: cold & cough ─────────────────────────────────
+  "home-remedies-for-blocked-nose": { tint: "ice", hero: ["bowl", { fill: "#dcecef", steamOn: true, w: 250, body: "#c9962c", float: "leaves" }], left: "cloth", right: "salt", frontLeft: "ajwain", backRight: "eucalyptus" },
+  "home-remedies-for-post-viral-cough": { tint: "ice", hero: ["cup", { liquid: "#f1dca0", band: "#5f95a6" }], left: "honeyDipper", right: ["brassCup", { liquid: "#f3cf7a", steamOn: false }], frontLeft: "mulethi", backRight: "tulsi" },
+  "home-remedies-for-blocked-ears-after-cold": { tint: "ice", hero: ["bowl", { fill: "#dcecef", steamOn: true, w: 240, float: "leaves" }], left: "hotWaterBag", right: ["glass", { liquid: "#eef3f4", fill: 0.65 }], frontLeft: "cloth", backRight: "tulsi" },
+  "home-remedies-for-cold-in-elderly": { tint: "ice", hero: "teapot", left: ["cup", { liquid: "#c9b56a", band: "#5f95a6" }], right: ["bowl", { fill: "#e9c77a", kind: "soup", w: 190, steamOn: true }], frontRight: "ginger", backLeft: "tulsi" },
+  "home-remedies-for-cold-and-cough-in-monsoon": { tint: "ice", hero: ["cup", { liquid: "#b9884a", band: "#5f95a6" }], left: "ginger", right: "cinnamon", frontRight: "blackPepper", backLeft: "tulsi" },
+  "home-remedies-for-itchy-throat": { tint: "ice", hero: ["glass", { liquid: "#f1f4f4", fill: 0.7 }], left: "honeyDipper", right: "ginger", frontLeft: "mulethi", frontRight: "salt" },
+
+  // ── Batch 3: joint pain ───────────────────────────────────
+  "home-remedies-for-leg-pain": { tint: "sand", hero: ["basin", { petals: true }], left: ["bottle", { liquid: OIL }], right: "salt", frontRight: "cloth" },
+  "home-remedies-for-ankle-pain": { tint: "sand", hero: ["basin", { brass: true }], left: ["bowl", { fill: "#e6a827", w: 180 }], right: "ice", frontLeft: "turmeric", frontRight: "cloth" },
+  "home-remedies-for-elbow-pain": { tint: "sand", hero: ["cup", { liquid: "#e8b64c", band: "#b8643c" }], left: ["bottle", { liquid: OIL }], right: "ice", frontLeft: "ginger", frontRight: "turmeric" },
+  "home-remedies-for-hip-pain": { tint: "sand", hero: "hotWaterBag", left: ["bottle", { liquid: "#ecd689" }], right: "pillow", frontRight: "cloth" },
+  "home-remedies-for-finger-joint-pain": { tint: "sand", hero: ["bowl", { fill: "#dcecef", w: 250, body: "#c9962c" }], left: ["bottle", { liquid: OIL }], right: ["cup", { liquid: "#e8b64c", band: "#b8643c" }], frontRight: "turmeric" },
+  "home-remedies-for-tailbone-pain": { tint: "sand", hero: "pillow", left: "hotWaterBag", right: ["bottle", { liquid: OIL }], frontRight: "ice" },
+  "home-remedies-for-morning-stiffness": { tint: "sand", extra: "sun", hero: ["cup", { liquid: "#e8b64c", band: "#b8643c" }], left: "pillow", right: ["bottle", { liquid: OIL }], frontLeft: "ginger", frontRight: "turmeric" },
+  "home-remedies-for-burning-feet": { tint: "sand", hero: ["basin", { water: "#d4ece6" }], left: ["jar", { fill: GHEE, lid: "#b8643c" }], right: "coconut", frontRight: "cloth", backLeft: "mint" },
+
+  // ── Batch 3: skin care ────────────────────────────────────
+  "home-remedies-for-boils": { tint: "rose", hero: ["bowl", { fill: "#dcecef", w: 240, steamOn: true }], left: "cloth", right: ["bowl", { fill: "#e6a827", w: 170 }], frontRight: "turmeric", backLeft: "neem" },
+  "home-remedies-for-brittle-nails": { tint: "rose", hero: ["bowl", { fill: OIL, w: 220, body: "#c9962c" }], left: "coconut", right: "banana", frontLeft: "almonds", frontRight: "cottonPads" },
+  "home-remedies-for-corns-on-feet": { tint: "rose", hero: ["basin", { brass: true }], left: "salt", right: "coconut", frontRight: "cloth" },
 };
