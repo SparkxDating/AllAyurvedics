@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="240" viewBox="0 0 1200 240" role="img" aria-label="Home remedies, daily routine, and honest guidance">
+  <defs>
+    <pattern id="dots" width="22" height="22" patternUnits="userSpaceOnUse">
+      <circle cx="1" cy="1" r="1" fill="#2f5d3a" opacity="0.08"/>
+    </pattern>
+  </defs>
+  <rect width="1200" height="240" fill="#faf6ec"/>
+
+  <g font-family="ui-sans-serif, Segoe UI, Helvetica, Arial, sans-serif">
+    <g>
+      <rect x="8" y="8" width="384" height="224" rx="22" fill="#fffdf7" stroke="#e4dbc6"/>
+      <rect x="8" y="8" width="384" height="224" rx="22" fill="url(#dots)"/>
+      <path d="M48 58c6-28 28-48 62-54-8 30-30 50-62 54z" fill="#5b8a4a"/>
+      <path d="M58 58c12-18 28-34 52-48" stroke="#23422c" stroke-width="2" fill="none" opacity="0.4"/>
+      <text x="36" y="112" fill="#1f2a22" font-size="24" font-weight="700" font-family="Georgia, Palatino, serif">Home remedies</text>
+      <text x="36" y="150" fill="#5c665d" font-size="16">Simple preparations using spices</text>
+      <text x="36" y="174" fill="#5c665d" font-size="16">and herbs you already have.</text>
+    </g>
+    <g>
+      <rect x="408" y="8" width="384" height="224" rx="22" fill="#fffdf7" stroke="#e4dbc6"/>
+      <circle cx="456" cy="58" r="18" fill="#f6d27a"/>
+      <circle cx="456" cy="58" r="26" fill="none" stroke="#d99a1e" stroke-width="2" opacity="0.7"/>
+      <text x="436" y="112" fill="#1f2a22" font-size="24" font-weight="700" font-family="Georgia, Palatino, serif">Daily routine</text>
+      <text x="436" y="150" fill="#5c665d" font-size="16">Dinacharya and seasonal habits</text>
+      <text x="436" y="174" fill="#5c665d" font-size="16">that keep body and mind in balance.</text>
+    </g>
+    <g>
+      <rect x="808" y="8" width="384" height="224" rx="22" fill="#fffdf7" stroke="#e4dbc6"/>
+      <path d="M836 70c0-12 10-20 20-20 6 0 12 4 16 10 4-6 10-10 16-10 10 0 20 8 20 20 0 18-20 30-36 42-16-12-36-24-36-42z" fill="#b8643c"/>
+      <text x="836" y="112" fill="#1f2a22" font-size="24" font-weight="700" font-family="Georgia, Palatino, serif">Honest guidance</text>
+      <text x="836" y="150" fill="#5c665d" font-size="16">Clear precautions and no miracle</text>
+      <text x="836" y="174" fill="#5c665d" font-size="16">claims — ever.</text>
+    </g>
+  </g>
+</svg>
