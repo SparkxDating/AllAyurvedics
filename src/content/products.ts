@@ -1,5 +1,6 @@
 import type { Product } from "./types";
 import { getUpiConfig, type UpiConfig } from "@/config/site";
+import { assertProducts } from "./schema";
 
 /**
  * Product catalogue.
@@ -396,6 +397,10 @@ const sampleProducts: Product[] = [
 
 /** Every product, including hidden samples (not used for listings) */
 export const allProducts: Product[] = [shilajit, ...sampleProducts];
+
+if (typeof window === "undefined") {
+  assertProducts(allProducts);
+}
 
 /** Visible catalogue: listings, product pages, sitemap and enquiry form */
 export const products: Product[] = allProducts.filter((p) => !p.hidden);
