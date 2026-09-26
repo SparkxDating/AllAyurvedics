@@ -19,6 +19,13 @@ import { joint3 } from "./joint-3";
 import { weight1 } from "./weight-1";
 import { weight2 } from "./weight-2";
 import { weight3 } from "./weight-3";
+import { women1 } from "./women-1";
+import { women2 } from "./women-2";
+import { women3 } from "./women-3";
+import { immunity1 } from "./immunity-1";
+import { immunity2 } from "./immunity-2";
+import { immunity3 } from "./immunity-3";
+import { immunity4 } from "./immunity-4";
 
 export const seoRemedies: Remedy[] = [
   // Hair care cluster
@@ -45,4 +52,13 @@ export const seoRemedies: Remedy[] = [
   ...weight1,
   ...weight2,
   ...weight3,
+  // Women's health cluster
+  ...women1,
+  ...women2,
+  ...women3,
+  // Immunity cluster
+  ...immunity1,
+  ...immunity2,
+  ...immunity3,
+  ...immunity4,
 ];

@@ -177,6 +177,56 @@ export const clusters: Cluster[] = [
         "ऐसा कोई जादुई ड्रिंक नहीं जो रातों-रात चर्बी पिघला दे, पर कुछ आसान, टिकाऊ आदतें हैं जो कई लोगों को वज़न घटाने और बनाए रखने में मदद करती हैं। इस गाइड में हमारे वज़न घटाने के घरेलू उपाय एक जगह हैं — भारतीय नाश्ते और रात के खाने के सुझाव, घर के बने ड्रिंक्स, पैदल चलने की योजना, क्रेविंग पर काबू, और डिलीवरी के बाद, 40 के बाद या थायरॉइड जैसी ख़ास स्थितियों की सलाह।\n\nआयुर्वेद ज़्यादा वज़न (स्थौल्य) को मुख्य रूप से बढ़े कफ और कमज़ोर पाचन के रूप में देखता है, जो अक्सर भारी, मीठे, तैलीय खाने, बिना भूख खाने, दिन में सोने और कम चलने-फिरने से होता है। इसकी सलाह बेहद व्यावहारिक है: सबसे बड़ा भोजन दोपहर में करें, रात का खाना हल्का और जल्दी रखें, ख़ूब सब्ज़ियों और दालों वाला गरम, ताज़ा पका खाना चुनें, अदरक, जीरा और काली मिर्च जैसे मसाले इस्तेमाल करें, और रोज़ शरीर को चलाएँ।\n\nहफ़्ते में लगभग आधा से एक किलो धीमा, स्थिर वज़न घटाने का लक्ष्य रखें। क्रैश डाइट और डिटॉक्स चाय अक्सर उल्टा असर करती हैं। डायबिटीज़, थायरॉइड, पीसीओएस, दिल या किडनी की समस्या हो, गर्भवती या स्तनपान करा रही हों, या नियमित दवा लेते हों, तो आहार, उपवास या व्यायाम में बड़े बदलाव से पहले डॉक्टर से बात करें और डॉक्टर का इलाज जारी रखें।",
     },
   },
+  {
+    slug: "womens-health",
+    icon: "womens-health",
+    categories: ["womens-health"],
+    en: {
+      name: "Women's health",
+      headTerm: "home remedies for women's health",
+      title: "Home remedies for women's health: periods, pregnancy, postpartum and more",
+      metaTitle: "Home Remedies for Women's Health: Ayurvedic Care",
+      metaDescription:
+        "Gentle home remedies for women's health — irregular periods, PMS, white discharge, morning sickness, breast milk and postpartum recovery. Read with care.",
+      intro:
+        "From the first period to motherhood and menopause, a woman's body goes through many changes — and many of the questions women search for late at night are about exactly these moments. This guide brings together our home remedies for women's health in one place: irregular and heavy periods, PMS mood swings, white discharge, morning sickness, increasing breast milk, postpartum back pain and recovery, stretch marks, urine leakage and natural fertility support.\n\nAyurveda gives special attention to women's health through the stages of rajaswala (menstruation), garbhini (pregnancy) and sutika (postpartum) care. Its advice is often simple and nurturing: warm, nourishing food, rest at the right times, gentle oil massage, and herbs like shatavari and ginger used thoughtfully. Many of these traditions fit well with modern advice on iron, protein, pelvic floor exercise and emotional well-being.\n\nWomen's health symptoms can also signal conditions like PCOS, thyroid disorders, anaemia, infections or pregnancy complications. Please see a gynaecologist for very heavy or painful bleeding, bleeding after menopause or between periods, foul-smelling discharge, severe vomiting in pregnancy, fever after delivery, or low mood that doesn't lift. During pregnancy and breastfeeding, check with your doctor before any herb or supplement.",
+    },
+    hi: {
+      name: "महिलाओं की सेहत",
+      headTerm: "महिलाओं की सेहत के घरेलू उपाय",
+      title: "महिलाओं की सेहत के घरेलू उपाय: पीरियड्स, गर्भावस्था, प्रसव के बाद और भी",
+      metaTitle: "महिलाओं की सेहत के घरेलू उपाय: आयुर्वेदिक देखभाल",
+      metaDescription:
+        "महिलाओं की सेहत के सौम्य घरेलू उपाय — अनियमित पीरियड्स, पीएमएस, सफ़ेद पानी, मॉर्निंग सिकनेस, माँ का दूध और प्रसव के बाद की रिकवरी। ध्यान से पढ़ें।",
+      intro:
+        "पहली माहवारी से मातृत्व और मेनोपॉज़ तक, महिला का शरीर कई बदलावों से गुज़रता है — और देर रात खोजे जाने वाले कई सवाल इन्हीं पलों के बारे में होते हैं। इस गाइड में हमारे महिलाओं की सेहत के घरेलू उपाय एक जगह हैं: अनियमित और ज़्यादा पीरियड्स, पीएमएस में मूड बदलना, सफ़ेद पानी, मॉर्निंग सिकनेस, माँ का दूध बढ़ाना, डिलीवरी के बाद कमर दर्द और रिकवरी, स्ट्रेच मार्क्स, पेशाब लीक होना और प्राकृतिक प्रजनन सहायता।\n\nआयुर्वेद रजस्वला (माहवारी), गर्भिणी (गर्भावस्था) और सूतिका (प्रसव के बाद) चरणों में महिलाओं की सेहत पर विशेष ध्यान देता है। इसकी सलाह अक्सर सरल और पोषण देने वाली है: गरम, पौष्टिक भोजन, सही समय पर आराम, हल्की तेल मालिश, और शतावरी व अदरक जैसी जड़ी-बूटियों का सोच-समझकर इस्तेमाल। इनमें से कई परंपराएँ आयरन, प्रोटीन, पेल्विक फ़्लोर व्यायाम और भावनात्मक सेहत पर आधुनिक सलाह से अच्छी तरह मेल खाती हैं।\n\nमहिलाओं के लक्षण पीसीओएस, थायरॉइड, ख़ून की कमी, संक्रमण या गर्भावस्था की जटिलताओं का संकेत भी हो सकते हैं। बहुत ज़्यादा या दर्द भरी ब्लीडिंग, मेनोपॉज़ के बाद या पीरियड्स के बीच ब्लीडिंग, बदबूदार स्राव, गर्भावस्था में बहुत उल्टी, डिलीवरी के बाद बुखार, या न जाने वाली उदासी हो तो स्त्री रोग विशेषज्ञ को दिखाएँ। गर्भावस्था और स्तनपान में कोई भी जड़ी-बूटी या सप्लीमेंट लेने से पहले डॉक्टर से पूछें।",
+    },
+  },
+  {
+    slug: "immunity",
+    icon: "immunity",
+    categories: ["immunity", "herbs"],
+    en: {
+      name: "Immunity & kitchen herbs",
+      headTerm: "how to boost immunity naturally",
+      title: "How to boost immunity naturally: kitchen herbs, foods and daily habits",
+      metaTitle: "How to Boost Immunity Naturally: Ayurvedic Guide",
+      metaDescription:
+        "How to boost immunity naturally with Ayurveda — benefits of chyawanprash, ginger, honey, clove, black pepper, saffron and more, plus daily habits.",
+      intro:
+        "Every season change seems to bring a new round of coughs, fevers and tummy bugs. While no food or herb can make you immune to infections, the way you eat, sleep and live does shape how well your body copes. This guide explains how to boost immunity naturally with the help of familiar Indian kitchen herbs and foods — chyawanprash, ginger, honey, black pepper, clove, curry leaves, sesame, saffron, sabja, bael, harad and coconut water — along with recovery diets after illnesses like dengue.\n\nAyurveda describes immunity as vyadhikshamatva — the body's capacity to resist and recover from disease — and links it with strong digestion (agni), healthy tissues (ojas), good sleep and a calm mind. Rasayana foods and herbs are traditionally used to nourish and rejuvenate, but always alongside a balanced diet, daily movement, sunlight, hygiene and vaccinations.\n\nEach article covers the traditional uses and what modern research suggests, practical ways to add the ingredient to your day, safe amounts, and who should be careful — for example, people on blood thinners or diabetes medicines, pregnant women and young children. Herbs work best as part of a routine, not as a quick fix.",
+    },
+    hi: {
+      name: "रोग प्रतिरोधक क्षमता और रसोई की जड़ी-बूटियाँ",
+      headTerm: "रोग प्रतिरोधक क्षमता बढ़ाने के घरेलू उपाय",
+      title: "रोग प्रतिरोधक क्षमता बढ़ाने के घरेलू उपाय: रसोई की जड़ी-बूटियाँ, भोजन और रोज़ की आदतें",
+      metaTitle: "रोग प्रतिरोधक क्षमता बढ़ाने के घरेलू उपाय",
+      metaDescription:
+        "आयुर्वेद से रोग प्रतिरोधक क्षमता बढ़ाने के घरेलू उपाय — च्यवनप्राश, अदरक, शहद, लौंग, काली मिर्च, केसर और भी के फ़ायदे, साथ में रोज़ की आदतें।",
+      intro:
+        "हर मौसम बदलने पर खांसी, बुखार और पेट की गड़बड़ी का नया दौर आता लगता है। कोई भी भोजन या जड़ी-बूटी आपको संक्रमण से पूरी तरह नहीं बचा सकती, पर आपका खाना, नींद और जीवनशैली तय करते हैं कि शरीर उनसे कितनी अच्छी तरह निपटता है। यह गाइड जानी-पहचानी भारतीय रसोई की जड़ी-बूटियों और खाने — च्यवनप्राश, अदरक, शहद, काली मिर्च, लौंग, करी पत्ता, तिल, केसर, सब्जा, बेल, हरड़ और नारियल पानी — की मदद से रोग प्रतिरोधक क्षमता बढ़ाने के घरेलू उपाय समझाती है, साथ ही डेंगू जैसी बीमारियों के बाद का रिकवरी आहार भी।\n\nआयुर्वेद प्रतिरोधक क्षमता को व्याधिक्षमत्व कहता है — बीमारी से लड़ने और उबरने की शरीर की क्षमता — और इसे मज़बूत पाचन (अग्नि), स्वस्थ धातुओं (ओजस), अच्छी नींद और शांत मन से जोड़ता है। रसायन खाने और जड़ी-बूटियाँ परंपरा से पोषण और कायाकल्प के लिए इस्तेमाल होती हैं, पर हमेशा संतुलित आहार, रोज़ की गतिविधि, धूप, साफ़-सफ़ाई और टीकाकरण के साथ।\n\nहर लेख में पारंपरिक उपयोग और आधुनिक शोध के संकेत, दिनचर्या में शामिल करने के व्यावहारिक तरीके, सुरक्षित मात्रा, और किन्हें सावधान रहना चाहिए — जैसे ख़ून पतला करने या डायबिटीज़ की दवा लेने वाले, गर्भवती महिलाएँ और छोटे बच्चे — बताए गए हैं। जड़ी-बूटियाँ दिनचर्या का हिस्सा बनकर सबसे अच्छा काम करती हैं, झटपट इलाज के रूप में नहीं।",
+    },
+  },
 ];
 
 export function getCluster(slug: string): Cluster | undefined {
