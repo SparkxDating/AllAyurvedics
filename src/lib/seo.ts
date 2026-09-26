@@ -34,23 +34,24 @@ export function buildMetadata({
   const rawImage = image ?? { url: `/api/og?locale=${locale}`, width: 1200, height: 630, alt: siteName };
   // Share images always use an absolute URL on a host that resolves (see ogBaseUrl in src/config/site.ts)
   const ogImage = { ...rawImage, url: ogAbsolute(rawImage.url) };
-  const url = localePath(locale, path);
+  const canonicalPath = localePath(locale, path);
+  const canonical = absoluteUrl(canonicalPath);
   const other: Locale = locale === "en" ? "hi" : "en";
   return {
     title: absoluteTitle ? { absolute: title } : title,
     description,
     alternates: {
-      canonical: url,
+      canonical,
       languages: {
-        "en-IN": localePath("en", path),
-        "hi-IN": localePath("hi", path),
-        "x-default": localePath("en", path),
+        "en-IN": absoluteUrl(localePath("en", path)),
+        "hi-IN": absoluteUrl(localePath("hi", path)),
+        "x-default": absoluteUrl(localePath("en", path)),
       },
     },
     openGraph: {
       title,
       description,
-      url: ogUrl ?? url,
+      url: ogUrl ?? canonical,
       siteName,
       locale: localeLabels[locale].ogLocale,
       alternateLocale: [localeLabels[other].ogLocale],
