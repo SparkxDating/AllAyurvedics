@@ -1,9 +1,11 @@
 # All Ayurvedics – Setup guide
 
-The site runs fine with **no environment variables at all**. Every form then shows a
-friendly "received / coming soon" state and nothing is stored or emailed. To turn on
-each feature, add the variables below in **Vercel → Project `allayurvedics` → Settings →
-Environment Variables** (Production + Preview), then **redeploy**.
+The marketing pages run in local development with **no environment variables**.
+Forms then show a friendly "received / coming soon" state and nothing is stored or emailed.
+**Production does not.** A production server (`next start`, Vercel Production, Vercel Preview)
+must have a shared API rate-limit store: `DATABASE_URL` or both Upstash variables in section 2b.
+Without that, the server refuses to start and protected API routes return 503 instead of
+using per-instance memory. `npm run build` still compiles when the variables are unset.
 
 ## 1. Basics (recommended right away)
 
@@ -20,8 +22,36 @@ Environment Variables** (Production + Preview), then **redeploy**.
 | `DATABASE_URL` | Any Postgres connection string. Written for **Neon** (`@neondatabase/serverless`), e.g. created through Vercel Marketplace → Neon (free tier) or neon.tech directly. Supabase's Postgres connection string also works. |
 
 Tables `enquiries`, `subscribers` and `users` are **created automatically** on first use.
-Without it: enquiry/subscribe forms still succeed for the visitor, but the data is only
-emailed (if email is configured) or discarded.
+The `rate_limits` table (and an index on the window) is created the same way. See section 2b.
+Without a database: enquiry/subscribe forms still succeed for the visitor in local development,
+but the data is only emailed (if email is configured) or discarded. In production, set the
+database or Upstash before serving traffic.
+
+## 2b. Shared API rate limiting (required in production)
+
+Pick **one** shared store. Do not rely on process memory outside `next dev`.
+
+| Variable | Purpose |
+|---|---|
+| `DATABASE_URL` | Preferred. Uses the Neon/Postgres table `rate_limits`. Same database as section 2. |
+| `UPSTASH_REDIS_REST_URL` and `UPSTASH_REDIS_REST_TOKEN` | Optional Redis REST store. If both are set, they take priority over Postgres. Set both or neither. |
+| `CRON_SECRET` | Random string, 16+ characters (32+ recommended). Vercel sends it as `Authorization: Bearer …` to the cleanup route. |
+
+If neither store is set, a production process logs an error and **exits on boot**. API routes also fail closed with HTTP 503 if they are reached without a store. A store that is configured but unreachable fails closed the same way (HTTP 503, no internal error in the response). Local `next dev` still uses an in-memory counter.
+
+Expired `rate_limits` rows are not deleted on the request path. Vercel Cron calls `GET /api/cron/rate-limit-cleanup` every day at **03:17 UTC** (`vercel.json`, `17 3 * * *`). That schedule is one run per day so it fits the Vercel Hobby cron limit. Each run deletes up to 20 batches of 500 rows whose own policy window has already ended (10 minutes for login IP buckets, 1 hour for the others). Active windows are not selected. Unknown policy names are kept until they are older than the longest known window. Upstash keys expire with `PEXPIRE` and do not need this job; the route still runs and deletes nothing when only Redis is configured.
+
+The route returns 401 without a matching `CRON_SECRET`. Generate one with `openssl rand -base64 32` and set it in Vercel Production (and Preview, if that environment should run the cron).
+
+Manual check after deploy:
+
+```bash
+curl -sS -D - -o /tmp/rl-cleanup.json \
+  -H "Authorization: Bearer $CRON_SECRET" \
+  https://allayurvedics.in/api/cron/rate-limit-cleanup
+```
+
+A healthy response is `200` and `{"ok":true,"deleted":N,"batches":N}`. Do not log the secret.
 
 ## 3. Email notifications (transactional)
 

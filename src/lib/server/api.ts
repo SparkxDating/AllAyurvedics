@@ -1,6 +1,6 @@
 import "server-only";
 import { logEvent, type LogEvent } from "./log";
-import { consumeLimit, type ConsumeResult, type LimitSpec } from "./rate-limit";
+import { consumeLimit, rateLimitHttpError, type ConsumeResult, type LimitSpec } from "./rate-limit";
 import { json } from "./respond";
 
 /**
@@ -52,19 +52,17 @@ export function apiError(status: number, error: string, requestId: string, extra
 export async function enforceLimits(request: Request, ctx: ApiCtx, limits: LimitSpec[]): Promise<Response | null> {
   for (const limit of limits) {
     const decision: ConsumeResult = await consumeLimit(request, limit, ctx.route);
-    if (!decision.ok && decision.reason === "limited") {
-      logEvent({ requestId: ctx.requestId, route: ctx.route, event: "RATE_LIMITED", errorType: limit.name });
-      return apiError(429, "too_many_requests", ctx.requestId, { "Retry-After": String(decision.retryAfterSec) });
-    }
-    if (!decision.ok && decision.reason === "unavailable") {
+    const failure = rateLimitHttpError(decision);
+    if (failure) {
       logEvent({
         requestId: ctx.requestId,
         route: ctx.route,
         event: "RATE_LIMITED",
-        errorType: "RATE_LIMIT_BACKEND",
-        detail: limit.name,
+        errorType: failure.status === 429 ? limit.name : "RATE_LIMIT_BACKEND",
+        detail: failure.status === 429 ? undefined : limit.name,
       });
-      return apiError(503, "service_unavailable", ctx.requestId);
+      const headers = failure.retryAfterSec ? { "Retry-After": String(failure.retryAfterSec) } : undefined;
+      return apiError(failure.status, failure.error, ctx.requestId, headers);
     }
   }
   return null;

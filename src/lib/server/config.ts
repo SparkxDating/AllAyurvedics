@@ -16,9 +16,11 @@ export const serverConfig = {
   enquiryToEmail: process.env.ENQUIRY_TO_EMAIL || "",
   authSecret: process.env.AUTH_SECRET || "",
   accountsFlag: process.env.ACCOUNTS_ENABLED === "true",
-  /** Optional shared rate-limit store. Postgres is used when these are unset. */
+  /** Optional shared rate-limit store. Postgres is used when these are unset. Production requires one of the two. */
   upstashRedisUrl: process.env.UPSTASH_REDIS_REST_URL || "",
   upstashRedisToken: process.env.UPSTASH_REDIS_REST_TOKEN || "",
+  /** Bearer token checked by the rate-limit cleanup cron. Not a public value. */
+  cronSecret: process.env.CRON_SECRET || "",
 };
 
 export const hasDatabase = () => Boolean(serverConfig.databaseUrl);

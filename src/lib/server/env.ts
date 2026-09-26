@@ -61,10 +61,18 @@ export function collectEnvIssues(env: NodeJS.ProcessEnv = process.env): EnvIssue
 
   if (env.NODE_ENV === "production" && !databaseUrl && !(upstashUrl && upstashToken)) {
     issues.push({
-      level: "warn",
+      level: "error",
       code: "RATE_LIMIT_STORE",
       message:
-        "No DATABASE_URL or Upstash Redis. API rate limits fall back to per-instance memory, which does not protect a multi-instance deployment.",
+        "Production requires DATABASE_URL or both UPSTASH_REDIS_REST_URL and UPSTASH_REDIS_REST_TOKEN. In-memory rate limits are not used in production.",
+    });
+  }
+
+  if (env.NODE_ENV === "production" && !(env.CRON_SECRET?.trim())) {
+    issues.push({
+      level: "warn",
+      code: "CRON_SECRET",
+      message: "CRON_SECRET is unset. GET /api/cron/rate-limit-cleanup will reject every request until it is set.",
     });
   }
 
@@ -73,7 +81,30 @@ export function collectEnvIssues(env: NodeJS.ProcessEnv = process.env): EnvIssue
 
 let validated = false;
 
-/** Log configuration problems once per server process. Throws only when a secret would leak to the browser or a set value is malformed. */
+/**
+ * Production servers must have a shared limiter. Skip that refusal while
+ * `next build` is running so a build machine without secrets can still compile.
+ * The runtime process (Vercel functions / `next start`) still refuses to boot.
+ */
+export function shouldEnforceProductionRateLimit(env: NodeJS.ProcessEnv = process.env): boolean {
+  if (env.NODE_ENV !== "production") return false;
+  if (env.NEXT_PHASE === "phase-production-build") return false;
+  if (env.npm_lifecycle_event === "build") return false;
+  return true;
+}
+
+/** Messages that must stop the server. Malformed values, leaked secrets, or a production process with no shared limiter. */
+export function fatalEnvMessages(issues: EnvIssue[], env: NodeJS.ProcessEnv = process.env): string[] {
+  const messages: string[] = [];
+  for (const issue of issues) {
+    if (issue.level !== "error") continue;
+    if (issue.code === "PUBLIC_SECRET" || issue.code === "DATABASE_URL") messages.push(issue.message);
+    if (issue.code === "RATE_LIMIT_STORE" && shouldEnforceProductionRateLimit(env)) messages.push(issue.message);
+  }
+  return messages;
+}
+
+/** Log configuration problems once per server process. */
 export function validateServerEnv(): void {
   if (validated) return;
   validated = true;
@@ -89,8 +120,8 @@ export function validateServerEnv(): void {
     if (issue.level === "error") console.error(line);
     else console.warn(line);
   }
-  const fatal = issues.filter((issue) => issue.code === "PUBLIC_SECRET" || issue.code === "DATABASE_URL");
+  const fatal = fatalEnvMessages(issues);
   if (fatal.length) {
-    throw new Error(fatal.map((issue) => issue.message).join(" "));
+    throw new Error(fatal.join(" "));
   }
 }

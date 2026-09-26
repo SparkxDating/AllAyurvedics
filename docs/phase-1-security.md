@@ -20,7 +20,9 @@ Set in `next.config.ts` for every path: `nosniff`, `Referrer-Policy`, `X-Frame-O
 
 ## Rate limits
 
-Shared store: Upstash Redis REST if both `UPSTASH_REDIS_REST_*` variables are set, otherwise the Postgres table `rate_limits` (created with `CREATE TABLE IF NOT EXISTS`, no change to existing tables). Process memory is only the fallback when neither store exists, and it does not protect multiple server instances.
+Shared store, required in production: Upstash Redis REST if both `UPSTASH_REDIS_REST_*` variables are set, otherwise the Postgres table `rate_limits` (created with `CREATE TABLE IF NOT EXISTS`, plus a non-destructive expression index `rate_limits_window_start_idx` on `(window_start::bigint)`). Process memory is only used by `next dev` when neither store exists. A production process with neither store refuses to boot (`validateServerEnv`) and `consumeLimit` returns unavailable (HTTP 503). `npm run build` does not require the store.
+
+A configured store that errors fails closed for every policy, including enquiry, subscribe and order. The response is `{ "ok": false, "error": "service_unavailable" }` with no driver message. Nothing falls through to memory.
 
 | Policy | Limit | Window | Key |
 |---|---|---|---|
@@ -28,13 +30,18 @@ Shared store: Upstash Redis REST if both `UPSTASH_REDIS_REST_*` variables are se
 | LOGIN_IP_ACCOUNT | 5 | 10 min | IP + account |
 | LOGIN_ACCOUNT | 20 | 1 hour | account |
 | REGISTER_IP | 5 | 1 hour | IP |
-| ENQUIRY_ROUTE_IP | 40 | 1 hour | IP |
 | ENQUIRY_IP | 10 | 1 hour | IP |
 | SUBSCRIBE_IP / SUBSCRIBE_EMAIL | 10 | 1 hour | IP and email |
 | ORDER_IP | 6 | 1 hour | IP |
 | LOGOUT_IP | 30 | 1 hour | IP |
 
-HTTP 429 body: `{ "ok": false, "error": "too_many_requests" }`. Buckets store hashes, not raw emails or IPs. Auth limiters fail closed if the shared store errors. Enquiry, subscribe and order fail open so a database blip does not drop a customer, and the failure is logged.
+HTTP 429 body: `{ "ok": false, "error": "too_many_requests" }` plus `Retry-After`. Buckets store hashes, not raw emails or IPs.
+
+### Postgres cleanup
+
+Old windows are new rows (`bucket` includes the window start), so they would otherwise accumulate. `GET /api/cron/rate-limit-cleanup` deletes them in batches of 500, at most 20 batches per run. A row is deleted only when `window_start + that policy's window <= now`, or when `window_start` is not an integer. Active rows stay. Vercel Cron schedule in `vercel.json`: `17 3 * * *` (03:17 UTC daily). The route requires `Authorization: Bearer $CRON_SECRET` (timing-safe compare, minimum 16 characters). Upstash keys expire via `PEXPIRE` and skip the table delete.
+
+See SETUP.md section 2b.
 
 ## CSRF
 
