@@ -71,6 +71,18 @@ const en = {
     loadMore: "Show more remedies",
     showing: "Showing",
     of: "of",
+    faq: "Frequently asked questions",
+    popularTopics: "Popular home remedy topics",
+    moreIn: "See all",
+  },
+  hubs: {
+    title: "Home remedies by health topic",
+    intro:
+      "Browse our Ayurvedic home remedies grouped by the problems people search for most — hair fall, skin care, stomach trouble, cold and cough, joint pain, weight loss, women's health and immunity.",
+    nav: "Home remedies",
+    postsTitle: "All remedies in this guide",
+    moreTitle: "More related remedies",
+    count: "remedies",
   },
   articles: {
     title: "Articles",
@@ -290,6 +302,18 @@ const hi: Dictionary = {
     loadMore: "और नुस्खे देखें",
     showing: "दिखाए जा रहे हैं",
     of: "में से",
+    faq: "अक्सर पूछे जाने वाले सवाल",
+    popularTopics: "लोकप्रिय घरेलू उपाय विषय",
+    moreIn: "सभी देखें",
+  },
+  hubs: {
+    title: "सेहत के विषय के अनुसार घरेलू उपाय",
+    intro:
+      "लोग जिन समस्याओं के बारे में सबसे ज़्यादा खोजते हैं, उनके अनुसार बँटे हमारे आयुर्वेदिक घरेलू उपाय देखें — बाल झड़ना, त्वचा की देखभाल, पेट की तकलीफ़, सर्दी-खांसी, जोड़ों का दर्द, वज़न घटाना, महिलाओं की सेहत और रोग प्रतिरोधक क्षमता।",
+    nav: "घरेलू उपाय",
+    postsTitle: "इस गाइड के सभी नुस्खे",
+    moreTitle: "और संबंधित नुस्खे",
+    count: "नुस्खे",
   },
   articles: {
     title: "लेख",

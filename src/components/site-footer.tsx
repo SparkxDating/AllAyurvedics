@@ -6,11 +6,19 @@ import { LanguageSwitcher } from "./language-switcher";
 import { NewsletterForm } from "./forms/newsletter-form";
 import { newsletterStrings } from "@/i18n/strings";
 import { contactEmail } from "@/content/pages";
+import { activeClusters } from "@/content/clusters";
 
 export function SiteFooter({ locale, dict }: { locale: Locale; dict: Dictionary }) {
   const l = (p: string) => `/${locale}${p}`;
   const year = 2026;
   const cols = [
+    {
+      title: dict.hubs.nav,
+      links: [
+        ...activeClusters.map((c) => ({ href: l(`/home-remedies/${c.slug}`), label: c[locale].name })),
+        { href: l("/home-remedies"), label: dict.remedies.moreIn },
+      ],
+    },
     {
       title: dict.footer.explore,
       links: [
@@ -58,7 +66,7 @@ export function SiteFooter({ locale, dict }: { locale: Locale; dict: Dictionary 
             <NewsletterForm locale={locale} strings={newsletterStrings(dict)} source="footer" tone="dark" className="mt-3" />
           </div>
         </div>
-        <div className="grid grid-cols-2 gap-8 sm:grid-cols-3">
+        <div className="grid grid-cols-2 gap-8 sm:grid-cols-4">
           {cols.map((col) => (
             <div key={col.title}>
               <h2 className="text-sm font-semibold uppercase tracking-wide text-turmeric">{col.title}</h2>
@@ -73,7 +81,7 @@ export function SiteFooter({ locale, dict }: { locale: Locale; dict: Dictionary 
               </ul>
             </div>
           ))}
-          <div className="col-span-2 sm:col-span-3">
+          <div className="col-span-2 sm:col-span-4">
             <LanguageSwitcher locale={locale} label={dict.nav.language} className="border-white/15 bg-white/5 text-primary-foreground [&_a:not([aria-current])]:text-primary-foreground [&_a:not([aria-current]):hover]:bg-white/10" />
           </div>
         </div>

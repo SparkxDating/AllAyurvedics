@@ -10,6 +10,8 @@ type BuildMetadataInput = {
   type?: "website" | "article";
   publishedTime?: string;
   noIndex?: boolean;
+  /** Use the title as-is (no " | All Ayurvedics" suffix), e.g. a hand-written SEO title */
+  absoluteTitle?: boolean;
 };
 
 export function buildMetadata({
@@ -20,11 +22,12 @@ export function buildMetadata({
   type = "website",
   publishedTime,
   noIndex,
+  absoluteTitle,
 }: BuildMetadataInput): Metadata {
   const url = localePath(locale, path);
   const other: Locale = locale === "en" ? "hi" : "en";
   return {
-    title,
+    title: absoluteTitle ? { absolute: title } : title,
     description,
     alternates: {
       canonical: url,

@@ -3,8 +3,9 @@ import { remediesA } from "./remedies-a";
 import { remediesB } from "./remedies-b";
 import { remediesC } from "./remedies-c";
 import { extraRemedies } from "./remedies-extra";
+import { seoRemedies } from "./remedies-seo";
 
-export const remedies: Remedy[] = [...remediesA, ...remediesB, ...remediesC, ...extraRemedies];
+export const remedies: Remedy[] = [...remediesA, ...remediesB, ...remediesC, ...extraRemedies, ...seoRemedies];
 
 if (process.env.NODE_ENV !== "production") {
   const seen = new Set<string>();
@@ -23,6 +24,10 @@ export function getFeaturedRemedies(limit = 6): Remedy[] {
 }
 
 export function getRelatedRemedies(remedy: Remedy, limit = 3): Remedy[] {
+  if (remedy.related?.length) {
+    const picked = remedy.related.map((s) => getRemedy(s)).filter((r): r is Remedy => Boolean(r));
+    if (picked.length) return picked;
+  }
   const same = remedies.filter((r) => r.category === remedy.category && r.slug !== remedy.slug);
   const others = remedies.filter((r) => r.category !== remedy.category && r.featured);
   return [...same, ...others].slice(0, limit);

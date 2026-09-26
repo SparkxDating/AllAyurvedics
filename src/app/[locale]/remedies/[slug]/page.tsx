@@ -1,11 +1,12 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft, BookOpen, Clock, CookingPot, HandHeart, Lightbulb, ShieldAlert, ShoppingBasket, Stethoscope } from "lucide-react";
+import { ArrowLeft, ArrowRight, BookOpen, CircleHelp, Clock, CookingPot, HandHeart, Lightbulb, ShieldAlert, ShoppingBasket, Stethoscope } from "lucide-react";
 import { locales, siteUrl } from "@/i18n/config";
 import { resolveLocale } from "@/i18n/server";
 import { getDictionary } from "@/i18n/dictionaries";
 import { buildMetadata } from "@/lib/seo";
 import { getRelatedRemedies, getRemedy, remedies } from "@/content/remedies";
+import { getCluster } from "@/content/clusters";
 import { RemedyCard } from "@/components/cards";
 import { CategoryIcon } from "@/components/illustrations";
 import { Breadcrumbs, Container, DisclaimerNote, JsonLd } from "@/components/page-bits";
@@ -22,7 +23,14 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/remedies
   const remedy = getRemedy(slug);
   if (!remedy) return {};
   const t = remedy[locale];
-  return buildMetadata({ locale, path: `/remedies/${slug}`, title: t.title, description: t.summary, type: "article" });
+  return buildMetadata({
+    locale,
+    path: `/remedies/${slug}`,
+    title: t.metaTitle ?? t.title,
+    absoluteTitle: Boolean(t.metaTitle),
+    description: t.metaDescription ?? t.summary,
+    type: "article",
+  });
 }
 
 export default async function RemedyPage({ params }: PageProps<"/[locale]/remedies/[slug]">) {
@@ -33,6 +41,14 @@ export default async function RemedyPage({ params }: PageProps<"/[locale]/remedi
   const dict = getDictionary(locale);
   const t = remedy[locale];
   const related = getRelatedRemedies(remedy, 3);
+  const cluster = remedy.cluster ? getCluster(remedy.cluster) : undefined;
+  const crumbs = [
+    { href: `/${locale}`, label: dict.common.breadcrumbHome },
+    { href: `/${locale}/remedies`, label: dict.nav.remedies },
+    ...(cluster ? [{ href: `/${locale}/home-remedies/${cluster.slug}`, label: cluster[locale].name }] : []),
+    { label: t.title },
+  ];
+  const pageUrl = `${siteUrl}/${locale}/remedies/${remedy.slug}`;
 
   const sections = [
     { key: "ingredients", title: dict.remedies.ingredients, icon: ShoppingBasket, items: t.ingredients, ordered: false },
@@ -53,19 +69,39 @@ export default async function RemedyPage({ params }: PageProps<"/[locale]/remedi
           totalTime: `PT${remedy.time}M`,
           supply: t.ingredients.map((i) => ({ "@type": "HowToSupply", name: i })),
           step: t.preparation.map((s, i) => ({ "@type": "HowToStep", position: i + 1, text: s })),
-          url: `${siteUrl}/${locale}/remedies/${remedy.slug}`,
+          url: pageUrl,
         }}
       />
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          itemListElement: crumbs.map((c, i) => ({
+            "@type": "ListItem",
+            position: i + 1,
+            name: c.label,
+            item: c.href ? `${siteUrl}${c.href}` : pageUrl,
+          })),
+        }}
+      />
+      {t.faq?.length ? (
+        <JsonLd
+          data={{
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            inLanguage: locale === "hi" ? "hi-IN" : "en-IN",
+            mainEntity: t.faq.map((f) => ({
+              "@type": "Question",
+              name: f.q,
+              acceptedAnswer: { "@type": "Answer", text: f.a },
+            })),
+          }}
+        />
+      ) : null}
       <article>
         <header className="leaf-pattern border-b border-border bg-secondary/50">
           <Container className="py-10 sm:py-12">
-            <Breadcrumbs
-              items={[
-                { href: `/${locale}`, label: dict.common.breadcrumbHome },
-                { href: `/${locale}/remedies`, label: dict.nav.remedies },
-                { label: t.title },
-              ]}
-            />
+            <Breadcrumbs items={crumbs} />
             <div className="mt-5 flex flex-wrap items-center gap-3">
               <Link
                 href={`/${locale}/remedies?category=${remedy.category}`}
@@ -96,7 +132,7 @@ export default async function RemedyPage({ params }: PageProps<"/[locale]/remedi
               <section aria-labelledby="sec-about" className="rounded-2xl border border-border bg-card p-6">
                 <h2 id="sec-about" className="flex items-center gap-2 text-xl font-semibold text-primary">
                   <BookOpen className="size-5 text-leaf" aria-hidden="true" />
-                  {dict.remedies.about}
+                  {t.aboutTitle ?? dict.remedies.about}
                 </h2>
                 <div className="mt-4 space-y-3 text-[1.02rem] leading-relaxed text-foreground/90">
                   {t.about.split(/\n\s*\n/).map((para, i) => (
@@ -148,6 +184,24 @@ export default async function RemedyPage({ params }: PageProps<"/[locale]/remedi
                 ))}
               </ul>
             </section>
+            {t.faq?.length ? (
+              <section aria-labelledby="sec-faq" className="rounded-2xl border border-border bg-card p-6">
+                <h2 id="sec-faq" className="flex items-center gap-2 text-xl font-semibold text-primary">
+                  <CircleHelp className="size-5 text-leaf" aria-hidden="true" />
+                  {dict.remedies.faq}
+                </h2>
+                <dl className="mt-4 divide-y divide-border">
+                  {t.faq.map((f, i) => (
+                    <div key={i} className="py-4 first:pt-0 last:pb-0">
+                      <dt>
+                        <h3 className="text-[1.05rem] font-semibold text-foreground">{f.q}</h3>
+                      </dt>
+                      <dd className="mt-2 text-[1.02rem] leading-relaxed text-foreground/85">{f.a}</dd>
+                    </div>
+                  ))}
+                </dl>
+              </section>
+            ) : null}
             <DisclaimerNote locale={locale} dict={dict} />
           </div>
 
@@ -162,6 +216,15 @@ export default async function RemedyPage({ params }: PageProps<"/[locale]/remedi
                 {dict.home.enquiryCta}
               </Link>
               <hr className="my-5 border-border" />
+              {cluster && (
+                <Link
+                  href={`/${locale}/home-remedies/${cluster.slug}`}
+                  className="mb-3 flex items-center gap-1 text-sm font-medium text-primary hover:underline"
+                >
+                  <ArrowRight className="size-4" aria-hidden="true" />
+                  {cluster[locale].headTerm}
+                </Link>
+              )}
               <Link href={`/${locale}/remedies`} className="inline-flex items-center gap-1 text-sm font-medium text-primary hover:underline">
                 <ArrowLeft className="size-4" aria-hidden="true" />
                 {dict.remedies.backToAll}
@@ -173,7 +236,15 @@ export default async function RemedyPage({ params }: PageProps<"/[locale]/remedi
 
       {related.length > 0 && (
         <Container className="pb-6">
-          <h2 className="mb-6 text-2xl font-semibold text-primary">{dict.remedies.related}</h2>
+          <div className="mb-6 flex flex-wrap items-end justify-between gap-3">
+            <h2 className="text-2xl font-semibold text-primary">{dict.remedies.related}</h2>
+            {cluster && (
+              <Link href={`/${locale}/home-remedies/${cluster.slug}`} className="inline-flex items-center gap-1 text-sm font-semibold text-primary hover:underline">
+                {dict.remedies.moreIn}: {cluster[locale].headTerm}
+                <ArrowRight className="size-4" aria-hidden="true" />
+              </Link>
+            )}
+          </div>
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {related.map((r) => (
               <RemedyCard key={r.slug} remedy={r} locale={locale} dict={dict} />

@@ -1,8 +1,10 @@
+import Link from "next/link";
 import { resolveLocale } from "@/i18n/server";
 import { getDictionary } from "@/i18n/dictionaries";
 import { buildMetadata } from "@/lib/seo";
 import { countByCategory, remedies } from "@/content/remedies";
 import { remedyCategories } from "@/content/types";
+import { activeClusters } from "@/content/clusters";
 import { Container, DisclaimerNote, PageHeader } from "@/components/page-bits";
 import { RemedyBrowser } from "@/components/remedy-browser";
 
@@ -38,6 +40,23 @@ export default async function RemediesPage({ params, searchParams }: PageProps<"
         breadcrumbs={[{ href: `/${locale}`, label: dict.common.breadcrumbHome }, { label: dict.nav.remedies }]}
       />
       <Container className="py-10">
+        {activeClusters.length > 0 && (
+          <nav aria-label={dict.remedies.popularTopics} className="mb-8">
+            <h2 className="text-lg font-semibold text-primary">{dict.remedies.popularTopics}</h2>
+            <ul className="mt-3 flex flex-wrap gap-2">
+              {activeClusters.map((c) => (
+                <li key={c.slug}>
+                  <Link
+                    href={`/${locale}/home-remedies/${c.slug}`}
+                    className="inline-flex items-center rounded-full border border-primary/25 bg-primary/5 px-3 py-1.5 text-sm font-medium text-primary hover:bg-primary/10"
+                  >
+                    {c[locale].headTerm}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        )}
         <RemedyBrowser
           locale={locale}
           items={items}

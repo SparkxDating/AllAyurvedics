@@ -4,11 +4,14 @@ import { remedies } from "@/content/remedies";
 import { articles } from "@/content/articles";
 import { products } from "@/content/products";
 import { campaigns } from "@/content/campaigns";
+import { activeClusters } from "@/content/clusters";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const staticPaths = ["/", "/remedies", "/articles", "/products", "/enquiry", "/subscribe", "/about", "/privacy", "/terms", "/disclaimer"];
   const entries: { path: string; lastModified?: string; priority: number }[] = [
     ...staticPaths.map((p) => ({ path: p, priority: p === "/" ? 1 : 0.7 })),
+    { path: "/home-remedies", priority: 0.8 },
+    ...activeClusters.map((c) => ({ path: `/home-remedies/${c.slug}`, priority: 0.9 })),
     ...remedies.map((r) => ({ path: `/remedies/${r.slug}`, priority: 0.8 })),
     ...articles.map((a) => ({ path: `/articles/${a.slug}`, lastModified: a.date, priority: 0.8 })),
     ...products.map((p) => ({ path: `/products/${p.slug}`, priority: 0.5 })),
