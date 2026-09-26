@@ -1,4 +1,5 @@
 import type { Product } from "./types";
+import { getUpiConfig, type UpiConfig } from "@/config/site";
 
 /**
  * Product catalogue.
@@ -16,6 +17,8 @@ const shilajit: Product = {
   mrp: 799,
   inStock: true,
   // paymentLink: "https://rzp.io/l/your-link", // or set PAYMENT_LINK_HIMALAYAN_SHILAJIT_RESIN_10G in Vercel
+  // UPI checkout uses the UPI ID in src/config/site.ts unless you override it here with upiId / upiPayeeName.
+  orderName: "Himalayan Shilajit 10g",
   media: {
     images: [
       { src: "/products/himalayan-shilajit/shilajit-front.webp", width: 1200, height: 1222 },
@@ -380,6 +383,16 @@ export function getPaymentLink(product: Product): string | undefined {
   const envKey = `PAYMENT_LINK_${product.slug.toUpperCase().replace(/[^A-Z0-9]+/g, "_")}`;
   const link = product.paymentLink || process.env[envKey] || undefined;
   return link && /^https:\/\//.test(link) ? link : undefined;
+}
+
+/** How "Buy now" works for a product: hosted payment link (priority), UPI checkout, or not available */
+export function getBuyMode(product: Product): { kind: "link"; href: string } | { kind: "upi"; upi: UpiConfig } | { kind: "none" } {
+  if (!product.price || product.sample) return { kind: "none" };
+  const link = getPaymentLink(product);
+  if (link) return { kind: "link", href: link };
+  const upi = getUpiConfig({ upiId: product.upiId, upiPayeeName: product.upiPayeeName });
+  if (upi) return { kind: "upi", upi };
+  return { kind: "none" };
 }
 
 export function discountPercent(product: Product): number | undefined {

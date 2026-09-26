@@ -154,6 +154,11 @@ export type Product = {
    * Can also be supplied at build time through the env var PAYMENT_LINK_<SLUG_IN_UPPER_SNAKE_CASE>.
    */
   paymentLink?: string;
+  /** Optional per-product UPI overrides (defaults come from src/config/site.ts) */
+  upiId?: string;
+  upiPayeeName?: string;
+  /** Short name used in the UPI payment note, e.g. "Himalayan Shilajit 10g" */
+  orderName?: string;
   media?: ProductMedia;
   /** Remedy slugs linked from the product page */
   relatedRemedies?: string[];

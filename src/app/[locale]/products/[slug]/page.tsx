@@ -18,7 +18,7 @@ import { locales, siteUrl } from "@/i18n/config";
 import { resolveLocale } from "@/i18n/server";
 import { getDictionary } from "@/i18n/dictionaries";
 import { buildMetadata } from "@/lib/seo";
-import { getPaymentLink, getProduct, products } from "@/content/products";
+import { getBuyMode, getProduct, products } from "@/content/products";
 import { getRemedy } from "@/content/remedies";
 import type { Remedy } from "@/content/types";
 import { ProductCard, RemedyCard, SampleBadge } from "@/components/cards";
@@ -75,7 +75,7 @@ export default async function ProductPage({ params }: PageProps<"/[locale]/produ
   const dict = getDictionary(locale);
   const t = product[locale];
   const others = products.filter((p) => p.slug !== slug).slice(0, 3);
-  const paymentLink = getPaymentLink(product);
+  const buy = getBuyMode(product);
   const relatedRemedies = (product.relatedRemedies ?? []).map((s) => getRemedy(s)).filter((r): r is Remedy => Boolean(r));
   const pageUrl = `${siteUrl}/${locale}/products/${product.slug}`;
   const crumbs = [
@@ -194,28 +194,46 @@ export default async function ProductPage({ params }: PageProps<"/[locale]/produ
           )}
 
           <div className="mt-6 flex flex-wrap gap-3">
-            {paymentLink && product.price ? (
-              <a
-                href={paymentLink}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={cn(buttonVariants(), "h-12 px-6 text-base")}
-                data-testid="buy-now"
-              >
-                <CreditCard className="size-4" aria-hidden="true" />
-                {dict.products.buyNow} – {formatInr(product.price, locale)}
-              </a>
+            {buy.kind !== "none" && product.price ? (
+              buy.kind === "link" ? (
+                <a
+                  href={buy.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={cn(buttonVariants(), "h-12 px-6 text-base")}
+                  data-testid="buy-now"
+                >
+                  <CreditCard className="size-4" aria-hidden="true" />
+                  {dict.products.buyNow} – {formatInr(product.price, locale)}
+                </a>
+              ) : (
+                <Link
+                  href={`/${locale}/checkout/${product.slug}`}
+                  prefetch={false}
+                  className={cn(buttonVariants(), "h-12 px-6 text-base")}
+                  data-testid="buy-now"
+                >
+                  <CreditCard className="size-4" aria-hidden="true" />
+                  {dict.products.buyNow} – {formatInr(product.price, locale)}
+                </Link>
+              )
             ) : null}
             <Link
               href={`/${locale}/enquiry?product=${product.slug}`}
-              className={cn(buttonVariants({ variant: paymentLink ? "outline" : "default" }), "h-12 px-6 text-base")}
+              className={cn(buttonVariants({ variant: buy.kind !== "none" ? "outline" : "default" }), "h-12 px-6 text-base")}
             >
               <MessageCircle className="size-4" aria-hidden="true" />
               {dict.products.enquire}
             </Link>
           </div>
           <p className="mt-3 text-sm text-muted-foreground">
-            {product.sample ? dict.products.noCheckout : paymentLink ? dict.products.paymentNote : dict.products.paymentSoon}
+            {product.sample
+              ? dict.products.noCheckout
+              : buy.kind === "link"
+                ? dict.products.paymentNote
+                : buy.kind === "upi"
+                  ? dict.products.upiNote
+                  : dict.products.paymentSoon}
           </p>
 
           <section className="mt-8">

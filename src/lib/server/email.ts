@@ -55,7 +55,7 @@ export function getMailer(): Mailer {
       if (!transactional || !enquiryToEmail) return;
       const rows = [
         ["Name", e.name],
-        ["Email", e.email],
+        ["Email", e.email || "-"],
         ["Phone", e.phone || "-"],
         ["Subject", e.subject],
         ["Product", e.product || "-"],
@@ -63,11 +63,12 @@ export function getMailer(): Mailer {
       ]
         .map(([k, v]) => `<tr><td style="padding:4px 12px 4px 0;color:#555">${k}</td><td>${escapeHtml(v)}</td></tr>`)
         .join("");
+      const isOrder = e.subject === "order";
       await sendMail(
         enquiryToEmail,
-        `New enquiry: ${e.subject}${e.product ? ` – ${e.product}` : ""}`,
-        `<h2>New website enquiry</h2><table>${rows}</table><p style="white-space:pre-wrap">${escapeHtml(e.message)}</p>`,
-        e.email
+        isOrder ? `New UPI order: ${e.product ?? ""}` : `New enquiry: ${e.subject}${e.product ? ` – ${e.product}` : ""}`,
+        `<h2>${isOrder ? "New UPI order – verify the payment before shipping" : "New website enquiry"}</h2><table>${rows}</table><p style="white-space:pre-wrap">${escapeHtml(e.message)}</p>`,
+        e.email || undefined
       );
     },
     async addToList(s) {

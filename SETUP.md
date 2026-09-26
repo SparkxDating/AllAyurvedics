@@ -82,9 +82,19 @@ cookie). Before collecting real customer data you may prefer a managed provider
 ## 7. Online payment ("Buy now" button)
 
 Every product page keeps the **Enquire about this product** button, which opens the enquiry
-form with the product already selected. A **Buy now – ₹price** button appears only when
-the product has a hosted payment link. There is no payment SDK in the code. You create a
-payment link in your payment provider's dashboard and paste its URL in one of two places:
+form with the product already selected. A **Buy now – ₹price** button appears when either of
+these is set up, checked in this order:
+
+1. a **hosted payment link** for the product (7a), which opens the provider's page, or
+2. a **UPI ID** (7b), which opens our own checkout page at `/en|hi/checkout/<slug>` with a UPI QR code.
+
+If neither is set, the page shows "Online payment coming soon — please send an enquiry to order",
+the enquiry button stays the main action, and the checkout page returns 404.
+
+### 7a. Payment link (takes priority over UPI)
+
+There is no payment SDK in the code. You create a payment link in your payment provider's
+dashboard and paste its URL in one of two places:
 
 1. **Per product in code**: in `src/content/products.ts`, set
    `paymentLink: "https://rzp.io/rzp/xxxxxx"` on the product.
@@ -103,9 +113,62 @@ How to get a link:
 - **Instamojo** → Payment Links → create a link for ₹499.
 - Cashfree and PayU payment links also work. The URL must start with `https://`.
 
-Without a link, the page shows "Online payment coming soon — please send an enquiry to order"
-and the enquiry button stays the main action. There is no WhatsApp button yet. It can be added
-once a business WhatsApp number is chosen.
+### 7b. UPI checkout (QR code + order form)
+
+**Where to set the UPI ID.** Use either place:
+
+1. **In code**: open `src/config/site.ts` and fill in:
+   ```ts
+   export const siteConfig = {
+     upiId: "yourname@okhdfcbank",   // your UPI ID / VPA
+     upiPayeeName: "All Ayurvedics", // the name customers see in their UPI app
+     whatsappNumber: "",             // optional, e.g. "919876543210"
+   };
+   ```
+2. **Or in Vercel** → Project → Settings → Environment Variables (no code change):
+
+   | Variable | Example |
+   |---|---|
+   | `NEXT_PUBLIC_UPI_ID` | `yourname@okhdfcbank` |
+   | `NEXT_PUBLIC_UPI_PAYEE_NAME` | `All Ayurvedics` |
+   | `NEXT_PUBLIC_WHATSAPP_NUMBER` (optional) | `919876543210` |
+
+   Then **redeploy**, because pages are pre-rendered and `NEXT_PUBLIC_` values are built in.
+   Values in `src/config/site.ts` take priority over the env vars.
+
+If the payee name is empty, it falls back to "All Ayurvedics". For best results, use the exact
+name registered on the UPI ID; some apps show a warning when the names differ.
+
+**Per-product override (optional).** In `src/content/products.ts`, a product can set its own
+`upiId` / `upiPayeeName`. `orderName` is the short name used in the UPI payment note
+(max ~50 characters together with the order reference).
+
+**What the customer sees on the checkout page:**
+- the product, quantity (1–10) and total;
+- a UPI QR code for `upi://pay?pa=<id>&pn=<name>&am=<total>&cu=INR&tn=<product + order ref>`;
+- a "Pay with UPI app" button (on mobile it opens GPay, PhonePe, Paytm, BHIM and similar apps);
+- the UPI ID with a copy button;
+- an order form: name, mobile, email (optional), address, city, state, pincode, quantity, and
+  the 12-digit UPI transaction ID (UTR).
+
+Each visit gets an order reference like `AA-7KQ2MX`. It is shown to the customer and included in
+the payment note, so you can match the payment in your bank or UPI app.
+
+**Orders arrive through the enquiry backend.** They are submitted like enquiries, with the
+subject/type `order` and all the fields (including UTR, quantity and total). This means orders
+are **only stored and emailed once the forms backend is configured**: `DATABASE_URL` (section 2)
+plus an email provider (section 3: `RESEND_API_KEY` or `BREVO_API_KEY`, `EMAIL_FROM` and
+`ENQUIRY_TO_EMAIL`). Until then, the customer still sees their order reference with a note to
+contact you, but **the order is not saved anywhere**. Configure the backend before you publish
+the UPI ID.
+
+**Payments are not verified automatically.** Before you dispatch an order, check your bank or
+UPI app for a credit of the right amount with the matching UTR and order reference. The
+customer is told that the order is confirmed after payment verification.
+
+A help line (WhatsApp and/or email) appears on the checkout page only when
+`whatsappNumber` / `NEXT_PUBLIC_WHATSAPP_NUMBER` or `NEXT_PUBLIC_CONTACT_EMAIL` is set.
+The checkout pages are `noindex`, disallowed in robots.txt, and not in the sitemap.
 
 ## 8. Domain
 
