@@ -3,6 +3,8 @@ import "server-only";
 /**
  * Feature flags derived from environment variables.
  * Everything degrades gracefully when a variable is missing.
+ * Format checks run from instrumentation (`validateServerEnv`), not here,
+ * so importing config never crashes a page render.
  */
 export const serverConfig = {
   databaseUrl: process.env.DATABASE_URL || "",
@@ -14,6 +16,9 @@ export const serverConfig = {
   enquiryToEmail: process.env.ENQUIRY_TO_EMAIL || "",
   authSecret: process.env.AUTH_SECRET || "",
   accountsFlag: process.env.ACCOUNTS_ENABLED === "true",
+  /** Optional shared rate-limit store. Postgres is used when these are unset. */
+  upstashRedisUrl: process.env.UPSTASH_REDIS_REST_URL || "",
+  upstashRedisToken: process.env.UPSTASH_REDIS_REST_TOKEN || "",
 };
 
 export const hasDatabase = () => Boolean(serverConfig.databaseUrl);
