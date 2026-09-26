@@ -4,7 +4,7 @@ import { resolveLocale } from "@/i18n/server";
 import { getDictionary } from "@/i18n/dictionaries";
 import { newsletterStrings } from "@/i18n/strings";
 import { buildMetadata } from "@/lib/seo";
-import { getFeaturedRemedies } from "@/content/remedies";
+import { getFeaturedRemedies, remedies } from "@/content/remedies";
 import { articles } from "@/content/articles";
 import { products } from "@/content/products";
 import { remedyCategories } from "@/content/types";
@@ -104,7 +104,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
       {/* Categories */}
       <Container className="pb-4">
         <div className="flex flex-wrap gap-2">
-          {remedyCategories.map((c) => (
+          {remedyCategories.filter((c) => remedies.some((r) => r.category === c)).map((c) => (
             <Link
               key={c}
               href={`/${locale}/remedies?category=${c}`}

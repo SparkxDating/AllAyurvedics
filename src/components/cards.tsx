@@ -5,7 +5,8 @@ import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/dictionaries";
 import type { Article, Product, Remedy } from "@/content/types";
 import { readingMinutes } from "@/content/articles";
-import { CategoryIcon, ProductIllustration } from "./illustrations";
+import { ProductIllustration } from "./illustrations";
+import { RemedyThumb } from "./remedy-thumb";
 import { Badge } from "@/components/ui/badge";
 import { PriceBlock } from "./product-bits";
 
@@ -14,22 +15,24 @@ export function RemedyCard({ remedy, locale, dict }: { remedy: Remedy; locale: L
   return (
     <Link
       href={`/${locale}/remedies/${remedy.slug}`}
-      className="group flex h-full flex-col rounded-2xl border border-border bg-card p-5 transition-all hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5"
+      className="group flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-card transition-all hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5"
     >
-      <div className="flex items-center justify-between gap-3">
-        <CategoryIcon category={remedy.category} />
-        <span className="inline-flex items-center gap-1 text-xs text-muted-foreground">
-          <Clock className="size-3.5" aria-hidden="true" />
-          {remedy.time} {locale === "hi" ? "मिनट" : "min"}
+      <RemedyThumb image={remedy.image} alt={t.imageAlt} category={remedy.category} seed={remedy.slug} className="border-b border-border" />
+      <div className="flex flex-1 flex-col p-5">
+        <div className="flex items-center justify-between gap-3">
+          <p className="text-xs font-semibold uppercase tracking-wide text-leaf">{dict.categories[remedy.category]}</p>
+          <span className="inline-flex shrink-0 items-center gap-1 text-xs text-muted-foreground">
+            <Clock className="size-3.5" aria-hidden="true" />
+            {remedy.time} {locale === "hi" ? "मिनट" : "min"}
+          </span>
+        </div>
+        <h3 className="mt-2 text-lg font-semibold leading-snug text-foreground group-hover:text-primary">{t.title}</h3>
+        <p className="mt-2 line-clamp-3 text-sm text-muted-foreground">{t.summary}</p>
+        <span className="mt-auto inline-flex items-center gap-1 pt-4 text-sm font-medium text-primary">
+          {dict.remedies.readMore}
+          <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
         </span>
       </div>
-      <p className="mt-4 text-xs font-semibold uppercase tracking-wide text-leaf">{dict.categories[remedy.category]}</p>
-      <h3 className="mt-1 text-lg font-semibold leading-snug text-foreground group-hover:text-primary">{t.title}</h3>
-      <p className="mt-2 line-clamp-3 text-sm text-muted-foreground">{t.summary}</p>
-      <span className="mt-auto inline-flex items-center gap-1 pt-4 text-sm font-medium text-primary">
-        {dict.remedies.readMore}
-        <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
-      </span>
     </Link>
   );
 }

@@ -23,12 +23,16 @@ export default async function RemediesPage({ params, searchParams }: PageProps<"
   const counts = countByCategory();
   const other = locale === "en" ? "hi" : "en";
 
-  const items = remedies.map((r) => ({
+  // Illustrated remedies first so the first screen of the list shows artwork
+  const ordered = [...remedies.filter((r) => r.image), ...remedies.filter((r) => !r.image)];
+  const items = ordered.map((r) => ({
     slug: r.slug,
     category: r.category,
     time: r.time,
     title: r[locale].title,
     summary: r[locale].summary,
+    image: r.image,
+    imageAlt: r[locale].imageAlt,
     keywords: [...r[locale].ingredients, r[other].title, dict.categories[r.category]].join(" "),
   }));
 
@@ -61,7 +65,9 @@ export default async function RemediesPage({ params, searchParams }: PageProps<"
           locale={locale}
           items={items}
           initialCategory={initialCategory}
-          categories={remedyCategories.map((c) => ({ value: c, label: dict.categories[c], count: counts[c] ?? 0 }))}
+          categories={remedyCategories
+            .filter((c) => (counts[c] ?? 0) > 0)
+            .map((c) => ({ value: c, label: dict.categories[c], count: counts[c] ?? 0 }))}
           strings={{
             searchPlaceholder: dict.remedies.searchPlaceholder,
             searchLabel: dict.remedies.searchLabel,

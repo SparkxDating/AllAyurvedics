@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowRight, BookOpen, CircleHelp, Clock, CookingPot, HandHeart, Lightbulb, ShieldAlert, ShoppingBasket, Stethoscope } from "lucide-react";
@@ -5,6 +6,7 @@ import { locales, siteUrl } from "@/i18n/config";
 import { resolveLocale } from "@/i18n/server";
 import { getDictionary } from "@/i18n/dictionaries";
 import { buildMetadata } from "@/lib/seo";
+import { ogAbsolute } from "@/config/site";
 import { getRelatedRemedies, getRemedy, remedies } from "@/content/remedies";
 import { getCluster } from "@/content/clusters";
 import { RemedyCard } from "@/components/cards";
@@ -24,7 +26,13 @@ const SHILAJIT_RELATED = new Set([
   "home-remedies-for-body-pain-and-weakness",
   "ashwagandha-bedtime-milk",
   "dates-sesame-energy-bites",
+  "how-to-increase-stamina-naturally",
 ]);
+
+/** 1200x630 share crop generated next to each remedy illustration (see scripts/remedy-art). */
+function ogImagePath(image: string) {
+  return image.replace(/^\/remedies\/(.+)\.webp$/, "/remedies/og/$1.jpg");
+}
 
 export function generateStaticParams() {
   return locales.flatMap((locale) => remedies.map((r) => ({ locale, slug: r.slug })));
@@ -43,6 +51,9 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/remedies
     absoluteTitle: Boolean(t.metaTitle),
     description: t.metaDescription ?? t.summary,
     type: "article",
+    image: remedy.image
+      ? { url: ogImagePath(remedy.image), width: 1200, height: 630, alt: t.imageAlt ?? t.title }
+      : undefined,
   });
 }
 
@@ -82,6 +93,7 @@ export default async function RemedyPage({ params }: PageProps<"/[locale]/remedi
           totalTime: `PT${remedy.time}M`,
           supply: t.ingredients.map((i) => ({ "@type": "HowToSupply", name: i })),
           step: t.preparation.map((s, i) => ({ "@type": "HowToStep", position: i + 1, text: s })),
+          ...(remedy.image ? { image: ogAbsolute(remedy.image) } : {}),
           url: pageUrl,
         }}
       />
@@ -128,8 +140,23 @@ export default async function RemedyPage({ params }: PageProps<"/[locale]/remedi
                 {remedy.time} {locale === "hi" ? "मिनट" : "min"}
               </span>
             </div>
-            <h1 className="mt-4 max-w-3xl text-3xl font-semibold text-primary sm:text-4xl">{t.title}</h1>
-            <p className="mt-4 max-w-2xl text-lg text-muted-foreground">{t.summary}</p>
+            <div className={remedy.image ? "lg:grid lg:grid-cols-[1fr_440px] lg:items-center lg:gap-10" : undefined}>
+              <div>
+                <h1 className="mt-4 max-w-3xl text-3xl font-semibold text-primary sm:text-4xl">{t.title}</h1>
+                <p className="mt-4 max-w-2xl text-lg text-muted-foreground">{t.summary}</p>
+              </div>
+              {remedy.image && (
+                <Image
+                  src={remedy.image}
+                  alt={t.imageAlt ?? t.title}
+                  width={1200}
+                  height={800}
+                  preload
+                  sizes="(min-width: 1024px) 440px, (min-width: 640px) 90vw, 100vw"
+                  className="mt-6 aspect-[3/2] w-full rounded-3xl border border-border bg-[#fbf6ec] object-cover shadow-sm lg:mt-4"
+                />
+              )}
+            </div>
           </Container>
         </header>
 

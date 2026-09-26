@@ -5,7 +5,7 @@ import Link from "next/link";
 import { ArrowRight, Clock, Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import type { RemedyCategory } from "@/content/types";
-import { CategoryIcon } from "./illustrations";
+import { RemedyThumb } from "./remedy-thumb";
 import { cn } from "@/lib/utils";
 
 export type RemedyListItem = {
@@ -14,6 +14,8 @@ export type RemedyListItem = {
   time: number;
   title: string;
   summary: string;
+  image?: string;
+  imageAlt?: string;
   /** extra searchable text (ingredients, both languages) */
   keywords: string;
 };
@@ -131,22 +133,24 @@ export function RemedyBrowser({
             <li key={item.slug}>
               <Link
                 href={`/${locale}/remedies/${item.slug}`}
-                className="group flex h-full flex-col rounded-2xl border border-border bg-card p-5 transition-all hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5"
+                className="group flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-card transition-all hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5"
               >
-                <div className="flex items-center justify-between gap-3">
-                  <CategoryIcon category={item.category} />
-                  <span className="inline-flex items-center gap-1 text-xs text-muted-foreground">
-                    <Clock className="size-3.5" aria-hidden="true" />
-                    {item.time} {strings.minutes}
+                <RemedyThumb image={item.image} alt={item.imageAlt} category={item.category} seed={item.slug} className="border-b border-border" />
+                <div className="flex flex-1 flex-col p-5">
+                  <div className="flex items-center justify-between gap-3">
+                    <p className="text-xs font-semibold uppercase tracking-wide text-leaf">{labelFor(item.category)}</p>
+                    <span className="inline-flex shrink-0 items-center gap-1 text-xs text-muted-foreground">
+                      <Clock className="size-3.5" aria-hidden="true" />
+                      {item.time} {strings.minutes}
+                    </span>
+                  </div>
+                  <h2 className="mt-2 text-lg font-semibold leading-snug group-hover:text-primary">{item.title}</h2>
+                  <p className="mt-2 line-clamp-3 text-sm text-muted-foreground">{item.summary}</p>
+                  <span className="mt-auto inline-flex items-center gap-1 pt-4 text-sm font-medium text-primary">
+                    {strings.readMore}
+                    <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
                   </span>
                 </div>
-                <p className="mt-4 text-xs font-semibold uppercase tracking-wide text-leaf">{labelFor(item.category)}</p>
-                <h2 className="mt-1 text-lg font-semibold leading-snug group-hover:text-primary">{item.title}</h2>
-                <p className="mt-2 line-clamp-3 text-sm text-muted-foreground">{item.summary}</p>
-                <span className="mt-auto inline-flex items-center gap-1 pt-4 text-sm font-medium text-primary">
-                  {strings.readMore}
-                  <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
-                </span>
               </Link>
             </li>
           ))}

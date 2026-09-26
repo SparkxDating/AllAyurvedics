@@ -29,6 +29,7 @@ const remedyText = z.object({
   metaDescription: z.string().trim().min(1).max(220).optional(),
   aboutTitle: z.string().trim().min(1).max(200).optional(),
   faq: faq.optional(),
+  imageAlt: z.string().trim().min(1).max(300).optional(),
 });
 
 const cluster = z.enum([
@@ -40,6 +41,10 @@ const cluster = z.enum([
   "weight-loss",
   "womens-health",
   "immunity",
+  "oral-care",
+  "sleep-and-stress",
+  "eye-care",
+  "kids-health",
 ]);
 
 export const remedySchema = z.object({
@@ -50,6 +55,7 @@ export const remedySchema = z.object({
   doctorNote: z.boolean().optional(),
   cluster: cluster.optional(),
   related: z.array(slug).max(8).optional(),
+  image: z.string().regex(/^\/remedies\/[a-z0-9-]+\.webp$/).optional(),
   en: remedyText,
   hi: remedyText,
 });

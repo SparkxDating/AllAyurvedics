@@ -8,12 +8,12 @@ import { activeClusters } from "@/content/clusters";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const staticPaths = ["/", "/remedies", "/articles", "/products", "/enquiry", "/subscribe", "/about", "/privacy", "/terms", "/disclaimer"];
-  const entries: { path: string; lastModified?: string; priority: number }[] = [
+  const entries: { path: string; lastModified?: string; priority: number; image?: string }[] = [
     ...staticPaths.map((p) => ({ path: p, priority: p === "/" ? 1 : 0.7 })),
     { path: "/home-remedies", priority: 0.8 },
     { path: "/shilajit", lastModified: "2026-09-26", priority: 0.9 },
     ...activeClusters.map((c) => ({ path: `/home-remedies/${c.slug}`, priority: 0.9 })),
-    ...remedies.map((r) => ({ path: `/remedies/${r.slug}`, priority: 0.8 })),
+    ...remedies.map((r) => ({ path: `/remedies/${r.slug}`, priority: 0.8, image: r.image })),
     ...articles.map((a) => ({ path: `/articles/${a.slug}`, lastModified: a.date, priority: 0.8 })),
     ...products.map((p) => ({ path: `/products/${p.slug}`, priority: p.sample ? 0.3 : 0.8 })),
     ...campaigns.map((c) => ({ path: `/lp/${c.slug}`, priority: 0.6 })),
@@ -27,6 +27,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       url: url(locale, e.path),
       lastModified: e.lastModified ? new Date(e.lastModified) : new Date("2026-09-26"),
       priority: e.priority,
+      ...(e.image ? { images: [`${siteUrl}${e.image}`] } : {}),
       alternates: {
         languages: {
           "en-IN": url("en", e.path),

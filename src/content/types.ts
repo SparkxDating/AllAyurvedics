@@ -12,7 +12,9 @@ export type RemedyCategory =
   | "oral-care"
   | "heart-bp"
   | "herbs"
-  | "wellness";
+  | "wellness"
+  | "eye-care"
+  | "kids-health";
 
 export const remedyCategories = [
   "digestion",
@@ -29,6 +31,8 @@ export const remedyCategories = [
   "heart-bp",
   "herbs",
   "wellness",
+  "eye-care",
+  "kids-health",
 ] as const satisfies readonly RemedyCategory[];
 
 /** SEO topic clusters, each with a hub page at /[locale]/home-remedies/[cluster] */
@@ -40,7 +44,11 @@ export type ClusterSlug =
   | "joint-pain"
   | "weight-loss"
   | "womens-health"
-  | "immunity";
+  | "immunity"
+  | "oral-care"
+  | "sleep-and-stress"
+  | "eye-care"
+  | "kids-health";
 
 export type FaqItem = { q: string; a: string };
 
@@ -65,6 +73,8 @@ export type RemedyText = {
   aboutTitle?: string;
   /** Short FAQ, rendered on the page and as FAQPage JSON-LD */
   faq?: FaqItem[];
+  /** Alt text for the remedy illustration (describe the ingredients shown) */
+  imageAlt?: string;
 };
 
 export type Remedy = {
@@ -79,6 +89,8 @@ export type Remedy = {
   cluster?: ClusterSlug;
   /** Hand-picked related remedy slugs for internal linking (3-5) */
   related?: string[];
+  /** Illustration path under /public, e.g. "/remedies/<slug>.webp" (1200x800). OG crop lives at /remedies/og/<slug>.jpg */
+  image?: string;
   en: RemedyText;
   hi: RemedyText;
 };

@@ -1,6 +1,8 @@
 import {
   Bone,
+  Baby,
   Droplets,
+  Eye,
   Flame,
   Flower2,
   HeartPulse,
@@ -33,6 +35,8 @@ export const categoryIcons: Record<RemedyCategory, LucideIcon> = {
   "heart-bp": HeartPulse,
   herbs: Sprout,
   wellness: Sun,
+  "eye-care": Eye,
+  "kids-health": Baby,
 };
 
 export const categoryTones: Record<RemedyCategory, string> = {
@@ -50,6 +54,8 @@ export const categoryTones: Record<RemedyCategory, string> = {
   "heart-bp": "bg-clay-soft text-[#9b3b2b]",
   herbs: "bg-leaf-soft text-leaf",
   wellness: "bg-turmeric-soft text-[#8a5a07]",
+  "eye-care": "bg-[#e3eef0] text-[#2f6470]",
+  "kids-health": "bg-turmeric-soft text-[#8a5a07]",
 };
 
 export function CategoryIcon({ category, className }: { category: RemedyCategory; className?: string }) {

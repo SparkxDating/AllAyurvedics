@@ -5,9 +5,10 @@ import { remediesB } from "./remedies-b";
 import { remediesC } from "./remedies-c";
 import { extraRemedies } from "./remedies-extra";
 import { seoRemedies } from "./remedies-seo";
+import { illustratedRemedies } from "./remedies-new";
 import { assertRemedies } from "./schema";
 
-export const remedies: Remedy[] = [...remediesA, ...remediesB, ...remediesC, ...extraRemedies, ...seoRemedies];
+export const remedies: Remedy[] = [...remediesA, ...remediesB, ...remediesC, ...extraRemedies, ...seoRemedies, ...illustratedRemedies];
 
 if (typeof window === "undefined") {
   assertRemedies(remedies);

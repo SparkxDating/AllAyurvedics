@@ -66,6 +66,17 @@ cookie). Before collecting real customer data you may prefer a managed provider
 ## 6. Content
 
 - **Remedies**: `src/content/remedies-a.ts`, `remedies-b.ts`, `remedies-c.ts` (one object per remedy, `en` + `hi`).
+- **Illustrated remedies** (added from Sep 2026): `src/content/remedies-new/*.ts`, registered in
+  `src/content/remedies-new/index.ts`. Each one gets `image: /remedies/<slug>.webp` automatically and
+  needs `imageAlt` in `en` and `hi`. The hero art is drawn in code, so every picture shares one style:
+  - add a scene for the slug in `scripts/remedy-art/scenes.mjs` (tint + ingredients in named slots;
+    components live in `scripts/remedy-art/lib.mjs`, layout in `compose.mjs`);
+  - run `node scripts/remedy-art/build.mjs <slug …>` → `public/remedies/<slug>.webp` (1200×800, hero,
+    card thumbnail, sitemap image) and `public/remedies/og/<slug>.jpg` (1200×630 share image);
+  - check with `node scripts/remedy-art/check-content.mjs` (meta lengths, FAQ count, alt text,
+    related links, missing images) and `node scripts/remedy-art/contact-sheet.mjs out.png a.webp b.webp …`.
+  - Older remedies without `image` show a matching fallback card (tinted backdrop + category icon).
+    To illustrate one later, add a scene, run the build script and set `image` on that remedy.
 - **Articles**: `src/content/articles-1.ts` … `articles-4.ts` (markdown-style body in `en` + `hi`).
 - **Products**: `src/content/products.ts`. The live catalogue currently has one real product,
   *Himalayan Shilajit Resin (Adamya Herbals)* (`/en/products/himalayan-shilajit-resin-10g`).
@@ -215,6 +226,9 @@ if previews must come from a different host.
 Production canonicals, hreflang, the sitemap, `robots.txt` and structured data use `https://allayurvedics.in` unless `NEXT_PUBLIC_SITE_URL` is set. Set that variable to `https://allayurvedics.in` in Vercel Production so the value is explicit. Preview deployments may set their own `NEXT_PUBLIC_SITE_URL` or leave it unset (unset production builds still canonicalise to `.in`, which keeps a preview host out of the index). `next dev` uses `http://localhost:3000` when the variable is unset.
 
 There is no `DOMAIN_LIVE` switch in code. If the apex domain is temporarily not serving the site, set `NEXT_PUBLIC_SITE_URL` to the host that does, redeploy, and remove that override once `https://allayurvedics.in` answers.
+
+**Current state (26 Sep 2026):** `allayurvedics.in` does not resolve yet, so Vercel Production has
+`NEXT_PUBLIC_SITE_URL=https://allayurvedics.vercel.app`. Change it to `https://allayurvedics.in` (and redeploy) once the domain opens the site.
 
 When the domain is attached in Vercel:
 

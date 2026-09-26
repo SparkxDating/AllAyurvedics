@@ -3,7 +3,7 @@ import type { Remedy } from "../types";
 export const b3Wellness: Remedy[] = [
   {
     slug: "eyesight-care-diet",
-    category: "wellness",
+    category: "eye-care",
     time: 10,
     en: {
       title: "Food for healthy eyes: carrots, greens, amla and a spoon of ghee",
@@ -74,7 +74,7 @@ export const b3Wellness: Remedy[] = [
   },
   {
     slug: "screen-eye-strain",
-    category: "wellness",
+    category: "eye-care",
     time: 5,
     en: {
       title: "Screen eye strain: the 20-20-20 rule, palming and a cool rose-water compress",

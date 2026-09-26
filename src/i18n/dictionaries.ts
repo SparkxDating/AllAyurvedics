@@ -339,6 +339,8 @@ const en = {
     "heart-bp": "Heart & BP support",
     herbs: "Herbs & foods",
     wellness: "Everyday wellness",
+    "eye-care": "Eye care",
+    "kids-health": "Kids' health",
   },
 };
 
@@ -682,6 +684,8 @@ const hi: Dictionary = {
     "heart-bp": "हृदय और बीपी में सहायक",
     herbs: "जड़ी-बूटियाँ और आहार",
     wellness: "रोज़मर्रा की सेहत",
+    "eye-care": "आँखों की देखभाल",
+    "kids-health": "बच्चों की सेहत",
   },
 };
 
