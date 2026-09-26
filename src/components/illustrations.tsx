@@ -125,7 +125,7 @@ export function ProductIllustration({ product, className }: { product: Product; 
           <rect x="74" y="70" width="52" height="42" rx="4" fill={t.accent} />
         </g>
       )}
-      {(shape === "rasayana" || shape === "capsule") && (
+      {(shape === "rasayana" || shape === "capsule" || shape === "resin") && (
         <g>
           <rect x="66" y="34" width="68" height="20" rx="5" fill="#3b3b3b" />
           <rect x="60" y="52" width="80" height="88" rx="14" fill={t.body} />

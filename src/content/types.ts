@@ -107,15 +107,58 @@ export type ProductText = {
   howToUse: string[];
   ingredients: string[];
   size: string;
+  /** Optional rich content used by real (non-sample) product pages */
+  metaTitle?: string;
+  metaDescription?: string;
+  keyword?: string;
+  /** Short heading + paragraphs (separated by a blank line) explaining what the product is */
+  aboutTitle?: string;
+  about?: string;
+  /** Heading for the benefits list (defaults to "Traditionally used for") */
+  benefitsTitle?: string;
+  genuineCheck?: string[];
+  storage?: string[];
+  precautions?: string[];
+  faq?: FaqItem[];
+  /** Label/spec rows shown in a details table, e.g. ["Net quantity", "10 g"] */
+  specs?: [string, string][];
+  imageAlt?: string[];
+  videoLabel?: string;
+};
+
+export type ProductMedia = {
+  /** Paths under /public, e.g. "/products/x/front.webp"; the first image is the main/OG image */
+  images: { src: string; width: number; height: number }[];
+  video?: { src: string; poster: string; width: number; height: number };
+  /** 1200×630 image used for Open Graph / social sharing */
+  ogImage?: string;
 };
 
 export type Product = {
   slug: string;
-  sample: true;
-  category: "churna" | "oil" | "tea" | "rasayana" | "capsule" | "skincare";
+  /** Sample/placeholder listing: shows a badge and is kept out of search */
+  sample?: boolean;
+  /** Hidden products are not listed anywhere, not in the sitemap and have no page */
+  hidden?: boolean;
+  category: "churna" | "oil" | "tea" | "rasayana" | "capsule" | "skincare" | "resin";
   featured?: boolean;
   /** simple colour used for the placeholder illustration */
   tone: "leaf" | "turmeric" | "clay" | "sage";
+  brand?: string;
+  /** Selling price and MRP in INR (whole rupees) */
+  price?: number;
+  mrp?: number;
+  inStock?: boolean;
+  /**
+   * Optional hosted payment link (Razorpay / Instamojo / Cashfree payment link URL).
+   * Can also be supplied at build time through the env var PAYMENT_LINK_<SLUG_IN_UPPER_SNAKE_CASE>.
+   */
+  paymentLink?: string;
+  media?: ProductMedia;
+  /** Remedy slugs linked from the product page */
+  relatedRemedies?: string[];
+  /** Remedy slugs (and cluster hubs, as "hub:<cluster>") that show a soft "From our shop" block */
+  promoteOn?: string[];
   en: ProductText;
   hi: ProductText;
 };

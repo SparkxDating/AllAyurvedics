@@ -1,4 +1,5 @@
-import { Info } from "lucide-react";
+import Link from "next/link";
+import { PackagePlus } from "lucide-react";
 import { resolveLocale } from "@/i18n/server";
 import { getDictionary } from "@/i18n/dictionaries";
 import { buildMetadata } from "@/lib/seo";
@@ -23,14 +24,23 @@ export default async function ProductsPage({ params }: PageProps<"/[locale]/prod
         breadcrumbs={[{ href: `/${locale}`, label: dict.common.breadcrumbHome }, { label: dict.nav.products }]}
       />
       <Container className="py-10">
-        <p className="mb-8 flex gap-2 rounded-xl border border-turmeric/40 bg-turmeric-soft/60 p-4 text-sm text-[#5a3f0a]">
-          <Info className="mt-0.5 size-4 shrink-0" aria-hidden="true" />
-          {dict.products.noCheckout}
-        </p>
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {products.map((p) => (
             <ProductCard key={p.slug} product={p} locale={locale} dict={dict} />
           ))}
+          <div className="flex h-full flex-col items-start justify-center rounded-2xl border border-dashed border-border bg-secondary/40 p-6">
+            <span className="inline-flex size-12 items-center justify-center rounded-full bg-turmeric-soft text-[#8a5a07]">
+              <PackagePlus className="size-6" aria-hidden="true" />
+            </span>
+            <h2 className="mt-4 text-lg font-semibold text-primary">{dict.products.moreSoon}</h2>
+            <p className="mt-2 text-sm text-muted-foreground">{dict.products.moreSoonText}</p>
+            <Link
+              href={`/${locale}/enquiry`}
+              className="mt-4 inline-flex h-9 items-center rounded-lg border border-border bg-card px-3 text-sm font-medium hover:bg-muted"
+            >
+              {dict.products.suggest}
+            </Link>
+          </div>
         </div>
       </Container>
     </>

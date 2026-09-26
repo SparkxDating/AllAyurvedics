@@ -7,6 +7,8 @@ import { getDictionary } from "@/i18n/dictionaries";
 import { buildMetadata } from "@/lib/seo";
 import { activeClusters, getCluster, getClusterMoreRemedies, getClusterRemedies } from "@/content/clusters";
 import { RemedyCard } from "@/components/cards";
+import { ShopPromo } from "@/components/product-bits";
+import { getPromotedProducts } from "@/content/products";
 import { CategoryIcon } from "@/components/illustrations";
 import { Breadcrumbs, Container, DisclaimerNote, JsonLd } from "@/components/page-bits";
 
@@ -125,6 +127,8 @@ export default async function ClusterHubPage({ params }: PageProps<"/[locale]/ho
             </ul>
           </>
         )}
+
+        <ShopPromo products={getPromotedProducts(`hub:${cluster.slug}`)} locale={locale} dict={dict} className="mt-14 max-w-2xl" />
 
         <nav aria-label={dict.remedies.popularTopics} className="mt-14">
           <h2 className="text-lg font-semibold text-primary">{dict.remedies.popularTopics}</h2>

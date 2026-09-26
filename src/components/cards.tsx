@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Clock } from "lucide-react";
 import type { Locale } from "@/i18n/config";
@@ -6,6 +7,7 @@ import type { Article, Product, Remedy } from "@/content/types";
 import { readingMinutes } from "@/content/articles";
 import { CategoryIcon, ProductIllustration } from "./illustrations";
 import { Badge } from "@/components/ui/badge";
+import { PriceBlock } from "./product-bits";
 
 export function RemedyCard({ remedy, locale, dict }: { remedy: Remedy; locale: Locale; dict: Dictionary }) {
   const t = remedy[locale];
@@ -79,34 +81,50 @@ export function SampleBadge({ label }: { label: string }) {
 
 export function ProductCard({ product, locale, dict }: { product: Product; locale: Locale; dict: Dictionary }) {
   const t = product[locale];
+  const img = product.media?.images[0];
   return (
     <div className="group flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-card transition-all hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5">
       <Link href={`/${locale}/products/${product.slug}`} className="relative block">
-        <ProductIllustration product={product} className="aspect-[5/4] w-full" />
-        <div className="absolute left-3 top-3 right-3">
-          <SampleBadge label={dict.products.sampleBadge} />
-        </div>
+        {img ? (
+          <div className="aspect-[5/4] w-full bg-white p-5">
+            <Image
+              src={img.src}
+              alt={t.imageAlt?.[0] ?? t.name}
+              width={img.width}
+              height={img.height}
+              sizes="(min-width: 1024px) 380px, (min-width: 640px) 50vw, 100vw"
+              className="h-full w-full object-contain transition-transform duration-300 group-hover:scale-[1.03]"
+            />
+          </div>
+        ) : (
+          <ProductIllustration product={product} className="aspect-[5/4] w-full" />
+        )}
+        {product.sample && (
+          <div className="absolute left-3 top-3 right-3">
+            <SampleBadge label={dict.products.sampleBadge} />
+          </div>
+        )}
       </Link>
       <div className="flex flex-1 flex-col p-5">
-        <h3 className="text-lg font-semibold leading-snug">
+        {product.brand && <p className="text-xs font-semibold uppercase tracking-wide text-leaf">{product.brand}</p>}
+        <h3 className="mt-1 text-lg font-semibold leading-snug">
           <Link href={`/${locale}/products/${product.slug}`} className="hover:text-primary">
             {t.name}
           </Link>
         </h3>
         <p className="mt-1 text-sm text-muted-foreground">{t.short}</p>
-        <p className="mt-3 text-sm font-medium text-foreground/80">
-          {t.size} · {dict.products.priceOnEnquiry}
-        </p>
+        <p className="mt-3 text-sm font-medium text-foreground/80">{t.size}</p>
+        <PriceBlock product={product} locale={locale} dict={dict} size="sm" className="mt-1" />
         <div className="mt-auto flex flex-wrap gap-2 pt-4">
           <Link
             href={`/${locale}/products/${product.slug}`}
-            className="inline-flex h-9 items-center rounded-lg border border-border px-3 text-sm font-medium hover:bg-muted"
+            className="inline-flex h-9 items-center rounded-lg bg-primary px-3 text-sm font-medium text-primary-foreground hover:bg-primary/90"
           >
             {dict.products.details}
           </Link>
           <Link
             href={`/${locale}/enquiry?product=${product.slug}`}
-            className="inline-flex h-9 items-center rounded-lg bg-primary px-3 text-sm font-medium text-primary-foreground hover:bg-primary/90"
+            className="inline-flex h-9 items-center rounded-lg border border-border px-3 text-sm font-medium hover:bg-muted"
           >
             {dict.products.enquire}
           </Link>

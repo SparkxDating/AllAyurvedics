@@ -23,7 +23,7 @@ Most of us grew up with a grandmother's remedies: haldi doodh for a cough, ajwai
 
 - **Home remedies** made from common kitchen ingredients, each with clear precautions.
 - **Articles** on the foundations of Ayurveda: the doshas, daily and seasonal routines, food, sleep, yoga and herbs.
-- **Products** — our catalogue is being prepared. Current listings are clearly marked as samples.
+- **Products** — a small, carefully chosen range of Ayurvedic products with clear labels and honest descriptions. We add new products one at a time.
 
 ## Our principles
 
@@ -49,7 +49,7 @@ Have a question or suggestion? Visit our enquiry page or email us at ${contactEm
 
 - रसोई की आम चीज़ों से बने **घरेलू नुस्खे**, हर एक के साथ साफ़ सावधानियाँ।
 - आयुर्वेद की बुनियाद पर **लेख**: दोष, दिनचर्या और ऋतुचर्या, भोजन, नींद, योग और जड़ी-बूटियाँ।
-- **उत्पाद** — हमारा कैटलॉग तैयार हो रहा है। अभी की लिस्टिंग साफ़ तौर पर नमूने के रूप में चिह्नित हैं।
+- **उत्पाद** — साफ़ लेबल और ईमानदार जानकारी के साथ चुनिंदा आयुर्वेदिक उत्पाद। हम एक-एक करके नए उत्पाद जोड़ते हैं।
 
 ## हमारे सिद्धांत
 
@@ -165,7 +165,7 @@ All content on this website — including remedies, articles and product descrip
 
 ## Products
 
-Products shown on this site are currently **sample listings for demonstration only** and are not offered for sale. When real products are listed, specific terms of sale will be provided. We do not currently accept online payments.
+Product descriptions are based on the manufacturer's label and traditional use, and are not medical claims. Prices are in Indian rupees. You can order by sending an enquiry; where a "Buy now" button is shown, payment is handled securely by a third-party payment provider and we do not store your card or bank details. Availability, delivery charges and timelines, and any return or refund terms are confirmed when you place an order. Always read the label and precautions before use.
 
 ## Your use of the site
 
@@ -204,7 +204,7 @@ allayurvedics.in का उपयोग करके आप इन शर्त�
 
 ## उत्पाद
 
-इस साइट पर दिखाए गए उत्पाद अभी **केवल प्रदर्शन के लिए नमूना लिस्टिंग** हैं और बिक्री के लिए उपलब्ध नहीं हैं। असली उत्पाद जोड़े जाने पर बिक्री की अलग शर्तें दी जाएँगी। अभी हम ऑनलाइन भुगतान स्वीकार नहीं करते।
+उत्पादों की जानकारी निर्माता के लेबल और पारंपरिक उपयोग पर आधारित है, यह कोई चिकित्सा दावा नहीं है। कीमतें भारतीय रुपये में हैं। आप पूछताछ भेजकर ऑर्डर कर सकते हैं; जहाँ "अभी ख़रीदें" बटन दिखे, वहाँ भुगतान किसी तृतीय-पक्ष पेमेंट प्रदाता द्वारा सुरक्षित रूप से होता है और हम आपके कार्ड या बैंक की जानकारी नहीं रखते। उपलब्धता, डिलीवरी शुल्क व समय, और वापसी या रिफ़ंड की शर्तें ऑर्डर के समय बताई जाती हैं। इस्तेमाल से पहले हमेशा लेबल और सावधानियाँ पढ़ें।
 
 ## साइट का आपका उपयोग
 

@@ -9,6 +9,7 @@ import { articles } from "@/content/articles";
 import { products } from "@/content/products";
 import { remedyCategories } from "@/content/types";
 import { ArticleCard, ProductCard, RemedyCard } from "@/components/cards";
+import { ProductSpotlight } from "@/components/product-bits";
 import { CategoryIcon, HeroIllustration } from "@/components/illustrations";
 import { Container, JsonLd, SectionHeading } from "@/components/page-bits";
 import { NewsletterForm } from "@/components/forms/newsletter-form";
@@ -155,18 +156,24 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
       </Container>
 
       {/* Featured products */}
+      {featuredProducts.length > 0 && (
       <Container className="py-6">
         <SectionHeading
           title={dict.home.featuredProducts}
           text={dict.home.featuredProductsText}
           action={{ href: `/${locale}/products`, label: dict.home.viewAll }}
         />
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {featuredProducts.map((p) => (
-            <ProductCard key={p.slug} product={p} locale={locale} dict={dict} />
-          ))}
-        </div>
+        {featuredProducts.length === 1 ? (
+          <ProductSpotlight product={featuredProducts[0]} locale={locale} dict={dict} />
+        ) : (
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {featuredProducts.map((p) => (
+              <ProductCard key={p.slug} product={p} locale={locale} dict={dict} />
+            ))}
+          </div>
+        )}
       </Container>
+      )}
 
       {/* Enquiry CTA */}
       <Container className="py-14">

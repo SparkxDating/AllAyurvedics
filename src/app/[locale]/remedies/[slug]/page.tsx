@@ -8,6 +8,8 @@ import { buildMetadata } from "@/lib/seo";
 import { getRelatedRemedies, getRemedy, remedies } from "@/content/remedies";
 import { getCluster } from "@/content/clusters";
 import { RemedyCard } from "@/components/cards";
+import { ShopPromo } from "@/components/product-bits";
+import { getPromotedProducts } from "@/content/products";
 import { CategoryIcon } from "@/components/illustrations";
 import { Breadcrumbs, Container, DisclaimerNote, JsonLd } from "@/components/page-bits";
 
@@ -202,6 +204,7 @@ export default async function RemedyPage({ params }: PageProps<"/[locale]/remedi
                 </dl>
               </section>
             ) : null}
+            <ShopPromo products={getPromotedProducts(remedy.slug)} locale={locale} dict={dict} />
             <DisclaimerNote locale={locale} dict={dict} />
           </div>
 

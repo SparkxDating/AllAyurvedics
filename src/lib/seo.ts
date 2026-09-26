@@ -12,6 +12,8 @@ type BuildMetadataInput = {
   noIndex?: boolean;
   /** Use the title as-is (no " | All Ayurvedics" suffix), e.g. a hand-written SEO title */
   absoluteTitle?: boolean;
+  /** Custom Open Graph / Twitter image (path under /public or absolute URL) */
+  image?: { url: string; width: number; height: number; alt: string };
 };
 
 export function buildMetadata({
@@ -23,7 +25,9 @@ export function buildMetadata({
   publishedTime,
   noIndex,
   absoluteTitle,
+  image,
 }: BuildMetadataInput): Metadata {
+  const ogImage = image ?? { url: `/api/og?locale=${locale}`, width: 1200, height: 630, alt: siteName };
   const url = localePath(locale, path);
   const other: Locale = locale === "en" ? "hi" : "en";
   return {
@@ -46,13 +50,13 @@ export function buildMetadata({
       alternateLocale: [localeLabels[other].ogLocale],
       type,
       ...(publishedTime ? { publishedTime } : {}),
-      images: [{ url: `/api/og?locale=${locale}`, width: 1200, height: 630, alt: siteName }],
+      images: [ogImage],
     },
     twitter: {
       card: "summary_large_image",
       title,
       description,
-      images: [`/api/og?locale=${locale}`],
+      images: [ogImage.url],
     },
     ...(noIndex ? { robots: { index: false, follow: true } } : {}),
   };
