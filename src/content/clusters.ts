@@ -127,6 +127,56 @@ export const clusters: Cluster[] = [
         "बंद नाक, गले में ख़राश और रात भर जगाने वाली खांसी कई दिनों तक थका देती है। इस गाइड में हमारे सर्दी-खांसी के घरेलू उपाय एक जगह हैं — शहद वाले नुस्खों और भाप से लेकर गरम सूप और गरारों तक — और इन्हें समस्या के हिसाब से रखा गया है: रात की सूखी खांसी, गले में बलगम, टॉन्सिल, बच्चों की सर्दी, गर्भावस्था में खांसी, प्रदूषण वाली खांसी और भी बहुत कुछ।\n\nआयुर्वेद में ज़्यादातर सर्दी को छाती और सिर में कफ बढ़ने के रूप में देखा जाता है, जो अक्सर ठंडे, भारी या तैलीय खाने, नम मौसम या कम नींद के बाद होता है। गरम तरल, अदरक, तुलसी, काली मिर्च, हल्दी और मुलेठी परंपरा से बलगम पतला करने और गले को आराम देने के लिए इस्तेमाल होते हैं, और आराम से शरीर को ठीक होने का समय मिलता है। आम सर्दी सात से दस दिन में ठीक हो जाती है; ये नुस्खे उन दिनों को आरामदायक बनाने के लिए हैं।\n\nसाँस लेने में तकलीफ़, घरघराहट, सीने में दर्द, तेज़ या लगातार बुखार, तीन हफ़्ते से ज़्यादा खांसी, खांसी में ख़ून, या शिशुओं, बुज़ुर्गों और अस्थमा, दिल या फेफड़ों के मरीज़ों में कोई भी चिंताजनक लक्षण हो तो डॉक्टर को दिखाएँ। एक साल से छोटे बच्चे को शहद कभी न दें। डॉक्टर के दिए इनहेलर या दवाएँ जारी रखें।",
     },
   },
+  {
+    slug: "joint-pain",
+    icon: "joints",
+    categories: ["joints"],
+    en: {
+      name: "Joint, back & muscle pain",
+      headTerm: "home remedies for joint pain",
+      title: "Home remedies for joint pain, back pain and stiff muscles",
+      metaTitle: "Home Remedies for Joint Pain: Ayurvedic Relief Guide",
+      metaDescription:
+        "Gentle home remedies for joint pain — knee pain, sciatica, cervical, frozen shoulder, sprains and body ache — with oils, compresses and exercise tips.",
+      intro:
+        "Creaky knees on the stairs, a stiff neck after hours at the laptop, a shoulder that won't lift, or an ache that shoots down the leg — pain in the joints and muscles is one of the most common reasons people look for natural relief. This guide gathers our home remedies for joint pain in one place, organised by where it hurts and why.\n\nAyurveda links most joint and nerve pain with aggravated vata, the dosha of movement and dryness, which rises with age, cold weather, irregular routines and overuse. Traditional care therefore focuses on warmth and lubrication: warm sesame or mahanarayan oil massage, dry and moist compresses (potli), ginger and turmeric in food, and gentle, regular movement. Where there is swelling and heat, as in some types of arthritis, cooling and anti-inflammatory measures are preferred.\n\nThese remedies aim to ease discomfort and support mobility. They do not replace diagnosis. See a doctor for pain after an injury, a hot, red or very swollen joint, fever, numbness or weakness, loss of bladder or bowel control, night pain, unexplained weight loss, or pain that lasts more than a few weeks. If you have rheumatoid arthritis, gout or osteoporosis, continue your prescribed treatment.",
+    },
+    hi: {
+      name: "जोड़, पीठ और मांसपेशियों का दर्द",
+      headTerm: "जोड़ों के दर्द के घरेलू उपाय",
+      title: "जोड़ों के दर्द, पीठ दर्द और अकड़ी मांसपेशियों के घरेलू उपाय",
+      metaTitle: "जोड़ों के दर्द के घरेलू उपाय: आयुर्वेदिक राहत गाइड",
+      metaDescription:
+        "जोड़ों के दर्द के सौम्य घरेलू उपाय — घुटनों का दर्द, साइटिका, सर्वाइकल, फ्रोज़न शोल्डर, मोच और बदन दर्द — तेल, सिकाई और व्यायाम के सुझावों के साथ।",
+      intro:
+        "सीढ़ियों पर चरमराते घुटने, लैपटॉप पर घंटों के बाद अकड़ी गर्दन, ऊपर न उठने वाला कंधा, या पैर तक जाता दर्द — जोड़ों और मांसपेशियों का दर्द प्राकृतिक राहत खोजने का सबसे आम कारण है। इस गाइड में हमारे जोड़ों के दर्द के घरेलू उपाय एक जगह हैं, इस हिसाब से कि दर्द कहाँ है और क्यों।\n\nआयुर्वेद ज़्यादातर जोड़ों और नसों के दर्द को बढ़े हुए वात से जोड़ता है — गति और रूखेपन का दोष, जो उम्र, ठंडे मौसम, अनियमित दिनचर्या और ज़्यादा इस्तेमाल से बढ़ता है। इसलिए पारंपरिक देखभाल गर्माहट और चिकनाई पर केंद्रित है: गुनगुने तिल या महानारायण तेल से मालिश, सूखी और गीली सिकाई (पोटली), खाने में अदरक और हल्दी, और हल्की, नियमित गतिविधि। जहाँ सूजन और गर्मी हो, जैसे कुछ तरह के गठिया में, वहाँ ठंडक और सूजन घटाने वाले उपाय बेहतर माने जाते हैं।\n\nये उपाय तकलीफ़ कम करने और चलने-फिरने को सहारा देने के लिए हैं। ये निदान की जगह नहीं लेते। चोट के बाद दर्द, गरम, लाल या बहुत सूजा जोड़, बुखार, सुन्नपन या कमज़ोरी, पेशाब या मल पर नियंत्रण खोना, रात में दर्द, बिना कारण वज़न घटना, या कुछ हफ़्तों से ज़्यादा दर्द हो तो डॉक्टर को दिखाएँ। रूमेटाइड आर्थराइटिस, गाउट या ऑस्टियोपोरोसिस हो तो डॉक्टर का इलाज जारी रखें।",
+    },
+  },
+  {
+    slug: "weight-loss",
+    icon: "weight",
+    categories: ["weight"],
+    en: {
+      name: "Weight loss",
+      headTerm: "home remedies for weight loss",
+      title: "Home remedies for weight loss: Indian diet, drinks and daily habits",
+      metaTitle: "Home Remedies for Weight Loss: Indian Diet & Habits",
+      metaDescription:
+        "Realistic home remedies for weight loss — belly fat, Indian diet plans, drinks, walking and metabolism tips — built on Ayurvedic habits. Start small today.",
+      intro:
+        "There is no magic drink that melts fat overnight, but there are simple, sustainable habits that help many people lose weight and keep it off. This guide brings together our home remedies for weight loss — from Indian breakfast and dinner ideas and homemade drinks to walking plans, craving control and advice for special situations like after delivery, after 40 or with thyroid problems.\n\nAyurveda sees excess weight (sthaulya) mainly as increased kapha and weak digestion, often driven by heavy, sweet, oily food, eating without hunger, daytime sleep and too little movement. Its advice is refreshingly practical: eat your largest meal at lunch, keep dinner light and early, favour warm, freshly cooked food with plenty of vegetables and dals, use spices like ginger, cumin and black pepper, and move every day.\n\nAim for a slow, steady loss of about half to one kilo a week. Crash diets and detox teas often backfire. If you have diabetes, thyroid disease, PCOS, heart or kidney problems, are pregnant or breastfeeding, or take regular medicines, talk to your doctor before making big changes to diet, fasting or exercise, and continue prescribed treatment.",
+    },
+    hi: {
+      name: "वज़न घटाना",
+      headTerm: "वज़न घटाने के घरेलू उपाय",
+      title: "वज़न घटाने के घरेलू उपाय: भारतीय आहार, ड्रिंक्स और रोज़ की आदतें",
+      metaTitle: "वज़न घटाने के घरेलू उपाय: भारतीय डाइट और आदतें",
+      metaDescription:
+        "वज़न घटाने के व्यावहारिक घरेलू उपाय — पेट की चर्बी, भारतीय डाइट प्लान, ड्रिंक्स, पैदल चलना और मेटाबॉलिज़्म के सुझाव — आयुर्वेदिक आदतों पर आधारित।",
+      intro:
+        "ऐसा कोई जादुई ड्रिंक नहीं जो रातों-रात चर्बी पिघला दे, पर कुछ आसान, टिकाऊ आदतें हैं जो कई लोगों को वज़न घटाने और बनाए रखने में मदद करती हैं। इस गाइड में हमारे वज़न घटाने के घरेलू उपाय एक जगह हैं — भारतीय नाश्ते और रात के खाने के सुझाव, घर के बने ड्रिंक्स, पैदल चलने की योजना, क्रेविंग पर काबू, और डिलीवरी के बाद, 40 के बाद या थायरॉइड जैसी ख़ास स्थितियों की सलाह।\n\nआयुर्वेद ज़्यादा वज़न (स्थौल्य) को मुख्य रूप से बढ़े कफ और कमज़ोर पाचन के रूप में देखता है, जो अक्सर भारी, मीठे, तैलीय खाने, बिना भूख खाने, दिन में सोने और कम चलने-फिरने से होता है। इसकी सलाह बेहद व्यावहारिक है: सबसे बड़ा भोजन दोपहर में करें, रात का खाना हल्का और जल्दी रखें, ख़ूब सब्ज़ियों और दालों वाला गरम, ताज़ा पका खाना चुनें, अदरक, जीरा और काली मिर्च जैसे मसाले इस्तेमाल करें, और रोज़ शरीर को चलाएँ।\n\nहफ़्ते में लगभग आधा से एक किलो धीमा, स्थिर वज़न घटाने का लक्ष्य रखें। क्रैश डाइट और डिटॉक्स चाय अक्सर उल्टा असर करती हैं। डायबिटीज़, थायरॉइड, पीसीओएस, दिल या किडनी की समस्या हो, गर्भवती या स्तनपान करा रही हों, या नियमित दवा लेते हों, तो आहार, उपवास या व्यायाम में बड़े बदलाव से पहले डॉक्टर से बात करें और डॉक्टर का इलाज जारी रखें।",
+    },
+  },
 ];
 
 export function getCluster(slug: string): Cluster | undefined {
