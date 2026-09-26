@@ -5,6 +5,13 @@ import { b1Eye } from "./b1-eye";
 import { b1Eye2 } from "./b1-eye2";
 import { b1Sleep } from "./b1-sleep";
 import { b1Sleep2 } from "./b1-sleep2";
+import { b2SleepKids } from "./b2-sleep-kids";
+import { b2Kids } from "./b2-kids";
+import { b2Kids2 } from "./b2-kids2";
+import { b2Kids3 } from "./b2-kids3";
+import { b2Hair } from "./b2-hair";
+import { b2Hair2 } from "./b2-hair2";
+import { b2Skin } from "./b2-skin";
 
 /**
  * Illustrated remedies (added in batches from Sep 2026). Every remedy here has a
@@ -21,4 +28,12 @@ export const illustratedRemedies: Remedy[] = withImage([
   ...b1Eye2,
   ...b1Sleep,
   ...b1Sleep2,
+  // Batch 2: kids' health, more sleep & stress, hair care, skin care
+  ...b2SleepKids,
+  ...b2Kids,
+  ...b2Kids2,
+  ...b2Kids3,
+  ...b2Hair,
+  ...b2Hair2,
+  ...b2Skin,
 ]);

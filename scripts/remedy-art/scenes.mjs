@@ -38,4 +38,35 @@ export const scenes = {
   "home-remedies-for-waking-up-at-night": { tint: "lavender", extra: "moon", hero: ["cup", { liquid: "#f3ead8", band: "#7a6fb0" }], left: "almonds", right: "cardamom", frontRight: "sesame" },
   "home-remedies-for-feeling-sleepy-after-lunch": { tint: "lavender", extra: "sun", hero: ["glass", { liquid: "#f4f1e4", mint: true }], left: "lemon", right: "cumin", backLeft: "mint" },
   "home-remedies-for-teeth-grinding": { tint: "lavender", extra: "moon", hero: ["cup", { liquid: MILK, band: "#7a6fb0" }], left: "cloth", right: ["bottle", { liquid: OIL }] },
+
+  // ── Batch 2: sleep & stress + kids' health ────────────────
+  "home-remedies-for-exam-stress": { tint: "lavender", extra: "moon", hero: ["cup", { liquid: MILK, band: "#7a6fb0" }], left: ["bowl", { fill: "#e9d6b4", w: 190, kind: "seeds", dots: "#b07a4a" }], right: "walnuts", backRight: "brahmi", frontRight: "almonds" },
+  "home-remedies-for-low-mood": { tint: "lavender", extra: "sun", hero: ["brassCup", { liquid: "#f3cf7a" }], left: "orange", right: "walnuts", backLeft: "tulsi", frontRight: "saffron" },
+  "home-remedies-for-cough-in-kids": { tint: "peach", hero: ["cup", { liquid: "#f1dca0", band: "#e08a5a" }], left: "honeyDipper", right: ["bowl", { fill: "#cdb48a", kind: "seeds", dots: "#7a5a36", w: 180 }], backLeft: "tulsi" },
+  "home-remedies-for-constipation-in-kids": { tint: "peach", hero: ["bowl", { fill: "#e9d6b4", kind: "seeds", dots: "#8a4f5f", w: 230 }], left: "banana", right: "apple", frontLeft: "raisins", backRight: ["glass", { liquid: "#eef3f4", fill: 0.7 }] },
+  "home-remedies-for-teething-in-babies": { tint: "peach", hero: ["bowl", { fill: "#f4e7b8", w: 230 }], left: "cucumber", right: "cloth", frontRight: "ice", backLeft: "banana" },
+  "home-remedies-for-diaper-rash": { tint: "peach", hero: ["bowl", { fill: "#f6f0dc", w: 220, body: "#e2c9a8" }], left: "coconut", right: "cottonPads", frontRight: ["cloth", { color: "#fbeee4", stripe: "#e08a5a" }] },
+  "home-remedies-for-colic-in-babies": { tint: "peach", hero: ["bowl", { fill: GHEE, w: 220, steamOn: true, body: "#c9962c" }], left: "ajwain", right: ["cloth", { color: "#fbeee4", stripe: "#e08a5a" }], frontLeft: "coconut" },
+  "home-remedies-for-loose-motions-in-kids": { tint: "peach", hero: ["glass", { liquid: "#f3f1e2", lemon: true }], left: ["bowl", { fill: "#e9cf7a", kind: "seeds", dots: "#b8932a", w: 210 }], right: "banana", frontRight: ["bowl", { fill: "#f7f3ea", w: 160 }] },
+  "home-remedies-for-fever-in-kids": { tint: "peach", hero: ["bowl", { fill: "#eed79a", kind: "soup", w: 230, steamOn: true }], left: ["glass", { liquid: "#eef3f4", fill: 0.7 }], right: ["cloth", { color: "#e8eef0", stripe: "#e08a5a" }], backRight: "tulsi" },
+  "home-remedies-for-poor-appetite-in-kids": { tint: "peach", hero: ["plate", { rim: "#e08a5a" }], left: "carrot", right: "apple", frontRight: ["bowl", { fill: "#f7f3ea", w: 160 }], backLeft: ["glass", { liquid: "#f3f1e2", lemon: true }] },
+  "how-to-boost-immunity-in-kids": { tint: "peach", hero: ["jar", { fill: "#6b3a22", lid: "#e08a5a" }], left: "amla", right: "orange", frontLeft: "almonds", frontRight: ["bowl", { fill: "#f7f3ea", w: 160 }] },
+  "home-remedies-for-bedwetting": { tint: "peach", extra: "moon", hero: "pillow", left: ["glass", { liquid: "#eef3f4", fill: 0.5 }], right: ["bowl", { fill: "#e9d6b4", kind: "seeds", dots: "#8a4f5f", w: 170 }] },
+
+  // ── Batch 2: hair care ────────────────────────────────────
+  "home-remedies-for-frizzy-hair": { tint: "leaf", hero: ["bowl", { fill: "#eef2dc", w: 230 }], left: "coconut", right: "aloe", frontRight: "hibiscus", backLeft: ["jar", { fill: OIL, lid: "#5b8a4a" }] },
+  "home-remedies-for-hair-breakage": { tint: "leaf", hero: ["bowl", { fill: "#d9b95a", kind: "seeds", dots: "#a0781e", w: 230 }], left: ["bowl", { fill: "#f7f3ea", w: 170 }], right: "amla", backRight: ["bottle", { liquid: OIL }] },
+  "home-remedies-for-patchy-hair-loss": { tint: "leaf", hero: ["bowl", { fill: "#efe6d6", w: 220 }], left: "onion", right: ["bottle", { liquid: OIL }], backLeft: "curryLeaves" },
+  "home-remedies-for-beard-growth": { tint: "leaf", hero: ["bottle", { liquid: "#e9cf7a" }], left: "coconut", right: "almonds", frontRight: "curryLeaves" },
+  "home-remedies-for-eyebrow-growth": { tint: "leaf", hero: ["bottle", { liquid: "#ecd689", w: 90, h: 200 }], left: "coconut", right: "cottonPads", frontRight: "almonds" },
+  "home-remedies-for-eyelash-growth": { tint: "leaf", hero: ["bottle", { liquid: "#ecd689", w: 90, h: 200 }], left: "cottonPads", right: "coconut", frontRight: "rosePetals" },
+  "home-remedies-for-dull-hair": { tint: "leaf", hero: ["glass", { liquid: "#d9587a", fill: 0.7 }], left: "hibiscus", right: ["bowl", { fill: "#f7f3ea", w: 180 }], frontRight: "honeyDipper" },
+  "home-remedies-for-hard-water-hair-damage": { tint: "leaf", hero: ["glass", { liquid: "#e8f3f6", fill: 0.75 }], left: "lemon", right: ["bottle", { liquid: OIL }], frontRight: ["bowl", { fill: "#9c7a4e", kind: "powder", dots: "#6b4a2e", w: 170 }] },
+
+  // ── Batch 2: skin care ────────────────────────────────────
+  "home-remedies-for-back-acne": { tint: "rose", hero: ["basin", { brass: true }], left: ["bowl", { fill: "#c9a77a", kind: "powder", dots: "#9c7a4e", w: 190 }], right: "roseWater", frontLeft: "turmeric", backLeft: "neem" },
+  "home-remedies-for-eczema": { tint: "rose", hero: ["bowl", { fill: "#eadcc0", kind: "seeds", dots: "#c7b08a", w: 230 }], left: "coconut", right: "aloe", frontRight: "cloth", backRight: ["jar", { fill: "#f6f1e2", lid: "#c46a7a" }] },
+  "home-remedies-for-skin-rashes": { tint: "rose", hero: ["bowl", { fill: "#dff0d6", w: 230 }], left: "aloe", right: "roseWater", frontLeft: "sandalwood", frontRight: "cloth" },
+  "home-remedies-for-mosquito-bites": { tint: "rose", hero: ["bowl", { fill: "#dff0d6", w: 220, body: "#8f9ea3" }], left: "aloe", right: ["bottle", { liquid: "#b9a24a", w: 90, h: 200 }], frontRight: "ice", frontLeft: "honeyDipper", backRight: "neem" },
+  "home-remedies-for-hives": { tint: "rose", hero: ["bowl", { fill: "#eadcc0", kind: "seeds", dots: "#c7b08a", w: 230 }], left: "cloth", right: "aloe", frontLeft: "ice", backRight: ["glass", { liquid: "#eef6f2", mint: true }] },
 };
