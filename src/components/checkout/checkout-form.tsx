@@ -108,7 +108,12 @@ export function CheckoutForm({
   const [errors, setErrors] = useState<Partial<Record<FieldKey, string>>>({});
   const [phase, setPhase] = useState<"idle" | "submitting" | "error" | "done">("idle");
   const [formError, setFormError] = useState<string>();
-  const [result, setResult] = useState<{ status: "sent" | "pending" | "failed"; phone: string; data: Record<string, string> }>();
+  const [result, setResult] = useState<{
+    status: "sent" | "pending" | "failed";
+    phone: string;
+    data: Record<string, string>;
+    serverAmount?: number;
+  }>();
   const startedAt = useRef(0);
 
   useEffect(() => {
@@ -146,8 +151,8 @@ export function CheckoutForm({
     return e;
   }
 
-  function finish(status: "sent" | "pending" | "failed", data: Record<string, string>) {
-    setResult({ status, phone: normaliseIndianMobile(data.phone) ?? data.phone, data });
+  function finish(status: "sent" | "pending" | "failed", data: Record<string, string>, serverAmount?: number) {
+    setResult({ status, phone: normaliseIndianMobile(data.phone) ?? data.phone, data, serverAmount });
     setPhase("done");
     requestAnimationFrame(() => rootRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }));
   }
@@ -180,9 +185,20 @@ export function CheckoutForm({
           startedAt: startedAt.current,
         }),
       });
-      const json = (await res.json().catch(() => ({}))) as { ok?: boolean; status?: string; error?: string; errors?: Record<string, string> };
+      const json = (await res.json().catch(() => ({}))) as {
+        ok?: boolean;
+        status?: string;
+        error?: string;
+        errors?: Record<string, string>;
+        amount?: number;
+      };
+      if (res.status === 429 || json.error === "too_many_requests") {
+        setPhase("error");
+        setFormError(strings.tooManyRequests);
+        return;
+      }
       if (res.ok && json.ok) {
-        finish(json.status === "sent" ? "sent" : "pending", data);
+        finish(json.status === "sent" ? "sent" : "pending", data, json.amount);
         return;
       }
       if (json.errors) {
@@ -235,6 +251,8 @@ export function CheckoutForm({
 
   if (phase === "done" && result) {
     const d = result.data;
+    const confirmedAmount = result.serverAmount ?? amount;
+    const confirmedLabel = rupees(confirmedAmount, locale);
     const waHref = whatsapp
       ? waLink(
           whatsapp,
@@ -242,7 +260,7 @@ export function CheckoutForm({
             orderRef,
             product: `${product.name}, ${product.size}`,
             quantity,
-            total: amountLabel,
+            total: confirmedLabel,
             utr: (d.utr ?? "").replace(/\s/g, ""),
             name: d.name ?? "",
             phone: result.phone,
@@ -262,7 +280,7 @@ export function CheckoutForm({
           {result.status === "failed" && <p className="mb-2">{strings.submitFailedNote}</p>}
           <p>{fill(strings.successText, { ref: orderRef, phone: result.phone })}</p>
           <p className="mt-2">
-            {strings.successAmount}: <strong>{amountLabel}</strong> · {product.name} × {quantity}
+            {strings.successAmount}: <strong>{confirmedLabel}</strong> · {product.name} × {quantity}
           </p>
         </SuccessMessage>
         {waHref && (
