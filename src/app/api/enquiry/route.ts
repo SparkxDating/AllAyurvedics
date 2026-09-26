@@ -2,6 +2,9 @@ import { enquirySchema, fieldErrors, looksLikeSpam, orderSchema, type OrderInput
 import { getStore, type EnquiryRecord } from "@/lib/server/store";
 import { getMailer } from "@/lib/server/email";
 import { json, readBody } from "@/lib/server/respond";
+import { apiError, beginApi, enforceLimits, internalError, isApiResponse } from "@/lib/server/api";
+import { logEvent } from "@/lib/server/log";
+import { LIMITS } from "@/lib/server/rate-limit";
 import { getBuyMode, getProduct } from "@/content/products";
 
 async function deliver(record: EnquiryRecord) {
@@ -11,13 +14,17 @@ async function deliver(record: EnquiryRecord) {
   return store.configured || mailer.transactional;
 }
 
-/** Build the stored/emailed record for a UPI order. The amount is recalculated on the server. */
+/**
+ * Stored order. Monetary fields come from the catalogue, never the request.
+ * Payment status stays UNVERIFIED until a person checks the bank/UPI app.
+ */
 function orderRecord(data: OrderInput, productName: string, unitPrice: number): EnquiryRecord {
   const amount = (unitPrice * data.quantity).toFixed(2);
   const message = [
     `UPI ORDER ${data.orderRef}`,
     `Product: ${productName} (${data.product})`,
     `Quantity: ${data.quantity} × ₹${unitPrice} = ₹${amount}`,
+    "Payment status: UNVERIFIED",
     `UPI transaction ID / UTR: ${data.utr}  (verify this payment in your bank/UPI app before shipping)`,
     "",
     `Name: ${data.name}`,
@@ -39,34 +46,66 @@ function orderRecord(data: OrderInput, productName: string, unitPrice: number): 
   };
 }
 
+function catalogueUnitPrice(price: number | undefined): number | null {
+  if (!Number.isSafeInteger(price) || price === undefined || price < 1 || price > 500_000) return null;
+  return price;
+}
+
 export async function POST(request: Request) {
+  const route = "/api/enquiry";
+  const opened = await beginApi(request, route, [{ name: "ENQUIRY_ROUTE_IP", limit: 40, windowMs: 60 * 60 * 1000 }]);
+  if (isApiResponse(opened)) return opened;
+
   const body = await readBody(request);
-  if (!body) return json({ ok: false, error: "bad_request" }, 400);
+  if (!body) {
+    logEvent({ requestId: opened.requestId, route, event: "VALIDATION_ERROR", errorType: "bad_request" });
+    return apiError(400, "bad_request", opened.requestId);
+  }
 
   if (body.type === "order") {
+    const limited = await enforceLimits(request, opened, [LIMITS.orderIp]);
+    if (limited) return limited;
     const parsed = orderSchema.safeParse(body);
-    if (!parsed.success) return json({ ok: false, errors: fieldErrors(parsed.error) }, 422);
+    if (!parsed.success) {
+      logEvent({ requestId: opened.requestId, route, event: "VALIDATION_ERROR", errorType: "order" });
+      return json({ ok: false, errors: fieldErrors(parsed.error) }, 400, opened.requestId);
+    }
     const data = parsed.data;
-    if (looksLikeSpam(data)) return json({ ok: true, status: "sent", orderRef: data.orderRef });
+    if (looksLikeSpam(data)) return json({ ok: true, status: "sent", orderRef: data.orderRef }, 200, opened.requestId);
     const product = getProduct(data.product);
-    if (!product || !product.price || getBuyMode(product).kind !== "upi") {
-      return json({ ok: false, error: "not_available" }, 400);
+    const unitPrice = catalogueUnitPrice(product?.price);
+    if (!product || unitPrice === null || getBuyMode(product).kind !== "upi") {
+      return apiError(400, "not_available", opened.requestId);
     }
     try {
-      const delivered = await deliver(orderRecord(data, product.en.name, product.price));
-      return json({ ok: true, status: delivered ? "sent" : "pending", orderRef: data.orderRef });
+      const delivered = await deliver(orderRecord(data, product.en.name, unitPrice));
+      logEvent({
+        requestId: opened.requestId,
+        route,
+        event: "ORDER_SUBMISSION",
+        detail: `ref=${data.orderRef} qty=${data.quantity} inr=${unitPrice * data.quantity} status=UNVERIFIED`,
+      });
+      return json(
+        { ok: true, status: delivered ? "sent" : "pending", orderRef: data.orderRef, amount: unitPrice * data.quantity },
+        200,
+        opened.requestId,
+      );
     } catch (err) {
-      console.error("[order] failed", err);
-      return json({ ok: false, error: "server_error" }, 500);
+      return internalError(opened, err);
     }
   }
 
+  const limited = await enforceLimits(request, opened, [LIMITS.enquiryIp]);
+  if (limited) return limited;
+
   const parsed = enquirySchema.safeParse(body);
-  if (!parsed.success) return json({ ok: false, errors: fieldErrors(parsed.error) }, 422);
+  if (!parsed.success) {
+    logEvent({ requestId: opened.requestId, route, event: "VALIDATION_ERROR", errorType: "enquiry" });
+    return json({ ok: false, errors: fieldErrors(parsed.error) }, 400, opened.requestId);
+  }
 
   const data = parsed.data;
-  // Silently accept spam so bots don't learn anything.
-  if (looksLikeSpam(data)) return json({ ok: true, status: "sent" });
+  if (looksLikeSpam(data)) return json({ ok: true, status: "sent" }, 200, opened.requestId);
 
   try {
     const delivered = await deliver({
@@ -78,9 +117,9 @@ export async function POST(request: Request) {
       product: data.product || undefined,
       locale: data.locale,
     });
-    return json({ ok: true, status: delivered ? "sent" : "pending" });
+    logEvent({ requestId: opened.requestId, route, event: "ENQUIRY_CREATED", detail: `subject=${data.subject}` });
+    return json({ ok: true, status: delivered ? "sent" : "pending" }, 200, opened.requestId);
   } catch (err) {
-    console.error("[enquiry] failed", err);
-    return json({ ok: false, error: "server_error" }, 500);
+    return internalError(opened, err);
   }
 }

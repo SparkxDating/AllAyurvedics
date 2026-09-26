@@ -18,6 +18,7 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/checkout
   const dict = getDictionary(locale);
   return {
     title: product ? `${dict.checkout.title} – ${product[locale].name}` : dict.checkout.title,
+    // Checkout is intentionally noindex/nofollow. It is not a content URL.
     robots: { index: false, follow: false, nocache: true },
   };
 }

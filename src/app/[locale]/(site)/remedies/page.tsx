@@ -19,7 +19,7 @@ export default async function RemediesPage({ params, searchParams }: PageProps<"
   const dict = getDictionary(locale);
   const sp = await searchParams;
   const requested = typeof sp.category === "string" ? sp.category : "all";
-  const initialCategory = (remedyCategories as string[]).includes(requested) ? requested : "all";
+  const initialCategory = remedyCategories.some((category) => category === requested) ? requested : "all";
   const counts = countByCategory();
   const other = locale === "en" ? "hi" : "en";
 
